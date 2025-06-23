@@ -448,109 +448,161 @@
         </div>
     </footer>
 
-    <script>
-        function wrapLabel(label) {
-            const maxLength = 16;
-            if (label.length <= maxLength) {
-                return label;
-            }
-            const words = label.split(' ');
-            const lines = [];
-            let currentLine = '';
-            words.forEach(word => {
-                if ((currentLine + ' ' + word).trim().length > maxLength) {
-                    lines.push(currentLine.trim());
-                    currentLine = word;
-                } else {
-                    currentLine = (currentLine + ' ' + word).trim();
-                }
-            });
-            if (currentLine) {
-                lines.push(currentLine.trim());
-            }
-            return lines;
+<script>
+    function wrapLabel(label) {
+        const maxLength = 16;
+        if (label.length <= maxLength) {
+            return label;
         }
+        const words = label.split(' ');
+        const lines = [];
+        let currentLine = '';
+        words.forEach(word => {
+            if ((currentLine + ' ' + word).trim().length > maxLength) {
+                lines.push(currentLine.trim());
+                currentLine = word;
+            } else {
+                currentLine = (currentLine + ' ' + word).trim();
+            }
+        });
+        if (currentLine) {
+            lines.push(currentLine.trim());
+        }
+        return lines;
+    }
 
-        const reviewIssuesCtx = document.getElementById('reviewIssuesChart').getContext('2d');
-        const reviewIssuesChart = new Chart(reviewIssuesCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Screening', 'Import', 'DE2'],
-                datasets: [{
-                    label: '# of Tickets',
-                    data: [1425, 1227, 754],
-                    backgroundColor: [
-                        '#374c80',
-                        '#7a5195',
-                        '#bc5090',
-                    ],
-                    borderColor: [
-                        '#003f5c',
-                        '#374c80',
-                        '#7a5195',
-                    ],
-                    borderWidth: 2,
-                    borderRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        grid: {
-                           color: '#e0e0e0'
-                        },
-                        ticks: {
-                            color: '#333',
-                            font: {
-                                weight: 'bold'
-                            }
-                        }
+    const reviewIssuesCtx = document.getElementById('reviewIssuesChart').getContext('2d');
+    const reviewIssuesChart = new Chart(reviewIssuesCtx, {
+        type: 'bar',
+        data: {
+            // Updated labels to include all specific issues
+            labels: [
+                'Undo screening vote',
+                'Reviewer mode requests',
+                'Advanced sorting options',
+                'Incompatible import files',
+                'External issues (firewalls, etc.)',
+                'Missing info on reference',
+                'Multiple templates in one project',
+                'Copy/paste from PDF',
+                'Page loading / "load more" issue'
+            ],
+            datasets: [{
+                label: 'Percentage', // Changed label to reflect percentage
+                // Updated data with the percentages
+                data: [7.3, 5.5, 1.5, 10, 2.9, 2.8, 1.6, 0.5, 0.5],
+                backgroundColor: [
+                    // Colors for Screening issues
+                    '#ef5675',
+                    '#ef5675',
+                    '#ef5675',
+                    // Colors for Import issues
+                    '#ff764a',
+                    '#ff764a',
+                    '#ff764a',
+                    // Colors for DE2 issues
+                    '#ffa600',
+                    '#ffa600',
+                    '#ffa600'
+                ],
+                borderColor: [
+                    // Border colors for Screening issues
+                    '#003f5c',
+                    '#003f5c',
+                    '#003f5c',
+                    // Border colors for Import issues
+                    '#003f5c',
+                    '#003f5c',
+                    '#003f5c',
+                    // Border colors for DE2 issues
+                    '#003f5c',
+                    '#003f5c',
+                    '#003f5c'
+                ],
+                borderWidth: 2,
+                borderRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    // You might want to adjust the max value for the x-axis if percentages go above 100
+                    max: 10, // Max for percentages if needed
+                    grid: {
+                        color: '#e0e0e0'
                     },
-                    y: {
-                        grid: {
-                            display: false
+                    ticks: {
+                        color: '#333',
+                        font: {
+                            weight: 'bold'
                         },
-                        ticks: {
-                            color: '#333',
-                             font: {
-                                size: 14
-                            }
+                        // Add a callback to format ticks as percentages
+                        callback: function(value) {
+                            return value + '%';
                         }
                     }
                 },
-                plugins: {
-                    legend: {
+                y: {
+                    grid: {
                         display: false
                     },
-                    tooltip: {
-                        enabled: true,
-                        backgroundColor: '#003f5c',
-                        titleFont: {
-                            size: 16,
-                            weight: 'bold'
-                        },
-                        bodyFont: {
+                    ticks: {
+                        color: '#333',
+                        font: {
                             size: 14
                         },
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                if (Array.isArray(label)) {
-                                  return label.join(' ');
-                                } else {
-                                  return label;
-                                }
+                        // Apply wrapLabel to y-axis labels
+                        callback: function(value, index, ticks) {
+                            return wrapLabel(this.getLabelForValue(value));
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: '#003f5c',
+                    titleFont: {
+                        size: 16,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 14
+                    },
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            } else {
+                                return label;
                             }
+                        },
+                        label: function(context) {
+                            // Format tooltip label to show percentage
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.x !== null) {
+                                label += context.parsed.x + '%';
+                            }
+                            return label;
                         }
                     }
                 }
             }
-        });
+        }
+    });
+</script>
 
         const domainFrequencyCtx = document.getElementById('domainFrequencyChart').getContext('2d');
         const domainFrequencyChart = new Chart(domainFrequencyCtx, {
