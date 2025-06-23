@@ -12,19 +12,23 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8;
+            background-color: #f0f4f8; /* Light grey background */
+            color: #333; /* Default text color */
+        }
+        .container {
+            max-width: 1200px; /* Increased max-width for overall container */
         }
         .kpi-card {
             background-color: white;
-            border-radius: 0.75rem;
+            border-radius: 0.75rem; /* Rounded corners */
             padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); /* Subtle shadow */
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            border-left: 5px solid #003f5c;
+            border-left: 5px solid #003f5c; /* Left border accent */
         }
         .kpi-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+            transform: translateY(-5px); /* Slight lift on hover */
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1); /* Enhanced shadow on hover */
         }
         .chart-container {
             position: relative;
@@ -35,7 +39,7 @@
             max-height: 400px;
         }
         .section-title {
-            color: #003f5c;
+            color: #003f5c; /* Primary dark blue for titles */
         }
         .card {
             background-color: white;
@@ -48,10 +52,10 @@
             align-items: flex-start;
             margin-bottom: 0.75rem;
             padding-bottom: 0.75rem;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e0e0e0; /* Separator for audit items */
         }
         .audit-item:last-child {
-            border-bottom: none;
+            border-bottom: none; /* No border for the last item */
             margin-bottom: 0;
             padding-bottom: 0;
         }
@@ -62,6 +66,33 @@
             width: 100%;
             max-width: 900px;
             max-height: 600px;
+        }
+        /* Styles for the new chart grid section */
+        .main-chart-grid-container { /* Renamed from .main-container to avoid conflict */
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 1200px;
+            box-sizing: border-box;
+            margin: 0 auto; /* Center the container */
+        }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .chart-card {
+            background-color: #f9fafb;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .chart-card canvas { /* Specific rule for canvas inside chart-card */
+            max-height: 250px;
+            width: 100%;
         }
     </style>
 </head>
@@ -87,357 +118,84 @@
             </div>
         </section>
 
-      <section id="kpis" class="mb-16">
-    <h2 class="text-3xl font-bold text-center mb-2 section-title">Community Support at a Glance</h2>
-    <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
-        Core metrics and performance highlights <br>
-        Stakeholders: All
-    </p>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 justify-center">
-        <div class="kpi-card text-center">
-            <div class="text-4xl mb-2" style="color: #ff764a;">&#128195;</div>
-            <p class="text-4xl font-extrabold" style="color: #003f5c;">25,607</p>
-            <p class="text-lg text-gray-600 mt-2">Total Tickets</p>
-        </div>
-        <div class="kpi-card text-center">
-            <div class="text-4xl mb-2" style="color: #ffa600;">&#9201;</div>
-            <p class="text-4xl font-extrabold" style="color: #003f5c;">1h 7m<sup>1</sup></p>
-            <p class="text-lg text-gray-600 mt-2">Median First Response</p>
-        </div>
-        <div class="kpi-card text-center">
-            <div class="text-4xl mb-2" style="color: #7a5195;">&#9989;</div>
-            <p class="text-4xl font-extrabold" style="color: #003f5c;">58m 42s<sup>1</sup></p>
-            <p class="text-lg text-gray-600 mt-2">Median Resolution Time</p>
-        </div>
-        <div class="kpi-card text-center">
-            <div class="text-4xl mb-2" style="color: #bc5090;">&#128578;</div>
-            <p class="text-4xl font-extrabold" style="color: #003f5c;">Positive<sup>2</sup></p>
-            <p class="text-lg text-gray-600 mt-2">Overall User Sentiment</p>
-        </div>
-        <div class="kpi-card text-center">
-            <div class="text-4xl mb-2" style="color: #3f7b8e;">&#128077;</div>
-            <p class="text-4xl font-extrabold" style="color: #003f5c;">91.65%<sup>1</sup></p>
-            <p class="text-lg text-gray-600 mt-2">Team CSAT</p>
-        </div>
-    <section id="review-issues" class="mb-4">
-        </div>
-        <p class="text-xs text-gray-500 mt-8 text-center">1. Generated by GrooveHQ / 2. Analysed using VADER through a Python script: 81.7% positive, 12% neutral, 6.3% negative.</p>
-        </div>
-    </section>
-        
-        <section id="review-issues" class="mb-16">
+        <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
+
+        <section id="kpis" class="mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2 section-title">Community Support at a Glance</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+                Core metrics and performance highlights <br>
+                Stakeholders: All
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 justify-center">
+                <div class="kpi-card text-center">
+                    <div class="text-4xl mb-2" style="color: #ff764a;">&#128195;</div>
+                    <p class="text-4xl font-extrabold" style="color: #003f5c;">25,607</p>
+                    <p class="text-lg text-gray-600 mt-2">Total Tickets</p>
+                </div>
+                <div class="kpi-card text-center">
+                    <div class="text-4xl mb-2" style="color: #ffa600;">&#9201;</div>
+                    <p class="text-4xl font-extrabold" style="color: #003f5c;">1h 7m<sup>1</sup></p>
+                    <p class="text-lg text-gray-600 mt-2">Median First Response</p>
+                </div>
+                <div class="kpi-card text-center">
+                    <div class="text-4xl mb-2" style="color: #7a5195;">&#9989;</div>
+                    <p class="text-4xl font-extrabold" style="color: #003f5c;">58m 42s<sup>1</sup></p>
+                    <p class="text-lg text-gray-600 mt-2">Median Resolution Time</p>
+                </div>
+                <div class="kpi-card text-center">
+                    <div class="text-4xl mb-2" style="color: #bc5090;">&#128578;</div>
+                    <p class="text-4xl font-extrabold" style="color: #003f5c;">Positive<sup>2</sup></p>
+                    <p class="text-lg text-gray-600 mt-2">Overall User Sentiment</p>
+                </div>
+                <div class="kpi-card text-center">
+                    <div class="text-4xl mb-2" style="color: #3f7b8e;">&#128077;</div>
+                    <p class="text-4xl font-extrabold" style="color: #003f5c;">91.65%<sup>1</sup></p>
+                    <p class="text-lg text-gray-600 mt-2">Team CSAT</p>
+                </div>
+            </div>
+            <!-- KPI attribution paragraph (correctly placed) -->
+            <p class="text-sm text-gray-500 mt-8 text-center">1. Generated by GrooveHQ / 2. Analysed using VADER through a Python script: 81.7% positive, 12% neutral, 6.3% negative.</p>
+        </section>
+
+        <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
+
+        <section id="platform-stage-issues" class="mb-16">
             <h2 class="text-3xl font-bold text-center mb-2 section-title">Top 3 Platform Stage-related Ticket Queries </h2>
-             <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
                 We analysed our support tickets by platform stage to identify where the highest volumes of queries occur. "Screening" (which includes Title and abstracts screening and Full text review stages) remains the most frequent query, followed closely by "Import" and "DE2", indicating key areas for product refinement and user education.
             </p>
-            <div class="card">
+            <div class="card mb-8"> <!-- Added margin-bottom for spacing -->
                 <div class="chart-container">
                     <canvas id="reviewIssuesChart"></canvas>
                 </div>
             </div>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Issues by Category - Separate Charts</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .main-container {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            width: 100%;
-            max-width: 1200px; /* Increased max-width to comfortably fit three charts */
-            box-sizing: border-box;
-        }
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid for charts */
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .chart-card {
-            background-color: #f9fafb;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-        canvas {
-            max-height: 250px; /* Fixed height for each individual chart */
-            width: 100%;
-        }
-    </style>
-</head>
-<body>
-    <div class="main-container">
-        <h2 class="text-3xl font-bold text-center mb-2" style="color: #003f5c;">Top Issues by Category (Percentages)</h2>
-        <p class="text-center text-gray-600 mb-6 text-sm">Total Tickets: Screening (1425), Import (1227), DE2 (754) as of May 2025</p>
+            <!-- "Top Issues by Category" section content -->
+            <div class="main-chart-grid-container mt-8"> <!-- Added margin-top for spacing -->
+                <h2 class="text-3xl font-bold text-center mb-2 section-title">Top 3 queries per category (Percentages)</h2>
+        
+                <div class="charts-grid">
+                    <!-- Screening Chart -->
+                    <div class="chart-card">
+                        <h3 class="text-xl font-bold mb-4 text-center" style="color: #4285F4;">Screening Issues</h3>
+                        <canvas id="screeningChart"></canvas>
+                    </div>
 
-        <div class="charts-grid">
-            <!-- Screening Chart -->
-            <div class="chart-card">
-                <h3 class="text-xl font-bold mb-4 text-center" style="color: #4285F4;">Screening Issues</h3>
-                <canvas id="screeningChart"></canvas>
+                    <!-- Import Chart -->
+                    <div class="chart-card">
+                        <h3 class="text-xl font-bold mb-4 text-center" style="color: #000080;">Import Issues</h3>
+                        <canvas id="importChart"></canvas>
+                    </div>
+
+                    <!-- DE2 Chart -->
+                    <div class="chart-card">
+                        <h3 class="text-xl font-bold mb-4 text-center" style="color: #4169E1;">DE2 Issues</h3>
+                        <canvas id="de2Chart"></canvas>
+                    </div>
+                </div>
             </div>
-
-            <!-- Import Chart -->
-            <div class="chart-card">
-                <h3 class="text-xl font-bold mb-4 text-center" style="color: #000080;">Import Issues</h3>
-                <canvas id="importChart"></canvas>
-            </div>
-
-            <!-- DE2 Chart -->
-            <div class="chart-card">
-                <h3 class="text-xl font-bold mb-4 text-center" style="color: #4169E1;">DE2 Issues</h3>
-                <canvas id="de2Chart"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Function to wrap long labels for better readability on the chart
-        function wrapLabel(label) {
-            const maxLength = 25; // Max length for labels before wrapping
-            if (typeof label !== 'string' || label.length <= maxLength) {
-                return label;
-            }
-            const words = label.split(' ');
-            const lines = [];
-            let currentLine = '';
-
-            words.forEach(word => {
-                if ((currentLine + ' ' + word).trim().length > maxLength && currentLine !== '') {
-                    lines.push(currentLine.trim());
-                    currentLine = word;
-                } else {
-                    currentLine = (currentLine + ' ' + word).trim();
-                }
-            });
-
-            if (currentLine) {
-                lines.push(currentLine.trim());
-            }
-            return lines;
-        }
-
-        // --- Screening Chart ---
-        const screeningCtx = document.getElementById('screeningChart').getContext('2d');
-        new Chart(screeningCtx, {
-            type: 'bar',
-            data: {
-                labels: [
-                    'Undo screening vote',
-                    'Reviewer mode',
-                    'More sorting options'
-                ],
-                datasets: [{
-                    label: 'Percentage',
-                    data: [7.3, 5.5, 1.5],
-                    backgroundColor: '#4285F4', // Google Blue - Darker shade for Screening
-                    borderColor: '#1A73E8',     // Slightly darker border
-                    borderWidth: 2,
-                    borderRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        max: 10, // Max for Screening percentages
-                        grid: { color: '#e0e0e0' },
-                        ticks: {
-                            color: '#333',
-                            font: { weight: 'bold' },
-                            callback: function(value) { return value + '%'; }
-                        }
-                    },
-                    y: {
-                        grid: { display: false },
-                        ticks: {
-                            color: '#333',
-                            font: { size: 14 },
-                            callback: function(value, index, ticks) { return wrapLabel(this.getLabelForValue(value)); }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        enabled: true,
-                        backgroundColor: '#003f5c',
-                        titleFont: { size: 16, weight: 'bold' },
-                        bodyFont: { size: 14 },
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                return Array.isArray(label) ? label.join(' ') : label;
-                            },
-                            label: function(context) {
-                                return `${context.dataset.label}: ${context.parsed.x}%`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // --- Import Chart ---
-        const importCtx = document.getElementById('importChart').getContext('2d');
-        new Chart(importCtx, {
-            type: 'bar',
-            data: {
-                labels: [
-                    'Incompatible import file',
-                    'External issues',
-                    'Missing info on imported reference'
-                ],
-                datasets: [{
-                    label: 'Percentage',
-                    data: [10, 2.9, 2.8],
-                    backgroundColor: '#000080', // Navy blue for Import
-                    borderColor: '#00005C',     // Darker navy blue border
-                    borderWidth: 2,
-                    borderRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        max: 10, // Max for Import percentages
-                        grid: { color: '#e0e0e0' },
-                        ticks: {
-                            color: '#333',
-                            font: { weight: 'bold' },
-                            callback: function(value) { return value + '%'; }
-                        }
-                    },
-                    y: {
-                        grid: { display: false },
-                        ticks: {
-                            color: '#333',
-                            font: { size: 14 },
-                            callback: function(value, index, ticks) { return wrapLabel(this.getLabelForValue(value)); }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        enabled: true,
-                        backgroundColor: '#003f5c',
-                        titleFont: { size: 16, weight: 'bold' },
-                        bodyFont: { size: 14 },
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                return Array.isArray(label) ? label.join(' ') : label;
-                            },
-                            label: function(context) {
-                                return `${context.dataset.label}: ${context.parsed.x}%`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // --- DE2 Chart ---
-        const de2Ctx = document.getElementById('de2Chart').getContext('2d');
-        new Chart(de2Ctx, {
-            type: 'bar',
-            data: {
-                labels: [
-                    'Set up multiple DE/QA templates in one project',
-                    'Copy/paste columns, raws, tables from pdf to form',
-                    'Page loading issue / "load more"'
-                ],
-                datasets: [{
-                    label: 'Percentage',
-                    data: [1.6, 0.5, 0.5],
-                    backgroundColor: '#4169E1', // Royal Blue for DE2
-                    borderColor: '#2A4B9F',     // Darker Royal Blue border
-                    borderWidth: 2,
-                    borderRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        max: 2, // Max for DE2 percentages (adjusted for smaller values)
-                        grid: { color: '#e0e0e0' },
-                        ticks: {
-                            color: '#333',
-                            font: { weight: 'bold' },
-                            callback: function(value) { return value + '%'; }
-                        }
-                    },
-                    y: {
-                        grid: { display: false },
-                        ticks: {
-                            color: '#333',
-                            font: { size: 14 },
-                            callback: function(value, index, ticks) { return wrapLabel(this.getLabelForValue(value)); }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        enabled: true,
-                        backgroundColor: '#003f5c',
-                        titleFont: { size: 16, weight: 'bold' },
-                        bodyFont: { size: 14 },
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                return Array.isArray(label) ? label.join(' ') : label;
-                            },
-                            label: function(context) {
-                                return `${context.dataset.label}: ${context.parsed.x}%`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    </script>
-</body>
-</html>
-
-
-            
-             <div class="mt-8 bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-6 rounded-lg shadow-md">
+            <!-- Emerging Trend Box - now logically placed below the new charts -->
+            <div class="mt-8 bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-6 rounded-lg shadow-md">
                 <div class="flex items-center">
                     <div class="text-3xl mr-4">&#128200;</div>
                     <div>
@@ -448,39 +206,43 @@
             </div>
         </section>
 
+        <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
+
         <section id="pain-points" class="mb-16">
             <h2 class="text-3xl font-bold text-center mb-2 section-title">Users' Pain Points</h2>
-             <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
                 Areas of frustration and friction <br>
                 Stakeholders: Product and Engineering, Academic Success
             </p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="card">
-                    <h3 class="text-2xl font-bold mb-4" style="color: #003f5c;">Screening</h3>
+                    <h3 class="text-2xl font-bold mb-4" style="color: #003f5c;">Account management</h3>
                     <ul class="space-y-4 text-gray-700">
-                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ef5675;">1.</span><span><strong class="block">Undo screening vote:</strong> 7.3%</span></li>
-                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ef5675;">2.</span><span><strong class="block">Reviewer mode requests:</strong> 5.5%</span></li>
-                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ef5675;">3.</span><span><strong class="block">Advanced sorting options:</strong> 1.5%</span></li>
+                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ef5675;">1.</span><span><strong class="block">x:</strong> 7.3%</span></li>
+                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ef5675;">2.</span><span><strong class="block">x:</strong> 5.5%</span></li>
+                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ef5675;">3.</span><span><strong class="block">x:</strong> 1.5%</span></li>
                     </ul>
                 </div>
                 <div class="card">
-                    <h3 class="text-2xl font-bold mb-4" style="color: #003f5c;">Import</h3>
-                     <ul class="space-y-4 text-gray-700">
-                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ff764a;">1.</span><span><strong class="block">Incompatible import files:</strong> 10%</span></li>
-                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ff764a;">2.</span><span><strong class="block">External issues (firewalls, etc.):</strong> 2.9%</span></li>
-                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ff764a;">3.</span><span><strong class="block">Missing info on reference:</strong> 2.8%</span></li>
+                    <h3 class="text-2xl font-bold mb-4" style="color: #003f5c;">Settings</h3>
+                    <ul class="space-y-4 text-gray-700">
+                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ff764a;">1.</span><span><strong class="block">x:</strong> 10%</span></li>
+                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ff764a;">2.</span><span><strong class="block">x:</strong> 2.9%</span></li>
+                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ff764a;">3.</span><span><strong class="block">x:</strong> 2.8%</span></li>
                     </ul>
                 </div>
                 <div class="card">
-                    <h3 class="text-2xl font-bold mb-4" style="color: #003f5c;">DE2</h3>
+                    <h3 class="text-2xl font-bold mb-4" style="color: #003f5c;">Sign in/up page</h3>
                     <ul class="space-y-4 text-gray-700">
-                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ffa600;">1.</span><span><strong class="block">Multiple templates in one project:</strong> 1.6%</span></li>
-                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ffa600;">2.</span><span><strong class="block">Copy/paste from PDF:</strong> 0.5%</span></li>
-                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ffa600;">3.</span><span><strong class="block">Page loading / "load more" issue:</strong> 0.5%</span></li>
+                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ffa600;">1.</span><span><strong class="block">x:</strong> 1.6%</span></li>
+                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ffa600;">2.</span><span><strong class="block">x:</strong> 0.5%</span></li>
+                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ffa600;">3.</span><span><strong class="block">x:</strong> 0.5%</span></li>
                     </ul>
                 </div>
             </div>
         </section>
+
+        <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
 
         <section id="audits" class="mb-16">
             <h2 class="text-3xl font-bold text-center mb-2 section-title">Monthly Audit of User Wishlist and Feedback </h2>
@@ -689,6 +451,8 @@
             </div>
         </section>
 
+        <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
+
         <section id="domain-frequency" class="mb-16">
             <h2 class="text-3xl font-bold text-center mb-2 section-title">Regional and Institutional Insights</h2>
             <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
@@ -701,6 +465,8 @@
                 </div>
             </div>
         </section>
+
+        <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
 
         <section id="looking-ahead" class="mb-16">
             <h2 class="text-3xl font-bold text-center mb-2 section-title">Looking Ahead</h2>
@@ -750,202 +516,325 @@
         </div>
     </footer>
 
-<script>
-    function wrapLabel(label) {
-        const maxLength = 16;
-        if (label.length <= maxLength) {
-            return label;
-        }
-        const words = label.split(' ');
-        const lines = [];
-        let currentLine = '';
-        words.forEach(word => {
-            if ((currentLine + ' ' + word).trim().length > maxLength) {
+    <script>
+        // Function to wrap long labels for better readability on the chart
+        function wrapLabel(label) {
+            const maxLength = 25; // Adjusted max length for all labels
+            if (typeof label !== 'string' || label.length <= maxLength) {
+                return label;
+            }
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).trim().length > maxLength && currentLine !== '') {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            });
+
+            if (currentLine) {
                 lines.push(currentLine.trim());
-                currentLine = word;
-            } else {
-                currentLine = (currentLine + ' ' + word).trim();
+            }
+            return lines;
+        }
+
+        // --- reviewIssuesChart (Top 3 Platform Stage-related Ticket Queries) ---
+        const reviewIssuesCtx = document.getElementById('reviewIssuesChart').getContext('2d');
+        new Chart(reviewIssuesCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Screening', 'Import', 'DE2'],
+                datasets: [{
+                    label: 'Number of Queries',
+                    data: [1425, 1227, 754],
+                    backgroundColor: ['#ff764a', '#ffa600', '#7a5195'], // Consistent colors
+                    borderColor: ['#e05a2e', '#d98b00', '#634279'],
+                    borderWidth: 1,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y', // Horizontal bars
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: { color: '#e0e0e0' },
+                        ticks: {
+                            color: '#333',
+                            font: { weight: 'bold' },
+                            // Removed percentage formatting as these are raw counts
+                        }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: {
+                            color: '#333',
+                            font: { size: 14 },
+                            callback: function(value) { return wrapLabel(this.getLabelForValue(value)); }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: '#003f5c',
+                        titleFont: { size: 16, weight: 'bold' },
+                        bodyFont: { size: 14 },
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            },
+                            label: function(context) {
+                                return `${context.dataset.label}: ${context.parsed.x}`; // Display raw count in tooltip
+                            }
+                        }
+                    }
+                }
             }
         });
-        if (currentLine) {
-            lines.push(currentLine.trim());
-        }
-        return lines;
-    }
 
-    const reviewIssuesCtx = document.getElementById('reviewIssuesChart').getContext('2d');
-    const reviewIssuesChart = new Chart(reviewIssuesCtx, {
-        type: 'bar',
-        data: {
-            // Updated labels to include all specific issues
-            labels: [
-                'Undo screening vote',
-                'Reviewer mode requests',
-                'Advanced sorting options',
-                'Incompatible import files',
-                'External issues (firewalls, etc.)',
-                'Missing info on reference',
-                'Multiple templates in one project',
-                'Copy/paste from PDF',
-                'Page loading / "load more" issue'
-            ],
-            datasets: [{
-                label: 'Percentage', // Changed label to reflect percentage
-                // Updated data with the percentages
-                data: [7.3, 5.5, 1.5, 10, 2.9, 2.8, 1.6, 0.5, 0.5],
-                backgroundColor: [
-                    // Colors for Screening issues
-                    '#ef5675',
-                    '#ef5675',
-                    '#ef5675',
-                    // Colors for Import issues
-                    '#ff764a',
-                    '#ff764a',
-                    '#ff764a',
-                    // Colors for DE2 issues
-                    '#ffa600',
-                    '#ffa600',
-                    '#ffa600'
-                ],
-                borderColor: [
-                    // Border colors for Screening issues
-                    '#003f5c',
-                    '#003f5c',
-                    '#003f5c',
-                    // Border colors for Import issues
-                    '#003f5c',
-                    '#003f5c',
-                    '#003f5c',
-                    // Border colors for DE2 issues
-                    '#003f5c',
-                    '#003f5c',
-                    '#003f5c'
-                ],
-                borderWidth: 2,
-                borderRadius: 5
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            indexAxis: 'y',
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    // You might want to adjust the max value for the x-axis if percentages go above 100
-                    max: 10, // Max for percentages if needed
-                    grid: {
-                        color: '#e0e0e0'
-                    },
-                    ticks: {
-                        color: '#333',
-                        font: {
-                            weight: 'bold'
-                        },
-                        // Add a callback to format ticks as percentages
-                        callback: function(value) {
-                            return value + '%';
-                        }
-                    }
-                },
-                y: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        color: '#333',
-                        font: {
-                            size: 14
-                        },
-                        // Apply wrapLabel to y-axis labels
-                        callback: function(value, index, ticks) {
-                            return wrapLabel(this.getLabelForValue(value));
-                        }
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    enabled: true,
-                    backgroundColor: '#003f5c',
-                    titleFont: {
-                        size: 16,
-                        weight: 'bold'
-                    },
-                    bodyFont: {
-                        size: 14
-                    },
-                    callbacks: {
-                        title: function(tooltipItems) {
-                            const item = tooltipItems[0];
-                            let label = item.chart.data.labels[item.dataIndex];
-                            if (Array.isArray(label)) {
-                                return label.join(' ');
-                            } else {
-                                return label;
-                            }
-                        },
-                        label: function(context) {
-                            // Format tooltip label to show percentage
-                            let label = context.dataset.label || '';
-                            if (label) {
-                                label += ': ';
-                            }
-                            if (context.parsed.x !== null) {
-                                label += context.parsed.x + '%';
-                            }
-                            return label;
-                        }
-                    }
-                }
-            }
-        }
-    });
-</script>
 
-        const domainFrequencyCtx = document.getElementById('domainFrequencyChart').getContext('2d');
-        const domainFrequencyChart = new Chart(domainFrequencyCtx, {
+        // --- Screening Chart (Detailed Breakdown) ---
+        const screeningCtx = document.getElementById('screeningChart').getContext('2d');
+        new Chart(screeningCtx, {
             type: 'bar',
             data: {
                 labels: [
-                    wrapLabel('sydney.edu.au'),
-                    wrapLabel('deakin.edu.au'),
-                    wrapLabel('unimelb.edu.au'),
-                    wrapLabel('nhs.net'),
-                    wrapLabel('kcl.ac.uk'),
-                    wrapLabel('imperial.ac.uk'),
-                    wrapLabel('mcmaster.ca'),
-                    wrapLabel('mail.utoronto.ca'),
-                    wrapLabel('mayo.edu'),
-                    wrapLabel('gmail.com'),
-                    wrapLabel('hotmail.com'),
-                    wrapLabel('yahoo.com'),
-                    wrapLabel('erasmusmc.nl'),
-                    wrapLabel('regionh.dk'),
-                    wrapLabel('ul.ie')
+                    'Undo screening vote',
+                    'Reviewer mode',
+                    'More sorting options'
                 ],
+                datasets: [{
+                    label: 'Percentage',
+                    data: [7.3, 5.5, 1.5],
+                    backgroundColor: '#4285F4', // Google Blue - Darker shade for Screening
+                    borderColor: '#1A73E8',      // Slightly darker border
+                    borderWidth: 2,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 10, // Max for Screening percentages
+                        grid: { color: '#e0e0e0' },
+                        ticks: {
+                            color: '#333',
+                            font: { weight: 'bold' },
+                            callback: function(value) { return value + '%'; } // Added percentage callback
+                        }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: {
+                            color: '#333',
+                            font: { size: 14 },
+                            callback: function(value, index, ticks) { return wrapLabel(this.getLabelForValue(value)); }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: '#003f5c',
+                        titleFont: { size: 16, weight: 'bold' },
+                        bodyFont: { size: 14 },
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            },
+                            label: function(context) {
+                                return `${context.dataset.label}: ${context.parsed.x}%`; // Added percentage to tooltip
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // --- Import Chart (Detailed Breakdown) ---
+        const importCtx = document.getElementById('importChart').getContext('2d');
+        new Chart(importCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Incompatible import file',
+                    'External issues',
+                    'Missing info on imported reference'
+                ],
+                datasets: [{
+                    label: 'Percentage',
+                    data: [10, 2.9, 2.8],
+                    backgroundColor: '#000080', // Navy blue for Import
+                    borderColor: '#00005C',      // Darker navy blue border
+                    borderWidth: 2,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 10, // Max for Import percentages
+                        grid: { color: '#e0e0e0' },
+                        ticks: {
+                            color: '#333',
+                            font: { weight: 'bold' },
+                            callback: function(value) { return value + '%'; } // Added percentage callback
+                        }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: {
+                            color: '#333',
+                            font: { size: 14 },
+                            callback: function(value, index, ticks) { return wrapLabel(this.getLabelForValue(value)); }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: '#003f5c',
+                        titleFont: { size: 16, weight: 'bold' },
+                        bodyFont: { size: 14 },
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            },
+                            label: function(context) {
+                                return `${context.dataset.label}: ${context.parsed.x}%`; // Added percentage to tooltip
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // --- DE2 Chart (Detailed Breakdown) ---
+        const de2Ctx = document.getElementById('de2Chart').getContext('2d');
+        new Chart(de2Ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Set up multiple DE/QA templates in one project',
+                    'Copy/paste columns, raws, tables from pdf to form',
+                    'Page loading issue / "load more"'
+                ],
+                datasets: [{
+                    label: 'Percentage',
+                    data: [1.6, 0.5, 0.5],
+                    backgroundColor: '#4169E1', // Royal Blue for DE2
+                    borderColor: '#2A4B9F',      // Darker Royal Blue border
+                    borderWidth: 2,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 2, // Max for DE2 percentages (adjusted for smaller values)
+                        grid: { color: '#e0e0e0' },
+                        ticks: {
+                            color: '#333',
+                            font: { weight: 'bold' },
+                            callback: function(value) { return value + '%'; } // Added percentage callback
+                        }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: {
+                            color: '#333',
+                            font: { size: 14 },
+                            callback: function(value, index, ticks) { return wrapLabel(this.getLabelForValue(value)); }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: '#003f5c',
+                        titleFont: { size: 16, weight: 'bold' },
+                        bodyFont: { size: 14 },
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            },
+                            label: function(context) {
+                                return `${context.dataset.label}: ${context.parsed.x}%`; // Added percentage to tooltip
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // --- Domain Frequency Chart ---
+        const domainFrequencyCtx = document.getElementById('domainFrequencyChart').getContext('2d');
+        new Chart(domainFrequencyCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'sydney.edu.au',
+                    'deakin.edu.au',
+                    'unimelb.edu.au',
+                    'nhs.net',
+                    'kcl.ac.uk',
+                    'imperial.ac.uk',
+                    'mcmaster.ca',
+                    'mail.utoronto.ca',
+                    'mayo.edu',
+                    'gmail.com',
+                    'hotmail.com',
+                    'yahoo.com',
+                    'erasmusmc.nl',
+                    'regionh.dk',
+                    'ul.ie'
+                ].map(wrapLabel), // Apply wrapLabel to all labels
                 datasets: [{
                     label: 'Frequency',
                     data: [180, 150, 120, 100, 90, 80, 70, 60, 50, 1380, 200, 150, 40, 30, 20],
                     backgroundColor: [
-                        '#ff764a', '#ff764a', '#ff764a',
-                        '#ffa600', '#ffa600', '#ffa600',
-                        '#ef5675', '#ef5675', '#ef5675',
-                        '#bc5090',
-                        '#bc5090',
-                        '#bc5090',
-                        '#3f7b8e', '#3f7b8e', '#3f7b8e'
+                        '#ff764a', '#ff764a', '#ff764a', // APAC
+                        '#ffa600', '#ffa600', '#ffa600', // EMEA
+                        '#ef5675', '#ef5675', '#ef5675', // NA
+                        '#bc5090', '#bc5090', '#bc5090', // Other (General)
+                        '#3f7b8e', '#3f7b8e', '#3f7b8e'  // Non-UK,US,CA,AU
                     ],
                     borderColor: [
                         '#e6531d', '#e6531d', '#e6531d',
                         '#e69100', '#e69100', '#e69100',
                         '#d9335a', '#d9335a', '#d9335a',
-                        '#a83e7f',
-                        '#a83e7f',
-                        '#a83e7f',
+                        '#a83e7f', '#a83e7f', '#a83e7f',
                         '#366c7c', '#366c7c', '#366c7c'
                     ],
                     borderWidth: 1,
@@ -960,7 +849,7 @@
                     x: {
                         beginAtZero: true,
                         grid: {
-                           color: '#e0e0e0'
+                            color: '#e0e0e0'
                         },
                         ticks: {
                             color: '#333',
@@ -975,7 +864,7 @@
                         },
                         ticks: {
                             color: '#333',
-                             font: {
+                            font: {
                                 size: 14
                             }
                         }
@@ -991,7 +880,6 @@
                                 size: 12
                             },
                             generateLabels: function(chart) {
-                                const data = chart.data;
                                 const colors = {
                                     'APAC': '#ff764a',
                                     'EMEA': '#ffa600',
@@ -1024,9 +912,9 @@
                                 const item = tooltipItems[0];
                                 let label = item.chart.data.labels[item.dataIndex];
                                 if (Array.isArray(label)) {
-                                  return label.join(' ');
+                                    return label.join(' ');
                                 } else {
-                                  return label;
+                                    return label;
                                 }
                             }
                         }
@@ -1037,3 +925,4 @@
     </script>
 </body>
 </html>
+
