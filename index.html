@@ -455,7 +455,286 @@
                 Top 3 email domains by region <br>
                 Stakeholders: Sales, Academic Success, Marketing
             </p>          
-               
+               <!-- This section can be inserted into the <body> of an existing HTML document -->
+                <div class="container mx-auto px-4 py-8 max-w-4xl">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Email Domain Insights</h2>
+                
+                    <!-- Chart 1: Regional and Institutional Domains -->
+                    <div class="chart-wrapper mx-auto mb-8">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Regional and Institutional Domains</h3>
+                        <div class="relative" style="height: 400px;">
+                            <canvas id="regionalInstitutionalChart"></canvas>
+                        </div>
+                    </div>
+                
+                    <!-- Chart 2: General Email Providers -->
+                    <div class="chart-wrapper mx-auto">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">General Email Providers</h3>
+                        <div class="relative" style="height: 200px;">
+                            <canvas id="generalEmailChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tailwind CSS CDN (should ideally be in your main document's <head>) -->
+                <script src="https://cdn.tailwindcss.com"></script>
+                <!-- Chart.js CDN (should ideally be in your main document's <head>) -->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                
+                <style>
+                    /* Custom styles for better chart presentation */
+                    .chart-wrapper {
+                        background-color: #ffffff;
+                        border-radius: 12px;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                        padding: 24px;
+                        width: 100%;
+                        max-width: 900px; /* Max width for larger screens */
+                        box-sizing: border-box;
+                    }
+                    canvas {
+                        max-height: 400px; /* Limit height for responsiveness */
+                        width: 100% !important; /* Ensure canvas fills container */
+                        height: auto !important; /* Maintain aspect ratio */
+                    }
+                </style>
+                
+                <script>
+                    // Function to wrap labels for better display on the chart
+                    function wrapLabel(label) {
+                        const words = label.split('.');
+                        // If the label has more than 2 parts (e.g., 'sydney.edu.au'),
+                        // break it into two lines for readability.
+                        if (words.length > 2) {
+                            return [words[0] + '.', words.slice(1).join('.')];
+                        }
+                        return label;
+                    }
+                
+                    // Chart 1: Regional and Institutional Domains
+                    // Get the context of the canvas element for the first chart
+                    const regionalInstitutionalCtx = document.getElementById('regionalInstitutionalChart').getContext('2d');
+                    new Chart(regionalInstitutionalCtx, {
+                        type: 'bar', // Bar chart type
+                        data: {
+                            // Labels for the y-axis, representing different domains
+                            labels: [
+                                'sydney.edu.au',
+                                'deakin.edu.au',
+                                'unimelb.edu.au',
+                                'nhs.net',
+                                'kcl.ac.uk',
+                                'imperial.ac.uk',
+                                'mcmaster.ca',
+                                'mail.utoronto.ca',
+                                'mayo.edu',
+                                'erasmusmc.nl',
+                                'regionh.dk',
+                                'ul.ie'
+                            ].map(wrapLabel), // Apply the wrapLabel function to all labels
+                            datasets: [{
+                                label: 'Frequency', // Label for the dataset
+                                // Data values corresponding to the labels
+                                data: [175, 130, 118, 106, 85, 81, 91, 86, 83, 57, 56, 51],
+                                // Background colors for each bar, grouped by region
+                                backgroundColor: [
+                                    '#ff764a', '#ff764a', '#ff764a', // APAC (Orange)
+                                    '#ffa600', '#ffa600', '#ffa600', // EMEA (Amber)
+                                    '#ef5675', '#ef5675', '#ef5675', // NA (Pink)
+                                    '#3f7b8e', '#3f7b8e', '#3f7b8e'  // Non-UK,US,CA,AU (Teal)
+                                ],
+                                // Border colors for each bar, slightly darker than background
+                                borderColor: [
+                                    '#e6531d', '#e6531d', '#e6531d',
+                                    '#e69100', '#e69100', '#e69100',
+                                    '#d9335a', '#d9335a', '#d9335a',
+                                    '#366c7c', '#366c7c', '#366c7c'
+                                ],
+                                borderWidth: 1, // Border width of the bars
+                                borderRadius: 5 // Rounded corners for the bars
+                            }]
+                        },
+                        options: {
+                            responsive: true, // Make the chart responsive
+                            maintainAspectRatio: false, // Do not maintain aspect ratio, allowing custom sizing
+                            indexAxis: 'y', // Set the index axis to 'y' for horizontal bars
+                            scales: {
+                                x: { // X-axis configuration
+                                    beginAtZero: true, // Start the axis from zero
+                                    grid: {
+                                        color: '#e0e0e0' // Color of the grid lines
+                                    },
+                                    ticks: {
+                                        color: '#333', // Color of the tick labels
+                                        font: {
+                                            weight: 'bold' // Font weight for tick labels
+                                        }
+                                    }
+                                },
+                                y: { // Y-axis configuration
+                                    grid: {
+                                        display: false // Do not display grid lines on the y-axis
+                                    },
+                                    ticks: {
+                                        color: '#333', // Color of the tick labels
+                                        font: {
+                                            size: 14 // Font size for tick labels
+                                        }
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: true, // Display the legend
+                                    position: 'right', // Position the legend to the right
+                                    labels: {
+                                        color: '#333', // Color of legend labels
+                                        font: {
+                                            size: 12 // Font size of legend labels
+                                        },
+                                        // Custom function to generate legend labels based on regions
+                                        generateLabels: function(chart) {
+                                            const colors = {
+                                                'APAC': '#ff764a',
+                                                'EMEA': '#ffa600',
+                                                'NA': '#ef5675',
+                                                'Non-UK,US,CA,AU': '#3f7b8e'
+                                            };
+                                            return Object.keys(colors).map(region => ({
+                                                text: region, // Text for the legend item
+                                                fillStyle: colors[region], // Fill color of the legend box
+                                                strokeStyle: colors[region], // Stroke color of the legend box
+                                                lineWidth: 1, // Line width of the legend box
+                                                pointStyle: 'rectRounded' // Style of the legend marker
+                                            }));
+                                        }
+                                    }
+                                },
+                                tooltip: {
+                                    enabled: true, // Enable tooltips on hover
+                                    backgroundColor: '#003f5c', // Background color of the tooltip
+                                    titleFont: {
+                                        size: 16, // Font size for tooltip title
+                                        weight: 'bold' // Font weight for tooltip title
+                                    },
+                                    bodyFont: {
+                                        size: 14 // Font size for tooltip body
+                                    },
+                                    callbacks: {
+                                        // Custom callback to format the tooltip title
+                                        title: function(tooltipItems) {
+                                            const item = tooltipItems[0];
+                                            let label = item.chart.data.labels[item.dataIndex];
+                                            if (Array.isArray(label)) {
+                                                return label.join(' '); // Join wrapped labels
+                                            } else {
+                                                return label;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                
+                    // Chart 2: General Email Providers
+                    // Get the context of the canvas element for the second chart
+                    const generalEmailCtx = document.getElementById('generalEmailChart').getContext('2d');
+                    new Chart(generalEmailCtx, {
+                        type: 'bar', // Bar chart type
+                        data: {
+                            // Labels for the y-axis, representing general email domains
+                            labels: [
+                                'gmail.com',
+                                'hotmail.com',
+                                'yahoo.com'
+                            ].map(wrapLabel), // Apply the wrapLabel function to all labels
+                            datasets: [{
+                                label: 'Frequency', // Label for the dataset
+                                // Data values corresponding to the labels
+                                data: [1392, 117, 75],
+                                // Background colors for each bar (general category)
+                                backgroundColor: [
+                                    '#bc5090', '#bc5090', '#bc5090' // Other (General) (Purple)
+                                ],
+                                // Border colors for each bar, slightly darker than background
+                                borderColor: [
+                                    '#a83e7f', '#a83e7f', '#a83e7f'
+                                ],
+                                borderWidth: 1, // Border width of the bars
+                                borderRadius: 5 // Rounded corners for the bars
+                            }]
+                        },
+                        options: {
+                            responsive: true, // Make the chart responsive
+                            maintainAspectRatio: false, // Do not maintain aspect ratio, allowing custom sizing
+                            indexAxis: 'y', // Set the index axis to 'y' for horizontal bars
+                            scales: {
+                                x: { // X-axis configuration
+                                    beginAtZero: true, // Start the axis from zero
+                                    grid: {
+                                        color: '#e0e0e0' // Color of the grid lines
+                                    },
+                                    ticks: {
+                                        color: '#333', // Color of the tick labels
+                                        font: {
+                                            weight: 'bold' // Font weight for tick labels
+                                        }
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: true, // Display the legend
+                                    position: 'right', // Position the legend to the right
+                                    labels: {
+                                        color: '#333', // Color of legend labels
+                                        font: {
+                                            size: 12 // Font size of legend labels
+                                        },
+                                        // Custom function to generate legend labels (only for "Other")
+                                        generateLabels: function(chart) {
+                                            const colors = {
+                                                'Other (General)': '#bc5090'
+                                            };
+                                            return Object.keys(colors).map(region => ({
+                                                text: region, // Text for the legend item
+                                                fillStyle: colors[region], // Fill color of the legend box
+                                                strokeStyle: colors[region], // Stroke color of the legend box
+                                                lineWidth: 1, // Line width of the legend box
+                                                pointStyle: 'rectRounded' // Style of the legend marker
+                                            }));
+                                        }
+                                    }
+                                },
+                                tooltip: {
+                                    enabled: true, // Enable tooltips on hover
+                                    backgroundColor: '#003f5c', // Background color of the tooltip
+                                    titleFont: {
+                                        size: 16, // Font size for tooltip title
+                                        weight: 'bold' // Font weight for tooltip title
+                                    },
+                                    bodyFont: {
+                                        size: 14 // Font size for tooltip body
+                                    },
+                                    callbacks: {
+                                        // Custom callback to format the tooltip title
+                                        title: function(tooltipItems) {
+                                            const item = tooltipItems[0];
+                                            let label = item.chart.data.labels[item.dataIndex];
+                                            if (Array.isArray(label)) {
+                                                return label.join(' '); // Join wrapped labels
+                                            } else {
+                                                return label;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                </script>
+
         </section>
 
         <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
