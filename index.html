@@ -218,19 +218,19 @@
                 <div class="card">
                     <h3 class="text-2xl font-bold mb-4" style="color: #003f5c;">Account Merge Requests</h3>
                     <ul class="space-y-4 text-gray-700">
-                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ef5675;"></span><span><strong class="block">Users creating multiple accounts (individual and institution) and then asking to merge accounts</strong> CM IMPACT rating<sup>c</sup>: 3<br>Ticket REACH<sup>d</sup>: approx 80% of non-general query<sup>e</sup> related Acct mgmt-tagged tickets.</span></li>
+                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ef5675;"></span><span><strong class="block">Users creating multiple accounts (individual and institution) and then asking to merge accounts</strong><br> CM IMPACT rating<sup>c</sup>: 3<br>Ticket REACH<sup>d</sup>: approx 80% of non-general query<sup>e</sup> related Acct mgmt-tagged tickets.</span></li>
                     </ul>
                 </div>
                 <div class="card">
                     <h3 class="text-2xl font-bold mb-4" style="color: #003f5c;">Invitation Failures</h3>
                     <ul class="space-y-4 text-gray-700">
-                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ff764a;"></span><span><strong class="block">Organisational membership and review invitations expiring without being clicked or not reaching the user in the first place</strong> CM IMPACT rating<sup>c</sup>: 3<br>Ticket REACH<sup>d</sup>: approx 80% of non-general query<sup>e</sup> related Invitation Issue-tagged tickets.</span></li>
+                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ff764a;"></span><span><strong class="block">Organisational membership and review invitations expiring without being clicked or not reaching the user in the first place</strong><br> CM IMPACT rating<sup>c</sup>: 3<br>Ticket REACH<sup>d</sup>: approx 80% of non-general query<sup>e</sup> related Invitation Issue-tagged tickets.</span></li>
                     </ul>
                 </div>
                 <div class="card">
                     <h3 class="text-2xl font-bold mb-4" style="color: #003f5c;">Review Reset Needs</h3>
                     <ul class="space-y-4 text-gray-700">
-                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ffa600;"></span><span><strong class="block">Users want to reset their own reviews because of wrong import or change in the search strategy</strong> CM IMPACT rating<sup>c</sup>: 3<br>Ticket REACH<sup>d</sup>: approx 80% of non-general query<sup>e</sup> related Reset-tagged tickets.</span></li>
+                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ffa600;"></span><span><strong class="block">Users want to reset their own reviews because of wrong import or change in the search strategy</strong><br> CM IMPACT rating<sup>c</sup>: 3<br>Ticket REACH<sup>d</sup>: approx 80% of non-general query<sup>e</sup> related Reset-tagged tickets.</span></li>
                     </ul></span></li>
                     </ul>
                 </div>
@@ -815,7 +815,7 @@
                 </div>
                 <div class="legend-item">
                     <span class="legend-color-box" style="background-color: #d62728;"></span>
-                    Unknown<sup>f</sup> (12.1%)
+                    Unknown<sup>f</sup>&nbsp;(12.1%)
                 </div>
                 <div class="legend-item">
                     <span class="legend-color-box" style="background-color: #9467bd;"></span>
@@ -1329,130 +1329,6 @@
                             },
                             label: function(context) {
                                 return `${context.dataset.label}: ${context.parsed.x}%`; // Added percentage to tooltip
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // --- Domain Frequency Chart ---
-        const domainFrequencyCtx = document.getElementById('domainFrequencyChart').getContext('2d');
-        new Chart(domainFrequencyCtx, {
-            type: 'bar',
-            data: {
-                labels: [
-                    'sydney.edu.au',
-                    'deakin.edu.au',
-                    'unimelb.edu.au',
-                    'nhs.net',
-                    'kcl.ac.uk',
-                    'imperial.ac.uk',
-                    'mcmaster.ca',
-                    'mail.utoronto.ca',
-                    'mayo.edu',
-                    'gmail.com',
-                    'hotmail.com',
-                    'yahoo.com',
-                    'erasmusmc.nl',
-                    'regionh.dk',
-                    'ul.ie'
-                ].map(wrapLabel), // Apply wrapLabel to all labels
-                datasets: [{
-                    label: 'Frequency',
-                    data: [180, 150, 120, 100, 90, 80, 70, 60, 50, 1380, 200, 150, 40, 30, 20],
-                    backgroundColor: [
-                        '#ff764a', '#ff764a', '#ff764a', // APAC
-                        '#ffa600', '#ffa600', '#ffa600', // EMEA
-                        '#ef5675', '#ef5675', '#ef5675', // NA
-                        '#bc5090', '#bc5090', '#bc5090', // Other (General)
-                        '#3f7b8e', '#3f7b8e', '#3f7b8e'  // Non-UK,US,CA,AU
-                    ],
-                    borderColor: [
-                        '#e6531d', '#e6531d', '#e6531d',
-                        '#e69100', '#e69100', '#e69100',
-                        '#d9335a', '#d9335a', '#d9335a',
-                        '#a83e7f', '#a83e7f', '#a83e7f',
-                        '#366c7c', '#366c7c', '#366c7c'
-                    ],
-                    borderWidth: 1,
-                    borderRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        grid: {
-                            color: '#e0e0e0'
-                        },
-                        ticks: {
-                            color: '#333',
-                            font: {
-                                weight: 'bold'
-                            }
-                        }
-                    },
-                    y: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            color: '#333',
-                            font: {
-                                size: 14
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'right',
-                        labels: {
-                            color: '#333',
-                            font: {
-                                size: 12
-                            },
-                            generateLabels: function(chart) {
-                                const colors = {
-                                    'APAC': '#ff764a',
-                                    'EMEA': '#ffa600',
-                                    'NA': '#ef5675',
-                                    'Other': '#bc5090'
-                                };
-                                return Object.keys(colors).map(region => ({
-                                    text: region,
-                                    fillStyle: colors[region],
-                                    strokeStyle: colors[region],
-                                    lineWidth: 1,
-                                    pointStyle: 'rectRounded'
-                                }));
-                            }
-                        }
-                    },
-                    tooltip: {
-                        enabled: true,
-                        backgroundColor: '#003f5c',
-                        titleFont: {
-                            size: 16,
-                            weight: 'bold'
-                        },
-                        bodyFont: {
-                            size: 14
-                        },
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                if (Array.isArray(label)) {
-                                    return label.join(' ');
-                                } else {
-                                    return label;
-                                }
                             }
                         }
                     }
