@@ -751,280 +751,218 @@
                     });
                 </script>
 
-  <section id="regional-distribution" class="mb-16 py-8 px-4 sm:px-6 lg:px-8">
-    <!-- Ensure Tailwind CSS CDN is loaded in your main HTML <head>:
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    -->
-    <style>
-        /* Custom styles for this section */
-        #regional-distribution {
-            background-color: #f7f9fc; /* Light background for the section */
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-            margin: 2rem auto; /* Center the section with some margin */
-            max-width: 900px; /* Max width for content */
-        }
-        .section-title {
-            color: #2c3e50; /* Darker title color */
-        }
-        canvas {
-            width: 100%; /* Make canvas responsive to its container width */
-            max-width: 600px; /* Max width for the chart itself */
-            height: 400px; /* Fixed height for consistency */
-            display: block;
-            margin: 2rem auto; /* Center the canvas */
-            cursor: pointer; /* Indicate interactivity */
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            margin: 0.5rem 1rem;
-        }
-        .legend-color-box {
-            width: 1rem;
-            height: 1rem;
-            border-radius: 0.25rem;
-            margin-right: 0.5rem;
-        }
-    </style>
-
-    <h2 class="text-3xl font-bold text-center mb-4 section-title">Distribution of Ticket Senders by Region</h2>
-    <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
-        This pie chart illustrates the geographical distribution of our ticket senders, categorized by their email domain.
-        Hover over a slice to see the estimated number of ticket senders for that region.
-    </p>
-
-    <div class="flex justify-center items-center">
-        <canvas id="regionalChart"></canvas>
-    </div>
-
-    <div class="flex flex-wrap justify-center mt-4 text-gray-700">
-        <!-- Legend items based on the chart's data -->
-        <div class="legend-item">
-            <span class="legend-color-box" style="background-color: #1f77b4;"></span>
-            NA (34.5%)
-        </div>
-        <div class="legend-item">
-            <span class="legend-color-box" style="background-color: #ff7f0e;"></span>
-            EMEA (25.5%)
-        </div>
-        <div class="legend-item">
-            <span class="legend-color-box" style="background-color: #2ca02c;"></span>
-            APAC (19.7%)
-        </div>
-        <div class="legend-item">
-            <span class="legend-color-box" style="background-color: #d62728;"></span>
-            Unknown<sup>f</sup> (12.1%)
-        </div>
-        <div class="legend-item">
-            <span class="legend-color-box" style="background-color: #9467bd;"></span>
-            ROW (8.3%)
-        </div>
-    </div>
-    <p class="text-sm text-gray-500 mt-8 text-center">f - generic email providers such as gmail.com, yahoo.com, hotmail.com, etc.</p>
-    </div>
-
-    <script>
-        window.addEventListener('load', function() {
-            const canvas = document.getElementById('regionalChart');
-            const ctx = canvas.getContext('2d');
-
-            // Data from your provided image, now including illustrative 'users' count
-            // Note: 'users' are illustrative and scaled to roughly match percentages for a total of ~1000.
-            const data = [
-                { label: 'NA', value: 34.5, users: 6770, color: '#1f77b4' },
-                { label: 'EMEA', value: 25.5, users: 4997, color: '#ff7f0e' },
-                { label: 'APAC', value: 19.7, users: 3859, color: '#2ca02c' },
-                { label: 'Unknown', value: 12.1, users: 2379, color: '#d62728' },
-                { label: 'ROW', value: 8.3, users: 1622, color: '#9467bd' }
-            ];
-
-            let hoveredSliceIndex = -1; // Index of the currently hovered slice
-            let mouseX = 0, mouseY = 0; // Mouse coordinates relative to canvas
-
-            function drawChart() {
-                // Get the actual display size of the canvas
-                const displayWidth = canvas.offsetWidth;
-                const displayHeight = canvas.offsetHeight;
-
-                // Adjust canvas resolution for high-DPI displays (Retina)
-                const dpr = window.devicePixelRatio || 1;
-                canvas.width = displayWidth * dpr;
-                canvas.height = displayHeight * dpr;
-                ctx.scale(dpr, dpr);
-
-                // Clear the canvas
-                ctx.clearRect(0, 0, displayWidth, displayHeight);
-
-                const centerX = displayWidth / 2;
-                const centerY = displayHeight / 2;
-                const radius = Math.min(centerX, centerY) * 0.8; // Adjusted radius for a larger chart
-
-                let startAngle = 0;
-                const total = data.reduce((sum, item) => sum + item.value, 0);
-
-                // Draw each pie slice
-                data.forEach((item, index) => {
-                    const sliceAngle = (item.value / total) * Math.PI * 2;
-                    const endAngle = startAngle + sliceAngle;
-
-                    ctx.fillStyle = item.color;
-                    ctx.beginPath();
-                    ctx.moveTo(centerX, centerY);
-                    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-                    ctx.closePath();
-                    ctx.fill();
-
-                    // Draw percentage text on slices
-                    const midAngle = startAngle + sliceAngle / 2;
-                    const textRadius = radius * 0.7; // Position text slightly inside the slice
-                    const textX = centerX + Math.cos(midAngle) * textRadius;
-                    const textY = centerY + Math.sin(midAngle) * textRadius;
-
-                    ctx.fillStyle = '#FFFFFF'; // White text for visibility
-                    ctx.font = 'bold 14px Inter, sans-serif';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText(`${item.value}%`, textX, textY);
-
-                    // Store slice angles for hit detection
-                    item.startAngle = startAngle;
-                    item.endAngle = endAngle;
-
-                    startAngle = endAngle;
+          <section id="regional-distribution" class="mb-16 py-8 px-4 sm:px-6 lg:px-8">
+            <!-- Ensure Tailwind CSS CDN is loaded in your main HTML <head>:
+            <script src="https://cdn.tailwindcss.com"></script>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+            -->
+            <style>
+                /* Custom styles for this section */
+                #regional-distribution {
+                    background-color: #f7f9fc; /* Light background for the section */
+                    border-radius: 0.75rem;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+                    margin: 2rem auto; /* Center the section with some margin */
+                    max-width: 900px; /* Max width for content */
+                }
+                .section-title {
+                    color: #2c3e50; /* Darker title color */
+                }
+                canvas {
+                    width: 100%; /* Make canvas responsive to its container width */
+                    max-width: 700px; /* Increased max width for the chart itself */
+                    height: 500px; /* Increased fixed height for consistency */
+                    display: block;
+                    margin: 2rem auto; /* Center the canvas */
+                    /* Removed cursor: pointer as there's no hover interaction now */
+                }
+                .legend-item {
+                    display: flex;
+                    align-items: center;
+                    margin: 0.5rem 1rem;
+                }
+                .legend-color-box {
+                    width: 1rem;
+                    height: 1rem;
+                    border-radius: 0.25rem;
+                    margin-right: 0.5rem;
+                }
+            </style>
+        
+            <h2 class="text-3xl font-bold text-center mb-4 section-title">Distribution of Ticket Senders by Region</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+                This pie chart illustrates the geographical distribution of our ticket senders, categorized by their email domain.
+                The exact number of ticket senders for each region is indicated with arrows.
+            </p>
+        
+            <div class="flex justify-center items-center">
+                <canvas id="regionalChart"></canvas>
+            </div>
+        
+            <div class="flex flex-wrap justify-center mt-4 text-gray-700">
+                <!-- Legend items based on the chart's data -->
+                <div class="legend-item">
+                    <span class="legend-color-box" style="background-color: #1f77b4;"></span>
+                    NA (34.5%)
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color-box" style="background-color: #ff7f0e;"></span>
+                    EMEA (25.5%)
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color-box" style="background-color: #2ca02c;"></span>
+                    APAC (19.7%)
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color-box" style="background-color: #d62728;"></span>
+                    Unknown<sup>f</sup> (12.1%)
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color-box" style="background-color: #9467bd;"></span>
+                    ROW (8.3%)
+                </div>
+            </div>
+            <p class="text-sm text-gray-500 mt-8 text-center">f - generic email providers such as gmail.com, yahoo.com, hotmail.com, etc.</p>
+        </section>
+        
+            <script>
+                window.addEventListener('load', function() {
+                    const canvas = document.getElementById('regionalChart');
+                    const ctx = canvas.getContext('2d');
+        
+                    // Data including exact user counts and colors
+                    const data = [
+                        { label: 'NA', value: 34.5, users: 6770, color: '#1f77b4' },
+                        { label: 'EMEA', value: 25.5, users: 4997, color: '#ff7f0e' },
+                        { label: 'APAC', value: 19.7, users: 3859, color: '#2ca02c' },
+                        { label: 'Unknown', value: 12.1, users: 2379, color: '#d62728' },
+                        { label: 'ROW', value: 8.3, users: 1622, color: '#9467bd' }
+                    ];
+        
+                    function getCanvasDimensions() {
+                        const displayWidth = canvas.offsetWidth;
+                        const displayHeight = canvas.offsetHeight;
+                        const dpr = window.devicePixelRatio || 1;
+                        return {
+                            displayWidth,
+                            displayHeight,
+                            dpr,
+                            scaledWidth: displayWidth * dpr,
+                            scaledHeight: displayHeight * dpr,
+                            centerX: displayWidth / 2,
+                            centerY: displayHeight / 2,
+                            radius: Math.min(displayWidth / 2, displayHeight / 2) * 0.75 // Adjusted radius to leave more space for labels
+                        };
+                    }
+        
+                    function drawChart() {
+                        const { displayWidth, displayHeight, dpr, scaledWidth, scaledHeight, centerX, centerY, radius } = getCanvasDimensions();
+        
+                        canvas.width = scaledWidth;
+                        canvas.height = scaledHeight;
+                        ctx.scale(dpr, dpr);
+        
+                        ctx.clearRect(0, 0, displayWidth, displayHeight); // Clear using unscaled dimensions
+        
+                        let startAngle = 0;
+                        const total = data.reduce((sum, item) => sum + item.value, 0);
+        
+                        // Draw pie slices and percentages
+                        data.forEach((item, index) => {
+                            const sliceAngle = (item.value / total) * Math.PI * 2;
+                            const endAngle = startAngle + sliceAngle;
+        
+                            ctx.fillStyle = item.color;
+                            ctx.beginPath();
+                            ctx.moveTo(centerX, centerY);
+                            ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                            ctx.closePath();
+                            ctx.fill();
+        
+                            // Draw percentage text on slices
+                            const midAngle = startAngle + sliceAngle / 2;
+                            const textRadius = radius * 0.7; // Position text slightly inside the slice
+                            const textX = centerX + Math.cos(midAngle) * textRadius;
+                            const textY = centerY + Math.sin(midAngle) * textRadius;
+        
+                            ctx.fillStyle = '#FFFFFF';
+                            ctx.font = 'bold 14px Inter, sans-serif';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(`${item.value}%`, textX, textY);
+        
+                            startAngle = endAngle;
+                        });
+        
+                        // Draw lines and external number labels
+                        startAngle = 0; // Reset start angle for drawing lines
+                        const radialExtension = 20; // How far line extends radially from mainRadius
+                        const elbowOffset = 25; // Short horizontal/vertical offset for the elbow
+                        const horizontalFinalExtension = 20; // Length of the horizontal segment after elbow
+                        const textLineGap = 5; // Gap between line end and text
+        
+                        data.forEach(item => {
+                            const sliceAngle = (item.value / total) * Math.PI * 2;
+                            const midAngle = startAngle + sliceAngle / 2;
+        
+                            // Point 1: On circumference
+                            const p1X = centerX + Math.cos(midAngle) * radius;
+                            const p1Y = centerY + Math.sin(midAngle) * radius;
+        
+                            // Point 2: Radial extension
+                            const p2X = centerX + Math.cos(midAngle) * (radius + radialExtension);
+                            const p2Y = centerY + Math.sin(midAngle) * (radius + radialExtension);
+        
+                            // Point 3: Elbow (horizontal offset from P2)
+                            let p3X, p3Y = p2Y;
+                            let textAlign;
+        
+                            if (midAngle > Math.PI / 2 && midAngle < 3 * Math.PI / 2) { // Left half
+                                p3X = p2X - elbowOffset;
+                                textAlign = 'right';
+                            } else { // Right half
+                                p3X = p2X + elbowOffset;
+                                textAlign = 'left';
+                            }
+        
+                            // Point 4: Final horizontal segment to text anchor
+                            let textAnchorX = p3X;
+                            if (textAlign === 'right') {
+                                 textAnchorX -= horizontalFinalExtension;
+                            } else {
+                                 textAnchorX += horizontalFinalExtension;
+                            }
+        
+                            ctx.strokeStyle = '#333333'; // Darker line color
+                            ctx.lineWidth = 1.5;
+                            ctx.beginPath();
+                            ctx.moveTo(p1X, p1Y);
+                            ctx.lineTo(p2X, p2Y);
+                            ctx.lineTo(p3X, p3Y);
+                            ctx.lineTo(textAnchorX, p3Y); // Final horizontal segment
+                            ctx.stroke();
+        
+                            // Draw the number of users
+                            ctx.fillStyle = '#333333'; // Dark text color
+                            ctx.font = 'bold 14px Inter, sans-serif'; // Font for user count
+                            ctx.textAlign = textAlign;
+                            ctx.textBaseline = 'middle';
+        
+                            const finalX = textAnchorX + (textAlign === 'right' ? -textLineGap : textLineGap);
+                            ctx.fillText(item.users.toString(), finalX, p3Y); // Display the actual 'users' number
+        
+                            startAngle += sliceAngle;
+                        });
+                    }
+        
+                    // Initial draw
+                    drawChart();
+        
+                    // Redraw on window resize for responsiveness
+                    window.addEventListener('resize', drawChart);
                 });
-
-                // If a slice is hovered, draw its ticket sender count
-                if (hoveredSliceIndex !== -1) {
-                    drawHoverInfo(data[hoveredSliceIndex]);
-                }
-            }
-
-            // Function to draw hover information
-            function drawHoverInfo(sliceData) {
-                const text = `Tickets: ${sliceData.users}`;
-                ctx.font = 'bold 16px Inter, sans-serif';
-                const textMetrics = ctx.measureText(text);
-                const textWidth = textMetrics.width;
-                const textHeight = 20; // Approximate text height
-
-                const padding = 8;
-                const boxWidth = textWidth + padding * 2;
-                const boxHeight = textHeight + padding * 2;
-
-                // Position the tooltip near the mouse, but slightly offset
-                let tooltipX = mouseX + 15;
-                let tooltipY = mouseY - 10;
-
-                // Adjust position if it goes off canvas
-                const displayWidth = canvas.offsetWidth;
-                const displayHeight = canvas.offsetHeight;
-                if (tooltipX + boxWidth > displayWidth) {
-                    tooltipX = mouseX - boxWidth - 15;
-                }
-                if (tooltipY + boxHeight > displayHeight) {
-                    tooltipY = displayHeight - boxHeight - 5;
-                }
-                if (tooltipY < 0) {
-                    tooltipY = 5;
-                }
-
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.75)'; // Semi-transparent black background
-                ctx.beginPath();
-                ctx.roundRect(tooltipX, tooltipY, boxWidth, boxHeight, 5); // Rounded rectangle
-                ctx.fill();
-
-                ctx.fillStyle = '#FFFFFF'; // White text
-                ctx.textAlign = 'left';
-                ctx.textBaseline = 'top';
-                ctx.fillText(text, tooltipX + padding, tooltipY + padding);
-            }
-
-            // Helper to check if point is in a circle
-            function isPointInCircle(px, py, cx, cy, r) {
-                const distance = Math.sqrt(Math.pow(px - cx, 2) + Math.pow(py - cy, 2));
-                return distance <= r;
-            }
-
-            // Helper to get mouse position relative to the canvas
-            function getMousePos(canvas, event) {
-                const rect = canvas.getBoundingClientRect();
-                const scaleX = canvas.width / rect.width;    // Relationship between actual vs. displayed pixels
-                const scaleY = canvas.height / rect.height;
-                return {
-                    x: (event.clientX - rect.left) * scaleX / (window.devicePixelRatio || 1),
-                    y: (event.clientY - rect.top) * scaleY / (window.devicePixelRatio || 1)
-                };
-            }
-
-            canvas.addEventListener('mousemove', function(event) {
-                const pos = getMousePos(canvas, event);
-                mouseX = pos.x;
-                mouseY = pos.y;
-
-                const displayWidth = canvas.offsetWidth;
-                const displayHeight = canvas.offsetHeight;
-                const centerX = displayWidth / 2;
-                const centerY = displayHeight / 2;
-                const radius = Math.min(centerX, centerY) * 0.8;
-
-                let currentHoveredIndex = -1;
-
-                if (isPointInCircle(mouseX, mouseY, centerX, centerY, radius)) {
-                    // Calculate angle of mouse relative to center
-                    const angle = Math.atan2(mouseY - centerY, mouseX - centerX);
-                    // Normalize angle to be between 0 and 2*PI, starting from top (like chart)
-                    let normalizedAngle = angle;
-                    if (normalizedAngle < -Math.PI / 2) { // Adjust for start angle at 90 degrees
-                        normalizedAngle += 2 * Math.PI;
-                    }
-                    normalizedAngle = normalizedAngle - (Math.PI / 2); // Shift to match 0 at top
-
-                    if (normalizedAngle < 0) {
-                        normalizedAngle += 2 * Math.PI;
-                    }
-
-
-                    let currentStartAngle = 0;
-                    const total = data.reduce((sum, item) => sum + item.value, 0);
-
-                    for (let i = 0; i < data.length; i++) {
-                        const slice = data[i];
-                        const sliceAngle = (slice.value / total) * Math.PI * 2;
-                        const sliceEndAngle = currentStartAngle + sliceAngle;
-
-                        // Check if the normalized angle falls within this slice's range
-                        if (normalizedAngle >= currentStartAngle && normalizedAngle < sliceEndAngle) {
-                            currentHoveredIndex = i;
-                            break;
-                        }
-                        currentStartAngle = sliceEndAngle;
-                    }
-                }
-
-                if (currentHoveredIndex !== hoveredSliceIndex) {
-                    hoveredSliceIndex = currentHoveredIndex;
-                    drawChart(); // Redraw chart to update hover state
-                }
-            });
-
-            canvas.addEventListener('mouseout', function() {
-                if (hoveredSliceIndex !== -1) {
-                    hoveredSliceIndex = -1;
-                    drawChart(); // Redraw to clear hover info
-                }
-            });
-
-            // Initial draw
-            drawChart();
-
-            // Redraw on window resize for responsiveness
-            window.addEventListener('resize', drawChart);
-        });
-    </script>
-</section>
-
+            </script>
+        </section>
 
         <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
 
