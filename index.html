@@ -170,30 +170,360 @@
                 </div>
             </div>
 
-            <!-- "Top Issues by Category" section content -->
-            <div class="main-chart-grid-container mt-8"> <!-- Added margin-top for spacing -->
-                <h2 class="text-3xl font-bold text-center mb-2 section-title">Top 3 queries per category (Percentages)</h2>
-        
-                <div class="charts-grid">
-                    <!-- Screening Chart -->
-                    <div class="chart-card">
-                        <h3 class="text-xl font-bold mb-4 text-center" style="color: #4285F4;">Screening</h3>
-                        <canvas id="screeningChart"></canvas>
-                    </div>
+         <section id="combined-stacked-queries" class="mb-16 py-8 px-4 sm:px-6 lg:px-8">
+    <!-- Ensure Tailwind CSS CDN is loaded in your main HTML <head>:
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    -->
+    <style>
+        /* Custom styles for this section */
+        #combined-stacked-queries {
+            background-color: #f7f9fc;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            margin: 2rem auto;
+            max-width: 1200px; /* Wider container for the single chart */
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+        }
+        .section-title {
+            color: #2c3e50;
+        }
+        canvas {
+            width: 100%;
+            height: 400px; /* Adjusted height for the single, more complex chart */
+            max-width: 900px; /* Max width for the chart itself */
+            display: block;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            cursor: pointer; /* Indicate interactivity */
+        }
+        .chart-description {
+            font-size: 0.875rem;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .legend-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1rem;
+            gap: 1rem; /* Space between legend items */
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #334155;
+        }
+        .legend-color-box {
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 0.25rem;
+            margin-right: 0.5rem;
+        }
+    </style>
 
-                    <!-- Import Chart -->
-                    <div class="chart-card">
-                        <h3 class="text-xl font-bold mb-4 text-center" style="color: #000080;">Import</h3>
-                        <canvas id="importChart"></canvas>
-                    </div>
+    <h2 class="text-3xl font-bold text-center mb-4 section-title">Platform Stage-related Ticket Queriesy</h2>
+    <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+        We analysed our support tickets by platform stage to identify where the highest volumes of queries occur. "Screening" (which includes Title and abstracts screening and Full text review stages) remains the most frequent query, followed closely by "Import" and "DE2", indicating key areas for product refinement and user education.
+    </p>
 
-                    <!-- DE2 Chart -->
-                    <div class="chart-card">
-                        <h3 class="text-xl font-bold mb-4 text-center" style="color: #4169E1;">DE2</h3>
-                        <canvas id="de2Chart"></canvas>
-                    </div>
-                </div>
-            </div>
+    <canvas id="combinedChart"></canvas>
+
+    <div class="legend-container">
+        <div class="legend-item">
+            <span class="legend-color-box" style="background-color: #586196;"></span>
+            General Queries (80%)
+        </div>
+        <div class="legend-item">
+            <span class="legend-color-box" style="background-color: #36a2eb;"></span>
+            Top 1 Non-general Query
+        </div>
+        <div class="legend-item">
+            <span class="legend-color-box" style="background-color: #4bc0c0;"></span>
+            Top 2 Non-general Query
+        </div>
+        <div class="legend-item">
+            <span class="legend-color-box" style="background-color: #ff6384;"></span>
+            Top 3 Non-general Query
+        </div>
+        <div class="legend-item">
+            <span class="legend-color-box" style="background-color: #9b59b6;"></span>
+            Other Queries
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            const canvas = document.getElementById('combinedChart');
+            if (!canvas) {
+                console.error("Canvas element not found!");
+                return;
+            }
+            const ctx = canvas.getContext('2d');
+
+            // Data for the combined stacked bar chart
+            const combinedData = [
+                {
+                    category: 'Screening',
+                    total: 1500,
+                    segments: [
+                        { label: 'General Queries', value: 1200, color: '#586196' },
+                        { label: 'Undo screening vote', value: 99, color: '#36a2eb' },
+                        { label: 'Reviewer mode', value: 81, color: '#4bc0c0' },
+                        { label: 'More sorting options', value: 45, color: '#ff6384' },
+                        { label: 'Other', value: 75, color: '#9b59b6' }
+                    ]
+                },
+                {
+                    category: 'Import',
+                    total: 1250,
+                    segments: [
+                        { label: 'General Queries', value: 1000, color: '#586196' },
+                        { label: 'Incompatible import file', value: 125, color: '#36a2eb' },
+                        { label: 'External issues', value: 34, color: '#4bc0c0' },
+                        { label: 'Missing info in references', value: 28, color: '#ff6384' },
+                        { label: 'Other', value: 63, color: '#9b59b6' }
+                    ]
+                },
+                {
+                    category: 'DE2',
+                    total: 700,
+                    segments: [
+                        { label: 'General Queries', value: 560, color: '#586196' },
+                        { label: 'Set up multiple DE/QA templates', value: 47, color: '#36a2eb' },
+                        { label: 'Improved PDF copy-paste', value: 37, color: '#4bc0c0' },
+                        { label: 'Page loading issue / "load more"', value: 21, color: '#ff6384' },
+                        { label: 'Other', value: 35, color: '#9b59b6' }
+                    ]
+                }
+            ];
+
+            let segmentHitBoxes = []; // To store the coordinates of each drawn segment for hit detection
+            let hoveredSegment = null; // Stores the segment object currently hovered
+            let animationFrameId = null; // For requestAnimationFrame
+
+            function getCanvasDimensions() {
+                const dpr = window.devicePixelRatio || 1;
+                return {
+                    displayWidth: canvas.offsetWidth,
+                    displayHeight: canvas.offsetHeight,
+                    dpr: dpr,
+                    scaledWidth: canvas.offsetWidth * dpr,
+                    scaledHeight: canvas.offsetHeight * dpr
+                };
+            }
+
+            function drawCombinedChart() {
+                const { displayWidth, displayHeight, dpr, scaledWidth, scaledHeight } = getCanvasDimensions();
+
+                canvas.width = scaledWidth;
+                canvas.height = scaledHeight;
+                ctx.scale(dpr, dpr);
+
+                ctx.clearRect(0, 0, displayWidth, displayHeight); // Clear using unscaled dimensions
+
+                const margin = { top: 30, right: 40, bottom: 40, left: 120 };
+                const chartWidth = displayWidth - margin.left - margin.right;
+                const chartHeight = displayHeight - margin.top - margin.bottom;
+
+                const barHeight = 40;
+                const barSpacing = 30;
+
+                const maxTotalValue = Math.max(...combinedData.map(d => d.total));
+                const xScale = chartWidth / maxTotalValue;
+
+                segmentHitBoxes = []; // Reset hitboxes for redraw
+
+                // Draw bars for each category
+                combinedData.forEach((categoryData, catIndex) => {
+                    const y = margin.top + catIndex * (barHeight + barSpacing);
+                    let currentX = margin.left;
+
+                    // Draw stacked segments
+                    categoryData.segments.forEach(segment => {
+                        const segmentWidth = segment.value * xScale;
+                        const segmentRect = {
+                            x: currentX,
+                            y: y,
+                            width: segmentWidth,
+                            height: barHeight,
+                            data: segment, // Store a reference to the segment data
+                            categoryTotal: categoryData.total // Store category total for percentage calculation in tooltip
+                        };
+                        segmentHitBoxes.push(segmentRect); // Store hitbox
+
+                        ctx.fillStyle = segment.color;
+                        ctx.fillRect(currentX, y, segmentWidth, barHeight);
+
+                        // Display percentage on the bar segment
+                        if (segmentWidth > 30) { // Only label if segment is wide enough
+                            const percentage = (segment.value / categoryData.total * 100).toFixed(1);
+                            ctx.fillStyle = '#FFFFFF';
+                            ctx.font = '12px Inter, sans-serif';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(`${percentage}%`, currentX + segmentWidth / 2, y + barHeight / 2);
+                        }
+                        currentX += segmentWidth;
+                    });
+
+                    // Category Label (Y-axis)
+                    ctx.fillStyle = '#333333';
+                    ctx.font = 'bold 16px Inter, sans-serif';
+                    ctx.textAlign = 'right';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(categoryData.category, margin.left - 10, y + barHeight / 2);
+
+                    // Total Value at the end of the bar (absolute number)
+                    // Adjusted X position to be further to the right of the bar
+                    ctx.fillStyle = '#333333';
+                    ctx.font = '14px Inter, sans-serif';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(categoryData.total, margin.left + chartWidth + 10, y + barHeight / 2); // Moved right by chartWidth + 10
+                });
+
+                // X-axis (bottom)
+                ctx.strokeStyle = '#cccccc';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(margin.left, margin.top + chartHeight + barHeight);
+                ctx.lineTo(margin.left + chartWidth, margin.top + chartHeight + barHeight);
+                ctx.stroke();
+
+                // X-axis labels
+                ctx.fillStyle = '#666666';
+                ctx.font = '12px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                const numTicks = 5;
+                for (let i = 0; i <= numTicks; i++) {
+                    const tickValue = Math.round((maxTotalValue / numTicks) * i);
+                    const tickX = margin.left + tickValue * xScale;
+                    ctx.fillText(tickValue, tickX, margin.top + chartHeight + barHeight + 5);
+                }
+
+                // X-axis Title
+                ctx.fillStyle = '#333333';
+                ctx.font = 'bold 14px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText('Number of Tickets', margin.left + chartWidth / 2, margin.top + chartHeight + barHeight + 30);
+            }
+
+            // Function to draw the tooltip
+            function drawTooltip(x, y, segmentData) {
+                const percentage = (segmentData.data.value / segmentData.categoryTotal * 100).toFixed(1);
+                const text = `${segmentData.data.label}: ${segmentData.data.value} tickets (${percentage}%)`;
+                ctx.font = 'bold 16px Inter, sans-serif';
+                const textMetrics = ctx.measureText(text);
+                const textWidth = textMetrics.width;
+                const textHeight = 20;
+
+                const padding = 10;
+                const boxWidth = textWidth + padding * 2;
+                const boxHeight = textHeight + padding * 2;
+
+                // Adjust tooltip position to stay within canvas bounds
+                let tooltipX = x + 15;
+                let tooltipY = y - 10;
+
+                const { displayWidth, displayHeight } = getCanvasDimensions();
+                if (tooltipX + boxWidth > displayWidth) {
+                    tooltipX = x - boxWidth - 15;
+                }
+                if (tooltipY + boxHeight > displayHeight) {
+                    tooltipY = displayHeight - boxHeight - 5;
+                }
+                if (tooltipY < 0) {
+                    tooltipY = 5;
+                }
+
+                ctx.save();
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
+                ctx.beginPath();
+                ctx.roundRect(tooltipX, tooltipY, boxWidth, boxHeight, 5);
+                ctx.fill();
+
+                ctx.fillStyle = '#FFFFFF';
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'top';
+                ctx.fillText(text, tooltipX + padding, tooltipY + padding);
+                ctx.restore();
+            }
+
+            // Helper to get mouse position relative to canvas
+            function getMousePos(canvas, event) {
+                const rect = canvas.getBoundingClientRect();
+                return {
+                    x: (event.clientX - rect.left),
+                    y: (event.clientY - rect.top)
+                };
+            }
+
+            // Main animation loop for tooltip
+            function animate() {
+                if (hoveredSegment) {
+                    drawCombinedChart(); // Redraw the base chart to clear any previous tooltip
+                    drawTooltip(mouseX, mouseY, hoveredSegment); // Draw the new tooltip
+                } else {
+                    drawCombinedChart(); // If no segment is hovered, ensure the chart is clean
+                }
+                animationFrameId = requestAnimationFrame(animate);
+            }
+
+            // Event listener for mouse movement
+            canvas.addEventListener('mousemove', function(event) {
+                const pos = getMousePos(canvas, event);
+                mouseX = pos.x;
+                mouseY = pos.y;
+
+                let currentHovered = null;
+                for (const segmentRect of segmentHitBoxes) {
+                    if (mouseX >= segmentRect.x && mouseX <= segmentRect.x + segmentRect.width &&
+                        mouseY >= segmentRect.y && mouseY <= segmentRect.y + segmentRect.height) {
+                        currentHovered = segmentRect;
+                        break;
+                    }
+                }
+
+                if (currentHovered !== hoveredSegment) {
+                    hoveredSegment = currentHovered;
+                    if (animationFrameId) {
+                        cancelAnimationFrame(animationFrameId);
+                    }
+                    if (hoveredSegment) {
+                        animationFrameId = requestAnimationFrame(animate);
+                    } else {
+                        drawCombinedChart();
+                        animationFrameId = null;
+                    }
+                }
+            });
+
+            // Event listener for mouse leaving the canvas
+            canvas.addEventListener('mouseout', function() {
+                hoveredSegment = null;
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                    animationFrameId = null;
+                }
+                drawCombinedChart();
+            });
+
+            // Initial draw
+            drawCombinedChart();
+
+            // Redraw on window resize
+            window.addEventListener('resize', drawCombinedChart);
+        });
+    </script>
+</section>
+
             <!-- Emerging Trend Box - now logically placed below the new charts -->
             <div class="mt-8 bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-6 rounded-lg shadow-md">
                 <div class="flex items-center">
