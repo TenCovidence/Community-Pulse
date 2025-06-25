@@ -240,225 +240,235 @@
 
         <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
 
-        <section id="audits" class="mb-16">
-    <!-- IMPORTANT: For proper styling, ensure the Tailwind CSS CDN script is in your main HTML <head>:
-    <script src="https://cdn.tailwindcss.com"></script>
-    AND the Inter font link:
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    -->
-    <style>
-        /* Styles specific to this section. Consider moving these to your main CSS file for better organization. */
-        .card {
-            background-color: #ffffff;
-            border-radius: 0.75rem; /* Rounded corners */
-            padding: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Subtle shadow */
-            transition: transform 0.2s ease-in-out; /* Smooth hover effect */
-            display: flex; /* Use flexbox for centering content */
-            flex-direction: column; /* Stack content vertically */
-            align-items: center; /* Center horizontally */
-            justify-content: center; /* Center vertically */
-            min-height: 400px; /* Ensure card has some height for the chart */
-        }
-        .card:hover {
-            transform: translateY(-5px); /* Lift card slightly on hover */
-        }
-        .section-title {
-            color: #2c3e50; /* Darker title color */
-        }
-        /* Canvas styling for responsiveness */
-        canvas {
-            max-width: 100%;
-            height: 350px; /* Increased height for more space, adjusts width */
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
-
-    <h2 class="text-3xl font-bold text-center mb-2 section-title">Monthly Audit of User Wishlist and Feedback</h2>
-    <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
-        What our users are asking for. Tracking functionality issues, new wishlist items, and features released by the Product & Engineering team. <br>
-        Stakeholders: Product and Engineering, Leadership
-    </p>
-    <div class="flex justify-center">
-        <div class="card w-full md:w-3/4 lg:w-2/3">
-            <h3 class="text-xl font-bold mb-4 flex items-center section-title">
-                <span class="text-2xl mr-2">&#128202;</span>Current Feedback Distribution
-            </h3>
-            <canvas id="feedbackChart"></canvas>
-            <div class="flex flex-wrap justify-center mt-4 text-gray-700">
-                <div class="flex items-center mx-2 mb-2">
-                    <span class="inline-block w-4 h-4 rounded-full bg-[#007bff] mr-2"></span>
-                    Functionality Issues (25%)
-                </div>
-                <div class="flex items-center mx-2 mb-2">
-                    <span class="inline-block w-4 h-4 rounded-full bg-[#ffc107] mr-2"></span>
-                    Wishlist Items (50%)
-                </div>
-                <div class="flex items-center mx-2 mb-2">
-                    <span class="inline-block w-4 h-4 rounded-full bg-[#28a745] mr-2"></span>
-                    Released by P&E Team (25%)
+                <section id="audits" class="mb-16">
+            <!-- IMPORTANT: For proper styling, ensure the Tailwind CSS CDN script is in your main HTML <head>:
+            <script src="https://cdn.tailwindcss.com"></script>
+            AND the Inter font link:
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+            -->
+            <style>
+                /* Styles specific to this section. Consider moving these to your main CSS file for better organization. */
+                .card {
+                    background-color: #ffffff;
+                    border-radius: 0.75rem; /* Rounded corners */
+                    padding: 2rem;
+                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+                    transition: transform 0.2s ease-in-out; /* Smooth hover effect */
+                    display: flex; /* Use flexbox for centering content */
+                    flex-direction: column; /* Stack content vertically */
+                    align-items: center; /* Center horizontally */
+                    justify-content: center; /* Center vertically */
+                    min-height: 450px; /* Increased min-height to ensure more space for the chart */
+                }
+                .card:hover {
+                    transform: translateY(-5px); /* Lift card slightly on hover */
+                }
+                .section-title {
+                    color: #2c3e50; /* Darker title color */
+                }
+                /* Canvas styling for responsiveness */
+                canvas {
+                    width: 100%; /* Ensure canvas takes full width of its container */
+                    height: 400px; /* Set a more generous default height for the canvas itself */
+                    display: block;
+                    margin: 0 auto;
+                }
+            </style>
+        
+            <h2 class="text-3xl font-bold text-center mb-2 section-title">Monthly Audit of User Wishlist and Feedback</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+                What our users are asking for <br>
+                Stakeholders: Product and Engineering, Leadership
+            </p>
+            <div class="flex justify-center">
+                <div class="card w-full md:w-3/4 lg:w-2/3">
+                    <h3 class="text-xl font-bold mb-4 flex items-center section-title">
+                        <span class="text-2xl mr-2">&#128202;</span>Distribution of Feature Requests, Feedback, and DE1
+                    </h3>
+                    <canvas id="feedbackChart"></canvas>
+                    <div class="flex flex-wrap justify-center mt-4 text-gray-700">
+                        <div class="flex items-center mx-2 mb-2">
+                            <span class="inline-block w-4 h-4 rounded-full bg-[#007bff] mr-2"></span>
+                            Functionality Issues (25%)
+                        </div>
+                        <div class="flex items-center mx-2 mb-2">
+                            <span class="inline-block w-4 h-4 rounded-full bg-[#ffc107] mr-2"></span>
+                            Wishlist Items (50%)
+                        </div>
+                        <div class="flex items-center mx-2 mb-2">
+                            <span class="inline-block w-4 h-4 rounded-full bg-[#28a745] mr-2"></span>
+                            Released by P&E Team (25%)
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <script>
-        // JavaScript for drawing the pie chart.
-        // It's recommended to place this in an external .js file if your project is large.
-        window.addEventListener('load', function() { // Use 'load' event listener
-            const canvas = document.getElementById('feedbackChart');
-            const ctx = canvas.getContext('2d');
-
-            // Data for the pie chart, including an example for each category
-            const data = [
-                { label: 'Functionality Issues', value: 25, color: '#007bff', example: '[Month]: Improve \'load more\' button' },
-                { label: 'Wishlist Items', value: 50, color: '#ffc107', example: '[Month]: Filter by study language' },
-                { label: 'Released by P&E Team', value: 25, color: '#28a745', example: '[Month]: Export to Excel (Live)' }
-            ];
-
-            function drawChart() {
-                // Adjust canvas size for high-DPI displays (retina)
-                const dpr = window.devicePixelRatio || 1;
-                canvas.width = canvas.offsetWidth * dpr;
-                canvas.height = canvas.offsetHeight * dpr;
-                ctx.scale(dpr, dpr); // Apply scaling
-
-                // Clear canvas before drawing
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                // Calculate chart dimensions and center based on *scaled* canvas size
-                const chartWidth = canvas.width / dpr;
-                const chartHeight = canvas.height / dpr;
-
-                const radiusMultiplier = 0.8; // Increased from 0.7 for bigger circumference
-                const mainRadius = Math.min(chartWidth / 2, chartHeight / 2) * radiusMultiplier;
-                const mainCenterX = chartWidth / 2;
-                const mainCenterY = chartHeight / 2;
-
-                let startAngle = 0;
-                const total = data.reduce((sum, item) => sum + item.value, 0);
-
-                // Draw pie slices and percentages
-                data.forEach(item => {
-                    const sliceAngle = (item.value / total) * Math.PI * 2;
-                    const endAngle = startAngle + sliceAngle;
-
-                    ctx.fillStyle = item.color;
-                    ctx.beginPath();
-                    ctx.moveTo(mainCenterX, mainCenterY);
-                    ctx.arc(mainCenterX, mainCenterY, mainRadius, startAngle, endAngle);
-                    ctx.closePath();
-                    ctx.fill();
-
-                    // Draw percentage text inside slice
-                    const textAngle = startAngle + sliceAngle / 2;
-                    const textX = mainCenterX + Math.cos(textAngle) * (mainRadius / 2);
-                    const textY = mainCenterY + Math.sin(textAngle) * (mainRadius / 2);
-
-                    ctx.fillStyle = '#ffffff';
-                    ctx.font = 'bold 14px Inter, sans-serif';
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText(`${item.value}%`, textX, textY);
-
-                    startAngle = endAngle;
-                });
-
-                // Draw lines and external example labels
-                startAngle = 0; // Reset start angle for drawing lines
-                const radialExtension = 25; // How far line extends radially from mainRadius
-                const elbowOffset = 20; // Short horizontal/vertical offset for the elbow
-                const horizontalFinalExtension = 50; // Length of the horizontal segment after elbow
-                const textLineGap = 5; // Gap between line end and text
-
-                data.forEach(item => {
-                    const sliceAngle = (item.value / total) * Math.PI * 2;
-                    const midAngle = startAngle + sliceAngle / 2;
-
-                    // Point 1: On circumference
-                    const p1X = mainCenterX + Math.cos(midAngle) * mainRadius;
-                    const p1Y = mainCenterY + Math.sin(midAngle) * mainRadius;
-
-                    // Point 2: Radial extension
-                    const p2X = mainCenterX + Math.cos(midAngle) * (mainRadius + radialExtension);
-                    const p2Y = mainCenterY + Math.sin(midAngle) * (mainRadius + radialExtension);
-
-                    // Point 3: Elbow (horizontal offset from P2)
-                    let p3X, p3Y = p2Y; // p3Y is same as p2Y for horizontal elbow
-                    let textAlign;
-
-                    if (midAngle > Math.PI / 2 && midAngle < 3 * Math.PI / 2) { // Left half
-                        p3X = p2X - elbowOffset; // Move elbow left
-                        textAlign = 'right';
-                    } else { // Right half
-                        p3X = p2X + elbowOffset; // Move elbow right
-                        textAlign = 'left';
-                    }
-
-                    // Point 4: Final horizontal segment to text anchor
-                    let textAnchorX = p3X;
-                    if (textAlign === 'right') {
-                         textAnchorX -= horizontalFinalExtension;
-                    } else {
-                         textAnchorX += horizontalFinalExtension;
-                    }
-
-
-                    ctx.strokeStyle = '#333333';
-                    ctx.lineWidth = 1.5;
-                    ctx.beginPath();
-                    ctx.moveTo(p1X, p1Y); // Start at circumference
-                    ctx.lineTo(p2X, p2Y); // Point 2: Radial extension
-                    ctx.lineTo(p3X, p3Y); // Point 3: Elbow (horizontal offset from P2)
-                    ctx.lineTo(textAnchorX, p3Y); // Point 4: Final horizontal segment to text anchor
-                    ctx.stroke();
-
-                    // Draw example text
-                    ctx.fillStyle = '#333333';
-                    ctx.font = '12px Inter, sans-serif';
-                    ctx.textAlign = textAlign;
-                    ctx.textBaseline = 'middle';
-
-                    const words = item.example.split(' ');
-                    let line = '';
-                    let lines = [];
-                    const lineHeight = 16;
-                    // Adjusted maxTextWidth to account for radialExtension, elbowOffset, horizontalFinalExtension, and textLineGap
-                    const maxTextWidth = (chartWidth / 2) - (mainRadius + radialExtension + elbowOffset + horizontalFinalExtension + textLineGap);
-
-                    for (let n = 0; n < words.length; n++) {
-                        let testLine = line + words[n] + ' ';
-                        let metrics = ctx.measureText(testLine);
-                        let testWidth = metrics.width;
-                        if (testWidth > maxTextWidth && n > 0) {
+        
+            <script>
+                // JavaScript for drawing the pie chart.
+                // It's recommended to place this in an external .js file if your project is large.
+                window.addEventListener('load', function() { // Use 'load' event listener
+                    const canvas = document.getElementById('feedbackChart');
+                    const ctx = canvas.getContext('2d');
+        
+                    // Data for the pie chart, including an example for each category
+                    const data = [
+                        { label: 'Functionality Issues', value: 25, color: '#007bff', example: 'Load more: 2' },
+                        { label: 'Wishlist Items', value: 50, color: '#ffc107', example: 'Reverse "most relevant" sorting' },
+                        { label: 'Released by P&E Team', value: 25, color: '#28a745', example: 'Export to Excel (DE1)' }
+                    ];
+        
+                    function drawChart() {
+                        // Determine the effective dimensions of the canvas element from CSS
+                        let displayWidth = canvas.offsetWidth;
+                        let displayHeight = canvas.offsetHeight;
+        
+                        // Fallback for cases where offsetWidth/offsetHeight might be 0 or too small
+                        if (displayWidth === 0) displayWidth = 600; // Default width
+                        if (displayHeight === 0) displayHeight = 400; // Default height from CSS `canvas` rule
+        
+                        // Adjust canvas size for high-DPI displays (retina)
+                        const dpr = window.devicePixelRatio || 1;
+                        canvas.width = displayWidth * dpr;
+                        canvas.height = displayHeight * dpr;
+                        ctx.scale(dpr, dpr); // Apply scaling to context
+        
+                        // Clear canvas before drawing
+                        ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr); // Clear using unscaled dimensions
+        
+                        // Calculate chart dimensions and center based on *unscaled* display dimensions
+                        const chartWidth = displayWidth;
+                        const chartHeight = displayHeight;
+        
+                        const radiusMultiplier = 0.9; // Increased from 0.8 to make chart even bigger
+                        const mainRadius = Math.min(chartWidth / 2, chartHeight / 2) * radiusMultiplier;
+                        const mainCenterX = chartWidth / 2;
+                        const mainCenterY = chartHeight / 2;
+        
+                        let startAngle = 0;
+                        const total = data.reduce((sum, item) => sum + item.value, 0);
+        
+                        // Draw pie slices and percentages
+                        data.forEach(item => {
+                            const sliceAngle = (item.value / total) * Math.PI * 2;
+                            const endAngle = startAngle + sliceAngle;
+        
+                            ctx.fillStyle = item.color;
+                            ctx.beginPath();
+                            ctx.moveTo(mainCenterX, mainCenterY);
+                            ctx.arc(mainCenterX, mainCenterY, mainRadius, startAngle, endAngle);
+                            ctx.closePath();
+                            ctx.fill();
+        
+                            // Draw percentage text inside slice
+                            const textAngle = startAngle + sliceAngle / 2;
+                            const textX = mainCenterX + Math.cos(textAngle) * (mainRadius / 2);
+                            const textY = mainCenterY + Math.sin(textAngle) * (mainRadius / 2);
+        
+                            ctx.fillStyle = '#ffffff';
+                            ctx.font = 'bold 14px Inter, sans-serif';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(`${item.value}%`, textX, textY);
+        
+                            startAngle = endAngle;
+                        });
+        
+                        // Draw lines and external example labels
+                        startAngle = 0; // Reset start angle for drawing lines
+                        const radialExtension = 30; // How far line extends radially from mainRadius (increased)
+                        const elbowOffset = 25; // Short horizontal/vertical offset for the elbow (increased)
+                        const horizontalFinalExtension = 60; // Length of the horizontal segment after elbow (increased)
+                        const textLineGap = 8; // Gap between line end and text (increased)
+        
+                        data.forEach(item => {
+                            const sliceAngle = (item.value / total) * Math.PI * 2;
+                            const midAngle = startAngle + sliceAngle / 2;
+        
+                            // Point 1: On circumference
+                            const p1X = mainCenterX + Math.cos(midAngle) * mainRadius;
+                            const p1Y = mainCenterY + Math.sin(midAngle) * mainRadius;
+        
+                            // Point 2: Radial extension
+                            const p2X = mainCenterX + Math.cos(midAngle) * (mainRadius + radialExtension);
+                            const p2Y = mainCenterY + Math.sin(midAngle) * (mainRadius + radialExtension);
+        
+                            // Point 3: Elbow (horizontal offset from P2)
+                            let p3X, p3Y = p2Y; // p3Y is same as p2Y for horizontal elbow
+                            let textAlign;
+        
+                            // Adjust elbow direction based on horizontal position
+                            if (midAngle > Math.PI / 2 && midAngle < 3 * Math.PI / 2) { // Left half
+                                p3X = p2X - elbowOffset; // Move elbow left
+                                textAlign = 'right';
+                            } else { // Right half
+                                p3X = p2X + elbowOffset; // Move elbow right
+                                textAlign = 'left';
+                            }
+        
+                            // Point 4: Final horizontal segment to text anchor
+                            let textAnchorX = p3X;
+                            if (textAlign === 'right') {
+                                 textAnchorX -= horizontalFinalExtension;
+                            } else {
+                                 textAnchorX += horizontalFinalExtension;
+                            }
+        
+                            ctx.strokeStyle = '#333333';
+                            ctx.lineWidth = 1.5;
+                            ctx.beginPath();
+                            ctx.moveTo(p1X, p1Y); // Start at circumference
+                            ctx.lineTo(p2X, p2Y); // Point 2: Radial extension
+                            ctx.lineTo(p3X, p3Y); // Point 3: Elbow (horizontal offset from P2)
+                            ctx.lineTo(textAnchorX, p3Y); // Point 4: Final horizontal segment to text anchor
+                            ctx.stroke();
+        
+                            // Draw example text
+                            ctx.fillStyle = '#333333';
+                            ctx.font = '12px Inter, sans-serif';
+                            ctx.textAlign = textAlign;
+                            ctx.textBaseline = 'middle';
+        
+                            const words = item.example.split(' ');
+                            let line = '';
+                            let lines = [];
+                            const lineHeight = 16;
+                            // Adjusted maxTextWidth to account for the total horizontal space taken by the line and textLineGap
+                            const maxTextWidth = (chartWidth / 2) - (mainRadius + radialExtension + elbowOffset + horizontalFinalExtension + textLineGap);
+        
+                            for (let n = 0; n < words.length; n++) {
+                                let testLine = line + words[n] + ' ';
+                                let metrics = ctx.measureText(testLine);
+                                let testWidth = metrics.width;
+                                if (testWidth > maxTextWidth && n > 0) {
+                                    lines.push(line);
+                                    line = words[n] + ' ';
+                                } else {
+                                    line = testLine;
+                                }
+                            }
                             lines.push(line);
-                            line = words[n] + ' ';
-                        } else {
-                            line = testLine;
-                        }
+        
+                            let currentTextY = p3Y - (lines.length - 1) * lineHeight / 2;
+                            lines.forEach((lineText, index) => {
+                                // Position text relative to textAnchorX
+                                const finalX = textAnchorX + (textAlign === 'right' ? -textLineGap : textLineGap);
+                                ctx.fillText(lineText.trim(), finalX, currentTextY + index * lineHeight);
+                            });
+        
+                            startAngle += sliceAngle;
+                        });
                     }
-                    lines.push(line);
-
-                    let currentTextY = p3Y - (lines.length - 1) * lineHeight / 2;
-                    lines.forEach((lineText, index) => {
-                        ctx.fillText(lineText.trim(), textAnchorX + (textAlign === 'right' ? -textLineGap : textLineGap), currentTextY + index * lineHeight);
+        
+                    // Initial draw
+                    drawChart();
+        
+                    // Resize the canvas and redraw the chart when the window is resized
+                    window.addEventListener('resize', () => {
+                        drawChart(); // Recalculate and redraw
                     });
-
-                    startAngle += sliceAngle;
                 });
-            }
-
-            // Initial draw
-            drawChart();
-
-            // Resize the canvas and redraw the chart when the window is resized
-            window.addEventListener('resize', () => {
-                drawChart(); // Recalculate and redraw
-            });
-        });
-    </script>
-</section>
+            </script>
+        </section>
 
 
         <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
