@@ -815,12 +815,14 @@
         </div>
         <div class="legend-item">
             <span class="legend-color-box" style="background-color: #d62728;"></span>
-            Unknown (12.1%)
+            Unknown<sup>f</sup> (12.1%)
         </div>
         <div class="legend-item">
             <span class="legend-color-box" style="background-color: #9467bd;"></span>
             ROW (8.3%)
         </div>
+    </div>
+    <p class="text-sm text-gray-500 mt-8 text-center">f - generic email providers such as gmail.com, yahoo.com, hotmail.com, etc.</p>
     </div>
 
     <script>
@@ -831,11 +833,11 @@
             // Data from your provided image, now including illustrative 'users' count
             // Note: 'users' are illustrative and scaled to roughly match percentages for a total of ~1000.
             const data = [
-                { label: 'NA', value: 34.5, users: 345, color: '#1f77b4' },
-                { label: 'EMEA', value: 25.5, users: 255, color: '#ff7f0e' },
-                { label: 'APAC', value: 19.7, users: 197, color: '#2ca02c' },
-                { label: 'Unknown', value: 12.1, users: 121, color: '#d62728' },
-                { label: 'ROW', value: 8.3, users: 83, color: '#9467bd' }
+                { label: 'NA', value: 34.5, users: 6770, color: '#1f77b4' },
+                { label: 'EMEA', value: 25.5, users: 4997, color: '#ff7f0e' },
+                { label: 'APAC', value: 19.7, users: 3859, color: '#2ca02c' },
+                { label: 'Unknown', value: 12.1, users: 2379, color: '#d62728' },
+                { label: 'ROW', value: 8.3, users: 1622, color: '#9467bd' }
             ];
 
             let hoveredSliceIndex = -1; // Index of the currently hovered slice
