@@ -17,6 +17,8 @@
         }
         .container {
             max-width: 1200px; /* Increased max-width for overall container */
+            margin-left: auto;
+            margin-right: auto;
         }
         .kpi-card {
             background-color: white;
@@ -44,8 +46,13 @@
         .card {
             background-color: white;
             border-radius: 0.75rem;
-            padding: 1.5rem;
+            padding: 1.5rem; /* Default padding for all cards */
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Added to .card */
+        }
+        .card:hover { /* Added hover effect to .card */
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
         }
         .audit-item {
             display: flex;
@@ -93,6 +100,181 @@
         .chart-card canvas { /* Specific rule for canvas inside chart-card */
             max-height: 250px;
             width: 100%;
+            display: block; /* Ensure canvas is block-level */
+        }
+
+        /* Legend styles for combined chart */
+        .legend-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .legend-color-box {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            border-radius: 4px;
+        }
+
+        /* Styles specific to Audit section cards */
+        #audits .card {
+            min-height: 450px; /* Increased min-height to ensure more space for the chart */
+            display: flex; /* Use flexbox for centering content */
+            flex-direction: column; /* Stack content vertically */
+            align-items: center; /* Center horizontally */
+            justify-content: center; /* Center vertically */
+        }
+        #audits .section-title {
+            color: #2c3e50; /* Darker title color */
+        }
+        /* Canvas styling for responsiveness in Audit section */
+        #audits canvas {
+            width: 100%; /* Ensure canvas takes full width of its container */
+            height: 400px; /* Set a more generous default height for the canvas itself */
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Styles specific to Regional Distribution section */
+        #regional-distribution {
+            /* Removed background, border-radius, box-shadow to remove outer white box */
+            margin: 2rem auto; /* Center the section with some margin */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            /* Removed padding as the inner card will have it */
+        }
+        #regional-distribution .chart-wrapper {
+            /* Removed max-width to let chart span more */
+            margin: 0 auto; /* Center the wrapper, but let its content expand */
+        }
+        #regional-distribution canvas {
+            width: 100% !important; /* Make canvas responsive to its container width */
+            height: 500px; /* Increased fixed height for consistency */
+            display: block;
+            margin: 2rem auto; /* Center the canvas */
+            /* Add temporary border for debugging if needed */
+            /* border: 1px solid red; */
+        }
+        #regional-distribution .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0.5rem 1rem;
+        }
+        #regional-distribution .legend-color-box {
+            width: 1rem;
+            height: 1rem;
+            border-radius: 0.25rem;
+            margin-right: 0.5rem;
+        }
+        /* Fix for info-section rgba */
+        .info-section {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Corrected rgba syntax */
+            padding: 24px;
+            width: 100%;
+            max-width: 900px;
+            box-sizing: border-box;
+        }
+        /* Added specific CSS for combinedChart to ensure it has height */
+        #combinedChart { /* Apply styles to both charts */
+            display: block;
+            width: 100%;
+            height: 400px; /* Explicit height */
+            max-width: 900px; /* Keep it from getting too wide */
+            margin: 0 auto; /* Center it */
+        }
+        /* Styles for footnotes */
+        .footnote {
+            font-size: 0.75rem; /* Smaller font size */
+            margin-left: 2rem; /* Indent the footnotes */
+            color: #666; /* Slightly darker grey for readability */
+        }
+
+        /* Styles for the bar graph container under 2.1 */
+        /* Note: .graph-container itself will now inherit .card styles for background, shadow, hover */
+        .graph-container {
+            font-family: 'Inter', sans-serif;
+            width: 80%; /* Adjust as needed */
+            max-width: 900px; /* Limit its width */
+            margin: 20px auto; /* Centered with vertical margin */
+            padding: 20px; /* Padding for content inside the card */
+        }
+
+        .bar-wrapper {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .bar-label {
+            width: 100px;
+            text-align: right;
+            padding-right: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+        .bar-scale {
+            flex-grow: 1;
+            height: 25px;
+            background-color: #eee;
+            border-radius: 5px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .bar {
+            height: 100%;
+            border-radius: 5px;
+            position: relative;
+            transition: transform 0.2s ease-out;
+            cursor: pointer;
+        }
+        .bar:hover {
+            transform: scaleY(1.1);
+        }
+
+        .bar::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease-in-out;
+            z-index: 10;
+        }
+
+        .bar:hover::after {
+            opacity: 1;
+        }
+
+        .x-axis {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-left: 115px;
+            padding-right: 15px;
+            color: #555;
+            font-size: 0.9em;
+        }
+        .x-axis-label {
+            text-align: center;
+            min-width: 40px;
         }
     </style>
 </head>
@@ -106,44 +288,62 @@
     </header>
 
     <main class="container mx-auto px-6 py-12">
-            <section id="summary" class="mb-16">
-                <h2 class="text-3xl font-bold text-left mb-2 section-title">Executive Summary</h2>
+        <section id="summary" class="mb-16">
+            <h2 class="text-3xl font-bold text-left mb-2 section-title">Executive Summary</h2>
+            
+            <!-- New wrapping div with card style -->
+            <div class="card p-6">
+                <!-- First introductory paragraph -->
+                <p class="text-left text-gray-600 mb-4">
+                    This report provides an overview of the Community Team’s support activity through GrooveHQ inbox from July 2024 to June 2025. It focuses on trends in ticket volume, user queries across review stages, regional distribution, and common support topics.
+                </p>
                 
-                <!-- Wrapper div to control max-width and make content left-aligned -->
-                <div class="max-w-3xl text-left text-gray-600 mb-8">
-                    <!-- First introductory paragraph -->
-                    <p class="mb-4">
-                        This report provides an overview of the Community Team’s support activity through GrooveHQ inbox from July 2024 to June 2025. It focuses on trends in ticket volume, user queries across review stages, regional distribution, and common support topics.
-                    </p>
-                    
-                    <!-- Introduction to key insights -->
-                    <p class="mb-2">
-                        Key insights include:
-                    </p>
-                    
-                    <!-- The unordered list for key insights, now correctly placed outside a <p> tag -->
-                    <ul class="list-disc list-inside space-y-1 mb-4">
-                        <li><strong>Response time performance</strong> remained strong, with a consistently low median response time that meets our service expectations.</li>
-                        <li><strong>Top queried review stages</strong> were identified, along with the most frequent types of user issues within those stages.</li>
-                        <li><strong>Regional ticket distribution</strong> highlighted geographic patterns in support demand, including the most commonly used email domains per region.</li>
-                        <li><strong>Chatbot (Helply) engagement</strong> data offered additional perspective on recurring support needs and user behavior in self-service contexts.</li>
-                    </ul>
-                    
-                    <!-- Final concluding paragraph -->
-                    <p>
-                        The analysis in this report will inform targeted improvements to the inbox support process and guide resource development efforts aimed at reducing preventable queries and improving user experience.
-                    </p>
-                </div>
-            </section>
-
-
-
+                <!-- Introduction to key insights -->
+                <p class="text-left text-gray-600 mb-2">
+                    Key insights include:
+                </p>
+                
+                <!-- The unordered list for key insights -->
+                <ul class="list-none space-y-3 text-gray-600 mb-4">
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-3" style="color: #003f5c;">&#9201;</span>
+                        <div>
+                            <strong>Response time performance</strong> remained strong, with a consistently low median response time that meets our service expectations.
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-3" style="color: #003f5c;">&#128269;</span>
+                        <div>
+                            <strong>Top queried review stages</strong> were identified, along with the most frequent types of user issues within those stages.
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-3" style="color: #003f5c;">&#127760;</span>
+                        <div>
+                            <strong>Regional ticket distribution</strong> highlighted geographic patterns in support demand, including the most commonly used email domains per region.
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-3" style="color: #003f5c;">&#129302;</span>
+                        <div>
+                            <strong>Chatbot (Helply) engagement</strong> data offered additional perspective on recurring support needs and user behavior in self-service contexts.
+                        </div>
+                    </li>
+                </ul>
+                
+                <!-- Final concluding paragraph -->
+                <p class="text-left text-gray-600">
+                    The analysis in this report will inform targeted improvements to the inbox support process and guide resource development efforts aimed at reducing preventable queries and improving user experience.
+                </p>
+            </div>
+        </section>
 
         <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
 
         <section id="kpis" class="mb-16">
             <h2 class="text-3xl font-bold text-left mb-2 section-title">1. Community Support at a Glance</h2>
-            <p class="text-left text-gray-600 mb-8 max-w-3xl mr-auto ml-0">
+            <!-- Paragraph now left-aligned and without max-width -->
+            <p class="text-left text-gray-600 mb-8">
                 Core metrics and performance highlights <br>
                 Stakeholders: All
             </p>
@@ -175,326 +375,396 @@
                 </div>
             </div>
             <!-- KPI attribution paragraph (correctly placed) -->
-            <p class="text-sm text-gray-500 mt-8 text-center">a - generated by GrooveHQ<br>b - analysed using <a href="https://doi.org/10.2478/seeur-2023-0043" target="_blank" class="text-blue-600 hover:underline">VADER</a> through a Python script: 81.7% positive, 12% neutral, 6.3% negative.</p>
+            <p class="footnote mt-8 text-left">a - generated by GrooveHQ<br>b - analysed using <a href="https://doi.org/10.2478/seeur-2023-0043" target="_blank" class="text-blue-600 hover:underline">VADER</a> through a Python script: 81.7% positive, 12% neutral, 6.3% negative.</p>
         </section>
 
         <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
 
-        <section id="platform-stage-issues" class="mb-16">
-            <h2 class="text-3xl font-bold text-center mb-2 section-title">Platform Stage-related Ticket Queries </h2>
-            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
-                We analysed our support tickets by platform stage to identify where the highest volumes of queries occur. "Screening" (which includes Title and abstracts screening and Full text review stages) remains the most frequent query, followed closely by "Import" and "DE2", indicating key priority areas for our users. <strong>DE1 tagged tickets are steadily increasing, approaching the top platform stage-related issues in 5th place.</strong> 
+        <section id="groovehq-deep-dive" class="mb-16">
+            <h2 class="text-3xl font-bold text-left mb-2 section-title">2. GrooveHQ Deep Dive </h2>
+            <p class="text-left text-gray-600 mb-8">
+                Trends and insights from the GrooveHQ deep dive inbox analysis<br>
+                Stakeholders: All
             </p>
 
-    <canvas id="combinedChart"></canvas>
+            <h3 class="text-2xl font-bold text-left mb-2 section-title ml-8">2.0. Core Metrics and Performance Highlights</h3>
+            <p class="text-left text-gray-600 mb-8 ml-8">
+                Core metrics and performance highlights <br>
+                Stakeholders: All
+            </p>
 
-    <div class="legend-container">
-        <div class="legend-item">
-            <span class="legend-color-box" style="background-color: #586196;"></span>
-            General Queries (80%)
-        </div>
-        <div class="legend-item">
-            <span class="legend-color-box" style="background-color: #36a2eb;"></span>
-            Top 1 Non-general Query
-        </div>
-        <div class="legend-item">
-            <span class="legend-color-box" style="background-color: #4bc0c0;"></span>
-            Top 2 Non-general Query
-        </div>
-        <div class="legend-item">
-            <span class="legend-color-box" style="background-color: #ff6384;"></span>
-            Top 3 Non-general Query
-        </div>
-        <div class="legend-item">
-            <span class="legend-color-box" style="background-color: #9b59b6;"></span>
-            Other Queries
-        </div>
-    </div>
+            <h3 class="text-2xl font-bold text-left mb-2 section-title ml-8">2.1. Ticket Queries by Review Stage</h3>
+            <!-- New graph and description inserted here -->
+            <p class="text-left text-gray-600 mb-8 ml-8">
+                We analyzed our support tickets by platform stage to identify where the highest volumes of queries occur. "Screening" (which includes Title and abstracts screening and Full text review stages) remains the most frequent query, followed closely by "Import" and "DE2", indicating key priority areas for our users. <strong>DE1 tagged tickets are steadily increasing, approaching the top platform stage-related issues in 5th place.</strong>
+            </p>
+            <section class="card graph-container ml-8">
+                <div class="bar-wrapper">
+                    <div class="bar-label">Screening</div>
+                    <div class="bar-scale">
+                        <!-- Data for the bar and tooltip -->
+                        <div class="bar" style="width: calc((1425 / 1600) * 100%); background-color: #FF6347;" data-tooltip="1425 tickets"></div>
+                    </div>
+                </div>
 
-    <script>
-        window.addEventListener('load', function() {
-            const canvas = document.getElementById('combinedChart');
-            if (!canvas) {
-                console.error("Canvas element not found!");
-                return;
-            }
-            const ctx = canvas.getContext('2d');
+                <div class="bar-wrapper">
+                    <div class="bar-label">Import</div>
+                    <div class="bar-scale">
+                        <div class="bar" style="width: calc((1227 / 1600) * 100%); background-color: #FFA500;" data-tooltip="1227 tickets"></div>
+                    </div>
+                </div>
 
-            // Data for the combined stacked bar chart
-            const combinedData = [
-                {
-                    category: 'Screening',
-                    total: 1500,
-                    segments: [
-                        { label: 'General Queries', value: 1200, color: '#586196' },
-                        { label: 'Undo vote', value: 99, color: '#36a2eb' },
-                        { label: 'Reviewer mode', value: 81, color: '#4bc0c0' },
-                        { label: 'Sorting options', value: 45, color: '#ff6384' },
-                        { label: 'Other', value: 75, color: '#9b59b6' }
-                    ]
-                },
-                {
-                    category: 'Import',
-                    total: 1250,
-                    segments: [
-                        { label: 'General Queries', value: 1000, color: '#586196' },
-                        { label: 'Incompatible format', value: 125, color: '#36a2eb' },
-                        { label: 'Local issues', value: 34, color: '#4bc0c0' },
-                        { label: 'Missing info', value: 28, color: '#ff6384' },
-                        { label: 'Other', value: 63, color: '#9b59b6' }
-                    ]
-                },
-                {
-                    category: 'DE2',
-                    total: 700,
-                    segments: [
-                        { label: 'General Queries', value: 560, color: '#586196' },
-                        { label: 'Multiple templates', value: 47, color: '#36a2eb' },
-                        { label: 'PDF copy-paste', value: 37, color: '#4bc0c0' },
-                        { label: 'Load more', value: 21, color: '#ff6384' },
-                        { label: 'Other', value: 35, color: '#9b59b6' }
-                    ]
-                }
-            ];
+                <div class="bar-wrapper">
+                    <div class="bar-label">DE2</div>
+                    <div class="bar-scale">
+                        <div class="bar" style="width: calc((754 / 1600) * 100%); background-color: #6A5ACD;" data-tooltip="754 tickets"></div>
+                    </div>
+                </div>
 
-            let segmentHitBoxes = []; // To store the coordinates of each drawn segment for hit detection
-            let hoveredSegment = null; // Stores the segment object currently hovered
-            let animationFrameId = null; // For requestAnimationFrame
+                <div class="x-axis">
+                    <div class="x-axis-label">0</div>
+                    <div class="x-axis-label">200</div>
+                    <div class="x-axis-label">400</div>
+                    <div class="x-axis-label">600</div>
+                    <div class="x-axis-label">800</div>
+                    <div class="x-axis-label">1,000</div>
+                    <div class="x-axis-label">1,200</div>
+                    <div class="x-axis-label">1,400</div>
+                    <div class="x-axis-label">1,600</div>
+                </div>
+            </section>
 
-            function getCanvasDimensions() {
-                const dpr = window.devicePixelRatio || 1;
-                return {
-                    displayWidth: canvas.offsetWidth,
-                    displayHeight: canvas.offsetHeight,
-                    dpr: dpr,
-                    scaledWidth: canvas.offsetWidth * dpr,
-                    scaledHeight: canvas.offsetHeight * dpr
-                };
-            }
 
-            function drawCombinedChart() {
-                const { displayWidth, displayHeight, dpr, scaledWidth, scaledHeight } = getCanvasDimensions();
+            <h3 class="text-2xl font-bold text-left mb-2 mt-16 section-title ml-8">2.2. Breakdown of Query Types Per Stage (Top 3 Stages)</h3>
+            <!-- Moved paragraph and chart here -->
+            <p class="text-left text-gray-600 mb-8 ml-8">
+                Refine: Top 3 non-general queries for each review stage. General queries<sup>c</sup> and other non-top non-general queries are excluded. 
+            </p>
 
-                canvas.width = scaledWidth;
-                canvas.height = scaledHeight;
-                ctx.scale(dpr, dpr);
+            <div class="card p-6 ml-8"> <!-- Wrapped combinedChart in a card -->
+                <canvas id="combinedChart" width="800" height="400"></canvas>
 
-                ctx.clearRect(0, 0, displayWidth, displayHeight); // Clear using unscaled dimensions
-
-                const margin = { top: 30, right: 40, bottom: 40, left: 120 };
-                const chartWidth = displayWidth - margin.left - margin.right;
-                const chartHeight = displayHeight - margin.top - margin.bottom;
-
-                const barHeight = 40;
-                const barSpacing = 30;
-
-                const maxTotalValue = Math.max(...combinedData.map(d => d.total));
-                const xScale = chartWidth / maxTotalValue;
-
-                segmentHitBoxes = []; // Reset hitboxes for redraw
-
-                // Draw bars for each category
-                combinedData.forEach((categoryData, catIndex) => {
-                    const y = margin.top + catIndex * (barHeight + barSpacing);
-                    let currentX = margin.left;
-
-                    // Draw stacked segments
-                    categoryData.segments.forEach(segment => {
-                        const segmentWidth = segment.value * xScale;
-                        const segmentRect = {
-                            x: currentX,
-                            y: y,
-                            width: segmentWidth,
-                            height: barHeight,
-                            data: segment, // Store a reference to the segment data
-                            categoryTotal: categoryData.total // Store category total for percentage calculation in tooltip
-                        };
-                        segmentHitBoxes.push(segmentRect); // Store hitbox
-
-                        ctx.fillStyle = segment.color;
-                        ctx.fillRect(currentX, y, segmentWidth, barHeight);
-
-                        // Display percentage on the bar segment
-                        if (segmentWidth > 30) { // Only label if segment is wide enough
-                            const percentage = (segment.value / categoryData.total * 100).toFixed(1);
-                            ctx.fillStyle = '#FFFFFF';
-                            ctx.font = '12px Inter, sans-serif';
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillText(`${percentage}%`, currentX + segmentWidth / 2, y + barHeight / 2);
-                        }
-                        currentX += segmentWidth;
-                    });
-
-                    // Category Label (Y-axis)
-                    ctx.fillStyle = '#333333';
-                    ctx.font = 'bold 16px Inter, sans-serif';
-                    ctx.textAlign = 'right';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText(categoryData.category, margin.left - 10, y + barHeight / 2);
-
-                    // Total Value at the end of the bar (absolute number)
-                    // Adjusted X position to be further to the right of the bar
-                    ctx.fillStyle = '#333333';
-                    ctx.font = '14px Inter, sans-serif';
-                    ctx.textAlign = 'left';
-                    ctx.fillText(categoryData.total, margin.left + chartWidth + 10, y + barHeight / 2); // Moved right by chartWidth + 10
-                });
-
-                // X-axis (bottom)
-                ctx.strokeStyle = '#cccccc';
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(margin.left, margin.top + chartHeight + barHeight);
-                ctx.lineTo(margin.left + chartWidth, margin.top + chartHeight + barHeight);
-                ctx.stroke();
-
-                // X-axis labels
-                ctx.fillStyle = '#666666';
-                ctx.font = '12px Inter, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'top';
-                const numTicks = 5;
-                for (let i = 0; i <= numTicks; i++) {
-                    const tickValue = Math.round((maxTotalValue / numTicks) * i);
-                    const tickX = margin.left + tickValue * xScale;
-                    ctx.fillText(tickValue, tickX, margin.top + chartHeight + barHeight + 5);
-                }
-
-                // X-axis Title
-                ctx.fillStyle = '#333333';
-                ctx.font = 'bold 14px Inter, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'top';
-                ctx.fillText('Number of Tickets', margin.left + chartWidth / 2, margin.top + chartHeight + barHeight + 30);
-            }
-
-            // Function to draw the tooltip
-            function drawTooltip(x, y, segmentData) {
-                const percentage = (segmentData.data.value / segmentData.categoryTotal * 100).toFixed(1);
-                const text = `${segmentData.data.label}: ${segmentData.data.value} tickets (${percentage}%)`;
-                ctx.font = 'bold 16px Inter, sans-serif';
-                const textMetrics = ctx.measureText(text);
-                const textWidth = textMetrics.width;
-                const textHeight = 20;
-
-                const padding = 10;
-                const boxWidth = textWidth + padding * 2;
-                const boxHeight = textHeight + padding * 2;
-
-                // Adjust tooltip position to stay within canvas bounds
-                let tooltipX = x + 15;
-                let tooltipY = y - 10;
-
-                const { displayWidth, displayHeight } = getCanvasDimensions();
-                if (tooltipX + boxWidth > displayWidth) {
-                    tooltipX = x - boxWidth - 15;
-                }
-                if (tooltipY + boxHeight > displayHeight) {
-                    tooltipY = displayHeight - boxHeight - 5;
-                }
-                if (tooltipY < 0) {
-                    tooltipY = 5;
-                }
-
-                ctx.save();
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
-                ctx.beginPath();
-                ctx.roundRect(tooltipX, tooltipY, boxWidth, boxHeight, 5);
-                ctx.fill();
-
-                ctx.fillStyle = '#FFFFFF';
-                ctx.textAlign = 'left';
-                ctx.textBaseline = 'top';
-                ctx.fillText(text, tooltipX + padding, tooltipY + padding);
-                ctx.restore();
-            }
-
-            // Helper to get mouse position relative to canvas
-            function getMousePos(canvas, event) {
-                const rect = canvas.getBoundingClientRect();
-                return {
-                    x: (event.clientX - rect.left),
-                    y: (event.clientY - rect.top)
-                };
-            }
-
-            // Main animation loop for tooltip
-            function animate() {
-                if (hoveredSegment) {
-                    drawCombinedChart(); // Redraw the base chart to clear any previous tooltip
-                    drawTooltip(mouseX, mouseY, hoveredSegment); // Draw the new tooltip
-                } else {
-                    drawCombinedChart(); // If no segment is hovered, ensure the chart is clean
-                }
-                animationFrameId = requestAnimationFrame(animate);
-            }
-
-            // Event listener for mouse movement
-            canvas.addEventListener('mousemove', function(event) {
-                const pos = getMousePos(canvas, event);
-                mouseX = pos.x;
-                mouseY = pos.y;
-
-                let currentHovered = null;
-                for (const segmentRect of segmentHitBoxes) {
-                    if (mouseX >= segmentRect.x && mouseX <= segmentRect.x + segmentRect.width &&
-                        mouseY >= segmentRect.y && mouseY <= segmentRect.y + segmentRect.height) {
-                        currentHovered = segmentRect;
-                        break;
-                    }
-                }
-
-                if (currentHovered !== hoveredSegment) {
-                    hoveredSegment = currentHovered;
-                    if (animationFrameId) {
-                        cancelAnimationFrame(animationFrameId);
-                    }
-                    if (hoveredSegment) {
-                        animationFrameId = requestAnimationFrame(animate);
-                    } else {
-                        drawCombinedChart();
-                        animationFrameId = null;
-                    }
-                }
-            });
-
-            // Event listener for mouse leaving the canvas
-            canvas.addEventListener('mouseout', function() {
-                hoveredSegment = null;
-                if (animationFrameId) {
-                    cancelAnimationFrame(animationFrameId);
-                    animationFrameId = null;
-                }
-                drawCombinedChart();
-            });
-
-            // Initial draw
-            drawCombinedChart();
-
-            // Redraw on window resize
-            window.addEventListener('resize', drawCombinedChart);
-        });
-    </script>
-</section>
-
-            <!-- Emerging Trend Box - now logically placed below the new charts -->
-            <div class="mt-8 bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-6 rounded-lg shadow-md">
-                <div class="flex items-center">
-                    <div class="text-3xl mr-4">&#128200;</div>
-                    <div>
-                        <h3 class="font-bold text-xl">Emerging Trend to Watch</h3>
-                        <p class="text-md mt-1">DE1 tagged tickets are steadily increasing, approaching the top 3 platform stage-related issues. This requires proactive investigation to maintain our high standards of user experience.</p>
+                <div class="legend-container">
+                    <div class="legend-item">
+                        <span class="legend-color-box" style="background-color: #36a2eb;"></span>
+                        Top 1 
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color-box" style="background-color: #4bc0c0;"></span>
+                        Top 2 
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color-box" style="background-color: #ff6384;"></span>
+                        Top 3 
                     </div>
                 </div>
             </div>
+            <p class="footnote mt-8 text-left ml-8">c - General queries are tickets that do not require investigation or resolution, including general questions, requests already covered by existing processes or the Knowledge Base (e.g., how-to articles), expected platform behavior, CM requests outside standard services, tickets with no user follow-up, cases without platform functionality issues, external user issues, GrooveHQ autotagging errors, spam emails, and tickets incorrectly tagged by CMs.</p>
+
+            <script>
+                window.addEventListener('load', function() {
+                    const canvas = document.getElementById('combinedChart');
+                    if (!canvas) {
+                        console.error("Canvas element for combinedChart not found!");
+                        return;
+                    }
+                    const ctx = canvas.getContext('2d');
+
+                    // Original data structure
+                    const rawCombinedData = [
+                        {
+                            category: 'Screening',
+                            segments: [
+                                { label: 'General Queries', value: 1200, color: '#586196' },
+                                { label: 'Undo vote', value: 99, color: '#36a2eb' },
+                                { label: 'Reviewer mode', value: 81, color: '#4bc0c0' },
+                                { label: 'Sorting options', value: 45, color: '#ff6384' },
+                                { label: 'Other', value: 75, color: '#9b59b6' }
+                            ]
+                        },
+                        {
+                            category: 'Import',
+                            segments: [
+                                { label: 'General Queries', value: 1000, color: '#586196' },
+                                { label: 'Incompatible format', value: 125, color: '#36a2eb' },
+                                { label: 'Local issues', value: 34, color: '#4bc0c0' },
+                                { label: 'Missing info', value: 28, color: '#ff6384' },
+                                { label: 'Other', value: 63, color: '#9b59b6' }
+                            ]
+                        },
+                        {
+                            category: 'DE2',
+                            segments: [
+                                { label: 'General Queries', value: 560, color: '#586196' },
+                                { label: 'Multiple templates', value: 47, color: '#36a2eb' },
+                                { label: 'PDF copy-paste', value: 37, color: '#4bc0c0' },
+                                { label: 'Load more', value: 21, color: '#ff6384' },
+                                { label: 'Other', value: 35, color: '#9b59b6' }
+                            ]
+                        }
+                    ];
+
+                    // Process data to keep only top 3 non-general queries and calculate new total
+                    const combinedData = rawCombinedData.map(categoryData => {
+                        // Filter out 'General Queries' and 'Other'
+                        const filteredSegments = categoryData.segments.filter(s =>
+                            s.label !== 'General Queries' && s.label !== 'Other'
+                        );
+
+                        // Sort by value descending and take top 3
+                        const top3Segments = filteredSegments.sort((a, b) => b.value - a.value).slice(0, 3);
+
+                        // Recalculate total based on top 3
+                        const newTotal = top3Segments.reduce((sum, s) => sum + s.value, 0);
+
+                        return {
+                            category: categoryData.category,
+                            total: newTotal, // This is the sum of the top 3 segments
+                            segments: top3Segments
+                        };
+                    });
+
+
+                    let segmentHitBoxes = []; // To store the coordinates of each drawn segment for hit detection
+                    let hoveredSegment = null; // Stores the segment object currently hovered
+                    let animationFrameId = null; // For requestAnimationFrame
+                    let mouseX = 0; // Declare mouseX
+                    let mouseY = 0; // Declare mouseY
+
+                    function getCanvasDimensions() {
+                        const dpr = window.devicePixelRatio || 1;
+                        const rect = canvas.getBoundingClientRect(); // Use getBoundingClientRect for reliable dimensions
+                        let displayWidth = rect.width;
+                        let displayHeight = rect.height;
+                        
+                        // Fallback if dimensions are still zero
+                        if (displayWidth === 0) displayWidth = 600; // sensible default
+                        if (displayHeight === 0) displayHeight = 400; // sensible default
+
+                        return {
+                            displayWidth: displayWidth,
+                            displayHeight: displayHeight,
+                            dpr: dpr,
+                            scaledWidth: displayWidth * dpr,
+                            scaledHeight: displayHeight * dpr
+                        };
+                    }
+
+                    function drawCombinedChart() {
+                        const { displayWidth, displayHeight, dpr, scaledWidth, scaledHeight } = getCanvasDimensions();
+
+                        canvas.width = scaledWidth;
+                        canvas.height = scaledHeight;
+                        ctx.scale(dpr, dpr);
+
+                        ctx.clearRect(0, 0, displayWidth, displayHeight); // Clear using unscaled dimensions
+
+                        const margin = { top: 30, right: 40, bottom: 40, left: 120 };
+                        const chartWidth = displayWidth - margin.left - margin.right;
+                        const chartHeight = displayHeight - margin.top - margin.bottom;
+
+                        const barHeight = 40;
+                        const barSpacing = 30;
+
+                        // Max total value is now based on the sum of top 3 for each category
+                        const maxTotalValue = Math.max(...combinedData.map(d => d.total));
+                        const xScale = chartWidth / maxTotalValue;
+
+                        segmentHitBoxes = []; // Reset hitboxes for redraw
+
+                        // Draw bars for each category
+                        combinedData.forEach((categoryData, catIndex) => {
+                            const y = margin.top + catIndex * (barHeight + barSpacing);
+                            let currentX = margin.left;
+
+                            categoryData.segments.forEach(segment => {
+                                const segmentWidth = segment.value * xScale;
+                                const segmentRect = {
+                                    x: currentX,
+                                    y: y,
+                                    width: segmentWidth,
+                                    height: barHeight,
+                                    data: segment, // Store a reference to the segment data
+                                    categoryTotal: categoryData.total // Store category total for percentage calculation in tooltip
+                                };
+                                segmentHitBoxes.push(segmentRect); // Store hitbox
+
+                                ctx.fillStyle = segment.color;
+                                ctx.fillRect(currentX, y, segmentWidth, barHeight);
+
+                                // Display percentage on the bar segment (based on new total)
+                                if (segmentWidth > 30) { // Only label if segment is wide enough
+                                    const percentage = (segment.value / categoryData.total * 100).toFixed(1);
+                                    ctx.fillStyle = '#FFFFFF';
+                                    ctx.font = '12px Inter, sans-serif';
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'middle';
+                                    ctx.fillText(`${percentage}%`, currentX + segmentWidth / 2, y + barHeight / 2);
+                                }
+                                currentX += segmentWidth;
+                            });
+
+                            // Category Label (Y-axis)
+                            ctx.fillStyle = '#333333';
+                            ctx.font = 'bold 16px Inter, sans-serif';
+                            ctx.textAlign = 'right';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(categoryData.category, margin.left - 10, y + barHeight / 2);
+
+                            // Removed display of total value at the end of the bar as per request
+                        });
+
+                        // X-axis (bottom)
+                        ctx.strokeStyle = '#cccccc';
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(margin.left, margin.top + combinedData.length * (barHeight + barSpacing) - barSpacing + barHeight);
+                        ctx.lineTo(margin.left + chartWidth, margin.top + combinedData.length * (barHeight + barSpacing) - barSpacing + barHeight);
+                        ctx.stroke();
+
+                        // X-axis labels
+                        ctx.fillStyle = '#666666';
+                        ctx.font = '12px Inter, sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'top';
+                        const numTicks = 5;
+                        for (let i = 0; i <= numTicks; i++) {
+                            const tickValue = Math.round((maxTotalValue / numTicks) * i);
+                            const tickX = margin.left + tickValue * xScale;
+                            ctx.fillText(tickValue, tickX, margin.top + combinedData.length * (barHeight + barSpacing) - barSpacing + barHeight + 5);
+                        }
+
+                        // X-axis Title
+                        ctx.fillStyle = '#333333';
+                        ctx.font = 'bold 14px Inter, sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'top';
+                        ctx.fillText('Number of Tickets (Top 3 Non-General Queries)', margin.left + chartWidth / 2, margin.top + combinedData.length * (barHeight + barSpacing) - barSpacing + barHeight + 30);
+                    }
+
+                    // Function to draw the tooltip
+                    function drawTooltip(x, y, segmentData) {
+                        const percentage = (segmentData.data.value / segmentData.categoryTotal * 100).toFixed(1);
+                        const text = `${segmentData.data.label}: ${segmentData.data.value} tickets (${percentage}%)`;
+                        ctx.font = 'bold 16px Inter, sans-serif';
+                        const textMetrics = ctx.measureText(text);
+                        const textWidth = textMetrics.width;
+                        const textHeight = 20;
+
+                        const padding = 10;
+                        const boxWidth = textWidth + padding * 2;
+                        const boxHeight = textHeight + padding * 2;
+
+                        // Adjust tooltip position to stay within canvas bounds
+                        let tooltipX = x + 15;
+                        let tooltipY = y - 10;
+
+                        const { displayWidth, displayHeight } = getCanvasDimensions();
+                        if (tooltipX + boxWidth > displayWidth) {
+                            tooltipX = x - boxWidth - 15;
+                        }
+                        if (tooltipY + boxHeight > displayHeight) {
+                            tooltipY = displayHeight - boxHeight - 5;
+                        }
+                        if (tooltipY < 0) {
+                            tooltipY = 5;
+                        }
+
+                        ctx.save();
+                        ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
+                        ctx.beginPath();
+                        /*
+                         * Using roundRect for rounded corners - requires Canvas API 2D Context Level 2.
+                         * Added a fallback for older browsers.
+                         */
+                        if (typeof ctx.roundRect === 'function') {
+                            ctx.roundRect(tooltipX, tooltipY, boxWidth, boxHeight, 5);
+                        } else {
+                            // Fallback for older browsers: just a rectangle
+                            ctx.rect(tooltipX, tooltipY, boxWidth, boxHeight);
+                        }
+                        ctx.fill();
+
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'top';
+                        ctx.fillText(text, tooltipX + padding, tooltipY + padding);
+                        ctx.restore();
+                    }
+
+                    // Helper to get mouse position relative to canvas
+                    function getMousePos(canvas, event) {
+                        const rect = canvas.getBoundingClientRect();
+                        return {
+                            x: (event.clientX - rect.left),
+                            y: (event.clientY - rect.top)
+                        };
+                    }
+
+                    // Main animation loop for tooltip
+                    function animateLoop() { // Renamed to avoid conflict with `animate` in other script
+                        if (hoveredSegment) {
+                            drawCombinedChart(); // Redraw the base chart to clear any previous tooltip
+                            drawTooltip(mouseX, mouseY, hoveredSegment); // Draw the new tooltip
+                        } else {
+                            drawCombinedChart(); // If no segment is hovered, ensure the chart is clean
+                        }
+                        animationFrameId = requestAnimationFrame(animateLoop);
+                    }
+
+                    // Event listener for mouse movement
+                    canvas.addEventListener('mousemove', function(event) {
+                        const pos = getMousePos(canvas, event);
+                        mouseX = pos.x;
+                        mouseY = pos.y;
+
+                        let currentHovered = null;
+                        for (const segmentRect of segmentHitBoxes) {
+                            if (mouseX >= segmentRect.x && mouseX <= segmentRect.x + segmentRect.width &&
+                                mouseY >= segmentRect.y && mouseY <= segmentRect.y + segmentRect.height) {
+                                currentHovered = segmentRect;
+                                break;
+                            }
+                        }
+
+                        if (currentHovered !== hoveredSegment) {
+                            hoveredSegment = currentHovered;
+                            if (animationFrameId) {
+                                cancelAnimationFrame(animationFrameId);
+                            }
+                            if (hoveredSegment) {
+                                animationFrameId = requestAnimationFrame(animateLoop);
+                            } else {
+                                drawCombinedChart();
+                                animationFrameId = null;
+                            }
+                        }
+                    });
+
+                    // Event listener for mouse leaving the canvas
+                    canvas.addEventListener('mouseout', function() {
+                        hoveredSegment = null;
+                        if (animationFrameId) {
+                            cancelAnimationFrame(animationFrameId);
+                            animationFrameId = null;
+                        }
+                        drawCombinedChart();
+                    });
+
+                    // Initial draw
+                    drawCombinedChart();
+
+                    // Redraw on window resize
+                    window.addEventListener('resize', drawCombinedChart);
+                });
+            </script>
         </section>
 
-        <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
-
-        <section id="pain-points" class="mb-16">
-            <h2 class="text-3xl font-bold text-center mb-2 section-title">Users' Pain Points</h2>
-            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+        <!-- Moved sections 2.3, 2.4, 2.5, 2.6 inside the main "groovehq-deep-dive" section -->
+        <section id="pain-points" class="mb-16 ml-8">
+            <h3 class="text-2xl font-bold text-left mb-2 section-title">2.3. Users' Pain Points</h3>
+            <!-- Paragraph now left-aligned and without max-width -->
+            <p class="text-left text-gray-600 mb-8">
                 Areas of frustration and friction <br>
                 Stakeholders: Product and Engineering, Academic Success
             </p>
@@ -502,74 +772,37 @@
                 <div class="card">
                     <h3 class="text-2xl font-bold mb-4" style="color: #003f5c;">Account Merge Requests</h3>
                     <ul class="space-y-4 text-gray-700">
-                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ef5675;"></span><span><strong class="block">Users creating multiple accounts (individual and institution) and then asking to merge accounts.</strong><br> CM Impact rating<sup>c</sup>: 3<br>Ticket Reach<sup>d</sup>: Approx 80% of non-general query<sup>e</sup> related "Acct mgmt"-tagged tickets.</span></li>
+                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ef5675;">&#9679;</span><span><strong class="block">Users creating multiple accounts (individual and institution) and then asking to merge accounts.</strong><br> CM Impact rating<sup>d</sup>: 3<br>Ticket Reach<sup>e</sup>: Approx 80% of non-general query<sup>c</sup> related "Acct mgmt"-tagged tickets.</span></li>
                     </ul>
                 </div>
                 <div class="card">
                     <h3 class="text-2xl font-bold mb-4" style="color: #003f5c;">Invitation Failures</h3>
                     <ul class="space-y-4 text-gray-700">
-                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ff764a;"></span><span><strong class="block">Organisational membership and review invitations expiring without being clicked or not reaching the user in the first place.</strong><br> CM Impact rating<sup>c</sup>: 3<br>Ticket Reach<sup>d</sup>: Approx 80% of non-general query<sup>e</sup> related "Invitation Issue"-tagged tickets.</span></li>
+                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ff764a;">&#9679;</span><span><strong class="block">Organisational membership and review invitations expiring without being clicked or not reaching the user in the first first place.</strong><br> CM Impact rating<sup>e</sup>: 3<br>Ticket Reach<sup>d</sup>: Approx 80% of non-general query<sup>c</sup> related "Invitation Issue"-tagged tickets.</span></li>
                     </ul>
                 </div>
                 <div class="card">
                     <h3 class="text-2xl font-bold mb-4" style="color: #003f5c;">User-enabled Review Reset</h3>
                     <ul class="space-y-4 text-gray-700">
-                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ffa600;"></span><span><strong class="block">Users want to reset their own reviews because of wrong import or change in the search strategy.</strong><br> CM Impact rating<sup>c</sup>: 3<br>Ticket Reach<sup>d</sup>: Approx 80% of non-general query<sup>e</sup> related "Reset"-tagged tickets.</span></li>
-                    </ul></span></li>
+                        <li class="flex items-start"><span class="font-bold text-lg mr-3" style="color: #ffa600;">&#9679;</span><span><strong class="block">Users want to reset their own reviews because of wrong import or change in the search strategy.</strong><br> CM Impact rating<sup>d</sup>: 3<br>Ticket Reach<sup>e</sup>: Approx 80% of non-general query<sup>c</sup> related "Reset"-tagged tickets.</span></li>
                     </ul>
                 </div>
             </div>
-        <p class="text-sm text-gray-500 mt-8 text-center">c - Impact ratings: 1 = Low impact (minor annoyance, can wait); 2 = Medium impact (some disruption, feasible workaround available that is not time consuming for the CM or the user); 3 = High impact (blocks user from access or resuming work, negatively affects trust, a strong valid need for the user, negatively impacts the Community team's efficiency)<br>d - The number of GrooveHQ tickets reported per pain point<br>e - General queries are tickets that do not require investigation or resolution, including general questions, requests already covered by existing processes or the Knowledge Base (e.g., how-to articles), expected platform behavior, CM requests outside standard services, tickets with no user follow-up, cases without platform functionality issues, external user issues, GrooveHQ autotagging errors, spam emails, and tickets incorrectly tagged by CMs.</p>  
+            <p class="footnote mt-8 text-left">c - General queries are tickets that do not require investigation or resolution, including general questions, requests already covered by existing processes or the Knowledge Base (e.g., how-to articles), expected platform behavior, CM requests outside standard services, tickets with no user follow-up, cases without platform functionality issues, external user issues, GrooveHQ autotagging errors, spam emails, and tickets incorrectly tagged by CMs.<br>d - Impact ratings: 1 = Low impact (minor annoyance, can wait); 2 = Medium impact (some disruption, feasible workaround available that is not time consuming for the CM or the user); 3 = High impact (blocks user from access or resuming work, negatively affects trust, a strong valid need for the user, negatively impacts the Community team's efficiency)<br>e - The number of GrooveHQ tickets reported per pain point<br></p>
         </section>
 
-        <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
-
-                <section id="audits" class="mb-16">
-            <!-- IMPORTANT: For proper styling, ensure the Tailwind CSS CDN script is in your main HTML <head>:
-            <script src="https://cdn.tailwindcss.com"></script>
-            AND the Inter font link:
-            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-            -->
-            <style>
-                /* Styles specific to this section. Consider moving these to your main CSS file for better organization. */
-                .card {
-                    background-color: #ffffff;
-                    border-radius: 0.75rem; /* Rounded corners */
-                    padding: 2rem;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); /* Subtle shadow */
-                    transition: transform 0.2s ease-in-out; /* Smooth hover effect */
-                    display: flex; /* Use flexbox for centering content */
-                    flex-direction: column; /* Stack content vertically */
-                    align-items: center; /* Center horizontally */
-                    justify-content: center; /* Center vertically */
-                    min-height: 450px; /* Increased min-height to ensure more space for the chart */
-                }
-                .card:hover {
-                    transform: translateY(-5px); /* Lift card slightly on hover */
-                }
-                .section-title {
-                    color: #2c3e50; /* Darker title color */
-                }
-                /* Canvas styling for responsiveness */
-                canvas {
-                    width: 100%; /* Ensure canvas takes full width of its container */
-                    height: 400px; /* Set a more generous default height for the canvas itself */
-                    display: block;
-                    margin: 0 auto;
-                }
-            </style>
-        
-            <h2 class="text-3xl font-bold text-center mb-2 section-title">Monthly Audit of User Wishlist and Feedback</h2>
-            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+        <section id="audits" class="mb-16 ml-8">
+            <h3 class="text-2xl font-bold text-left mb-2 section-title">2.4. Wishlist and Feedback</h3>
+            <!-- Paragraph now left-aligned and without max-width -->
+            <p class="text-left text-gray-600 mb-8">
                 What our users are asking for <br>
                 Stakeholders: Product and Engineering, Leadership
             </p>
-            <div class="flex justify-center">
-                <div class="card w-full md:w-3/4 lg:w-2/3">
-                    <h3 class="text-xl font-bold mb-4 flex items-center section-title">
+            <div class="card w-full md:w-3/4 lg:w-2/3 p-6"> <!-- Wrapped feedbackChart in a card with padding -->
+                <h3 class="text-xl font-bold mb-4 flex items-center section-title">
                         <span class="text-2xl mr-2">&#128202;</span>Distribution of Feature Requests, Feedback, and DE1
                     </h3>
-                    <canvas id="feedbackChart"></canvas>
+                    <canvas id="feedbackChart" width="600" height="400"></canvas>
                     <div class="flex flex-wrap justify-center mt-4 text-gray-700">
                         <div class="flex items-center mx-2 mb-2">
                             <span class="inline-block w-4 h-4 rounded-full bg-[#007bff] mr-2"></span>
@@ -585,239 +818,275 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        
+            
             <script>
                 // JavaScript for drawing the pie chart.
-                // It's recommended to place this in an external .js file if your project is large.
                 window.addEventListener('load', function() { // Use 'load' event listener
                     const canvas = document.getElementById('feedbackChart');
+                    if (!canvas) {
+                        console.error("Canvas element for feedbackChart not found!");
+                        return;
+                    }
                     const ctx = canvas.getContext('2d');
-        
+            
+                    function getCanvasDimensionsForFeedbackChart(canvas, ctx) {
+                        const dpr = window.devicePixelRatio || 1;
+                        let displayWidth = canvas.offsetWidth; // Use offsetWidth as it often includes padding/border
+                        let displayHeight = canvas.offsetHeight; // Use offsetHeight
+
+                        // Fallback to explicit HTML attributes if offsetWidth/Height are zero
+                        if (displayWidth === 0 && canvas.getAttribute('width')) {
+                            displayWidth = parseInt(canvas.getAttribute('width'), 10);
+                        }
+                        if (displayHeight === 0 && canvas.getAttribute('height')) {
+                            displayHeight = parseInt(canvas.getAttribute('height'), 10);
+                        }
+
+                        // Ensure minimum reasonable dimensions if still zero
+                        if (displayWidth === 0) displayWidth = 600;
+                        if (displayHeight === 0) displayHeight = 400;
+
+                        // Set canvas actual drawing size for high-DPI
+                        canvas.width = displayWidth * dpr;
+                        canvas.height = displayHeight * dpr;
+
+                        // Apply scaling to context for crisp rendering
+                        ctx.scale(dpr, dpr);
+                        
+                        // Clear canvas before drawing
+                        ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr); // Clear using unscaled dimensions
+                        
+                        // Calculate chart dimensions and center based on *unscaled* display dimensions
+                        const mainRadius = Math.min(displayWidth, displayHeight) / 2 * 0.7; // 70% of min dimension
+                        const mainCenterX = displayWidth / 2;
+                        const mainCenterY = displayHeight / 2;
+                        
+                        return {
+                            displayWidth,
+                            displayHeight,
+                            centerX: mainCenterX,
+                            centerY: mainCenterY,
+                            radius: mainRadius
+                        };
+                    }
+
                     // Data for the pie chart, including an example for each category
                     const data = [
                         { label: 'Functionality Issues', value: 25, color: '#007bff', example: 'Load more: 2' },
                         { label: 'Wishlist Items', value: 50, color: '#ffc107', example: 'Reverse "most relevant" sorting' },
                         { label: 'Released by P&E Team', value: 25, color: '#28a745', example: 'Export to Excel (DE1)' }
                     ];
-        
+            
                     function drawChart() {
-                        // Determine the effective dimensions of the canvas element from CSS
-                        let displayWidth = canvas.offsetWidth;
-                        let displayHeight = canvas.offsetHeight;
-        
-                        // Fallback for cases where offsetWidth/offsetHeight might be 0 or too small
-                        if (displayWidth === 0) displayWidth = 600; // Default width
-                        if (displayHeight === 0) displayHeight = 400; // Default height from CSS `canvas` rule
-        
-                        // Adjust canvas size for high-DPI displays (retina)
-                        const dpr = window.devicePixelRatio || 1;
-                        canvas.width = displayWidth * dpr;
-                        canvas.height = displayHeight * dpr;
-                        ctx.scale(dpr, dpr); // Apply scaling to context
-        
-                        // Clear canvas before drawing
-                        ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr); // Clear using unscaled dimensions
-        
-                        // Calculate chart dimensions and center based on *unscaled* display dimensions
-                        const chartWidth = displayWidth;
-                        const chartHeight = displayHeight;
-        
-                        const radiusMultiplier = 0.9; // Increased from 0.8 to make chart even bigger
-                        const mainRadius = Math.min(chartWidth / 2, chartHeight / 2) * radiusMultiplier;
-                        const mainCenterX = chartWidth / 2;
-                        const mainCenterY = chartHeight / 2;
-        
-                        let startAngle = 0;
-                        const total = data.reduce((sum, item) => sum + item.value, 0);
-        
-                        // Draw pie slices and percentages
+                        // Get dimensions and scale context before clearing and drawing
+                        const { displayWidth, displayHeight, centerX, centerY, radius } = getCanvasDimensionsForFeedbackChart(canvas, ctx);
+                        
+                        ctx.clearRect(0, 0, displayWidth, displayHeight); // Clear canvas using unscaled dimensions
+            
+                        let currentAngle = 0;
+                        const totalValue = data.reduce((sum, item) => sum + item.value, 0);
+            
                         data.forEach(item => {
-                            const sliceAngle = (item.value / total) * Math.PI * 2;
-                            const endAngle = startAngle + sliceAngle;
-        
-                            ctx.fillStyle = item.color;
+                            const sliceAngle = (item.value / totalValue) * 2 * Math.PI;
+            
                             ctx.beginPath();
-                            ctx.moveTo(mainCenterX, mainCenterY);
-                            ctx.arc(mainCenterX, mainCenterY, mainRadius, startAngle, endAngle);
+                            ctx.moveTo(centerX, centerY);
+                            ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
                             ctx.closePath();
+                            ctx.fillStyle = item.color;
                             ctx.fill();
-        
-                            // Draw percentage text inside slice
-                            const textAngle = startAngle + sliceAngle / 2;
-                            const textX = mainCenterX + Math.cos(textAngle) * (mainRadius / 2);
-                            const textY = mainCenterY + Math.sin(textAngle) * (mainRadius / 2);
-        
-                            ctx.fillStyle = '#ffffff';
+            
+                            // Draw text labels
+                            const textAngle = currentAngle + sliceAngle / 2;
+                            const textRadius = radius * 0.7; // Position text slightly inside the slice
+                            const textX = centerX + Math.cos(textAngle) * textRadius;
+                            const textY = centerY + Math.sin(textAngle) * textRadius;
+            
+                            ctx.fillStyle = '#FFFFFF';
                             ctx.font = 'bold 14px Inter, sans-serif';
                             ctx.textAlign = 'center';
                             ctx.textBaseline = 'middle';
                             ctx.fillText(`${item.value}%`, textX, textY);
-        
-                            startAngle = endAngle;
-                        });
-        
-                        // Draw lines and external example labels
-                        startAngle = 0; // Reset start angle for drawing lines
-                        const radialExtension = 30; // How far line extends radially from mainRadius (increased)
-                        const elbowOffset = 25; // Short horizontal/vertical offset for the elbow (increased)
-                        const horizontalFinalExtension = 60; // Length of the horizontal segment after elbow (increased)
-                        const textLineGap = 8; // Gap between line end and text (increased)
-        
-                        data.forEach(item => {
-                            const sliceAngle = (item.value / total) * Math.PI * 2;
-                            const midAngle = startAngle + sliceAngle / 2;
-        
-                            // Point 1: On circumference
-                            const p1X = mainCenterX + Math.cos(midAngle) * mainRadius;
-                            const p1Y = mainCenterY + Math.sin(midAngle) * mainRadius;
-        
-                            // Point 2: Radial extension
-                            const p2X = mainCenterX + Math.cos(midAngle) * (mainRadius + radialExtension);
-                            const p2Y = mainCenterY + Math.sin(midAngle) * (mainRadius + radialExtension);
-        
-                            // Point 3: Elbow (horizontal offset from P2)
-                            let p3X, p3Y = p2Y; // p3Y is same as p2Y for horizontal elbow
-                            let textAlign;
-        
-                            // Adjust elbow direction based on horizontal position
-                            if (midAngle > Math.PI / 2 && midAngle < 3 * Math.PI / 2) { // Left half
-                                p3X = p2X - elbowOffset; // Move elbow left
-                                textAlign = 'right';
-                            } else { // Right half
-                                p3X = p2X + elbowOffset; // Move elbow right
-                                textAlign = 'left';
-                            }
-        
-                            // Point 4: Final horizontal segment to text anchor
-                            let textAnchorX = p3X;
-                            if (textAlign === 'right') {
-                                 textAnchorX -= horizontalFinalExtension;
-                            } else {
-                                 textAnchorX += horizontalFinalExtension;
-                            }
-        
-                            ctx.strokeStyle = '#333333';
-                            ctx.lineWidth = 1.5;
-                            ctx.beginPath();
-                            ctx.moveTo(p1X, p1Y); // Start at circumference
-                            ctx.lineTo(p2X, p2Y); // Point 2: Radial extension
-                            ctx.lineTo(p3X, p3Y); // Point 3: Elbow (horizontal offset from P2)
-                            ctx.lineTo(textAnchorX, p3Y); // Point 4: Final horizontal segment to text anchor
-                            ctx.stroke();
-        
-                            // Draw example text
-                            ctx.fillStyle = '#333333';
-                            ctx.font = '12px Inter, sans-serif';
-                            ctx.textAlign = textAlign;
-                            ctx.textBaseline = 'middle';
-        
-                            const words = item.example.split(' ');
-                            let line = '';
-                            let lines = [];
-                            const lineHeight = 16;
-                            // Adjusted maxTextWidth to account for the total horizontal space taken by the line and textLineGap
-                            const maxTextWidth = (chartWidth / 2) - (mainRadius + radialExtension + elbowOffset + horizontalFinalExtension + textLineGap);
-        
-                            for (let n = 0; n < words.length; n++) {
-                                let testLine = line + words[n] + ' ';
-                                let metrics = ctx.measureText(testLine);
-                                let testWidth = metrics.width;
-                                if (testWidth > maxTextWidth && n > 0) {
-                                    lines.push(line);
-                                    line = words[n] + ' ';
-                                } else {
-                                    line = testLine;
-                                }
-                            }
-                            lines.push(line);
-        
-                            let currentTextY = p3Y - (lines.length - 1) * lineHeight / 2;
-                            lines.forEach((lineText, index) => {
-                                // Position text relative to textAnchorX
-                                const finalX = textAnchorX + (textAlign === 'right' ? -textLineGap : textLineGap);
-                                ctx.fillText(lineText.trim(), finalX, currentTextY + index * lineHeight);
-                            });
-        
-                            startAngle += sliceAngle;
+            
+                            currentAngle += sliceAngle;
                         });
                     }
-        
-                    // Initial draw
-                    drawChart();
-        
-                    // Resize the canvas and redraw the chart when the window is resized
-                    window.addEventListener('resize', () => {
-                        drawChart(); // Recalculate and redraw
-                    });
+            
+                    // Wrap the initial draw in a setTimeout to ensure layout is fully computed
+                    setTimeout(() => {
+                        drawChart();
+                    }, 0); 
+            
+                    // Redraw on window resize
+                    window.addEventListener('resize', drawChart);
                 });
             </script>
         </section>
 
-
-        <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
-
-        <section id="domain-frequency" class="mb-16">
-            <h2 class="text-3xl font-bold text-center mb-2 section-title">Regional and Institutional Insights</h2>
-            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
-                Top 3 email domains by region <br>
-                Stakeholders: Sales, Academic Success, Marketing
-            </p>         
-                    <!-- Chart 1: Regional and Institutional Domains -->
-                    <div class="chart-wrapper mx-auto mb-8">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Regional and Institutional Domains</h3>
-                        <div class="relative" style="height: 400px;">
-                            <canvas id="regionalInstitutionalChart"></canvas>
-                        </div>
-                    </div>
-                
-                    <!-- Chart 2: General Email Providers -->
-                    <div class="chart-wrapper mx-auto">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">General Email Providers</h3>
-                        <div class="relative" style="height: 200px;">
-                            <canvas id="generalEmailChart"></canvas>
-                        </div>
-                    </div>
+        <section id="regional-distribution" class="mb-16 ml-8">
+            <h3 class="text-2xl font-bold text-left mb-4 section-title">2.5. Regional Insights</h3>
+            <p class="text-left text-gray-600 mb-8"> <!-- Removed max-w-3xl mx-auto for left alignment -->
+                This pie chart illustrates the geographical distribution of our ticket senders based on the email domains.
+            </p>
+            
+            <div class="card p-6 flex justify-start items-center"> <!-- Added card class and padding -->
+                <canvas id="regionalChart" width="600" height="500"></canvas>
+            </div>
+            
+            <div class="flex flex-wrap justify-center mt-4 text-gray-700">
+                <!-- Legend items based on the chart's data -->
+                <div class="legend-item">
+                    <span class="legend-color-box" style="background-color: #1f77b4;"></span>
+                    NA (34.5%)
                 </div>
-                
-                <!-- Tailwind CSS CDN (should ideally be in your main document's <head>) -->
-                <script src="https://cdn.tailwindcss.com"></script>
-                <!-- Chart.js CDN (should ideally be in your main document's <head>) -->
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                
-                <style>
-                    /* Custom styles for better chart presentation */
-                    .chart-wrapper {
-                        background-color: #ffffff;
-                        border-radius: 12px;
-                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                        padding: 24px;
-                        width: 100%;
-                        max-width: 900px; /* Max width for larger screens */
-                        box-sizing: border-box;
+                <div class="legend-item">
+                    <span class="legend-color-box" style="background-color: #ff7f0e;"></span>
+                    EMEA (25.5%)
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color-box" style="background-color: #2ca02c;"></span>
+                    APAC (19.7%)
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color-box" style="background-color: #d62728;"></span>
+                    Unknown<sup>f</sup>&nbsp;(12.1%)
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color-box" style="background-color: #9467bd;"></span>
+                    ROW (8.3%)
+                </div>
+            </div>
+            <p class="footnote mt-8 text-left">f - Generic email providers such as gmail.com, yahoo.com, hotmail.com, etc.</p>
+            
+            <script>
+                window.addEventListener('load', function() {
+                    const canvas = document.getElementById('regionalChart');
+                    const ctx = canvas.getContext('2d');
+            
+                    const data = [
+                        { label: 'NA', value: 34.5, users: 6770, color: '#1f77b4', example: 'NA: 6770 users' },
+                        { label: 'EMEA', value: 25.5, users: 4997, color: '#ff7f0e', example: 'EMEA: 4997 users' },
+                        { label: 'APAC', value: 19.7, users: 3859, color: '#2ca02c', example: 'APAC: 3859 users' },
+                        { label: 'Unknown', value: 12.1, users: 2379, color: '#d62728', example: 'Unknown: 2379 users' },
+                        { label: 'ROW', value: 8.3, users: 1622, color: '#9467bd', example: 'ROW: 1622 users' }
+                    ];
+            
+                    function getCanvasDimensions() {
+                        const dpr = window.devicePixelRatio || 1;
+                        const rect = canvas.getBoundingClientRect();
+                        let displayWidth = rect.width;
+                        let displayHeight = rect.height;
+                        
+                        if (displayWidth === 0) displayWidth = 600;
+                        if (displayHeight === 0) displayHeight = 500;
+
+                        canvas.width = displayWidth * dpr;
+                        canvas.height = displayHeight * dpr;
+                        ctx.scale(dpr, dpr);
+            
+                        ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+            
+                        const chartWidth = displayWidth;
+                        const chartHeight = displayHeight;
+            
+                        const radiusMultiplier = 0.9;
+                        const mainRadius = Math.min(chartWidth / 2, chartHeight / 2) * radiusMultiplier;
+                        const mainCenterX = chartWidth / 2;
+                        const mainCenterY = chartHeight / 2;
+                        
+                        return {
+                            displayWidth,
+                            displayHeight,
+                            dpr,
+                            scaledWidth: displayWidth * dpr,
+                            scaledHeight: displayHeight * dpr,
+                            centerX: mainCenterX,
+                            centerY: mainCenterY,
+                            radius: mainRadius
+                        };
                     }
-                    canvas {
-                        max-height: 400px; /* Limit height for responsiveness */
-                        width: 100% !important; /* Ensure canvas fills container */
-                        height: auto !important; /* Maintain aspect ratio */
+            
+                    function drawChart() {
+                        const { displayWidth, displayHeight, dpr, scaledWidth, scaledHeight, centerX, centerY, radius } = getCanvasDimensions();
+            
+                        let startAngle = 0;
+                        const total = data.reduce((sum, item) => sum + item.value, 0);
+            
+                        data.forEach(item => {
+                            const sliceAngle = (item.value / total) * Math.PI * 2;
+                            const endAngle = startAngle + sliceAngle;
+            
+                            ctx.fillStyle = item.color;
+                            ctx.beginPath();
+                            ctx.moveTo(centerX, centerY);
+                            ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+                            ctx.closePath();
+                            ctx.fill();
+            
+                            const midAngle = startAngle + sliceAngle / 2;
+                            const textRadius = radius * 0.7;
+                            const textX = centerX + Math.cos(midAngle) * textRadius;
+                            const textY = centerY + Math.sin(midAngle) * textRadius;
+            
+                            ctx.fillStyle = '#FFFFFF';
+                            ctx.font = 'bold 14px Inter, sans-serif';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(`${item.value}%`, textX, textY);
+            
+                            startAngle = endAngle;
+                        });
                     }
-                </style>
-                
-                <script>
-                    // Function to wrap labels for better display on the chart
-                    function wrapLabel(label) {
-                        const words = label.split('.');
-                        // If the label has more than 2 parts (e.g., 'sydney.edu.au'),
-                        // break it into two lines for readability.
-                        if (words.length > 2) {
-                            return [words[0] + '.', words.slice(1).join('.')];
-                        }
-                        return label;
+            
+                    drawChart();
+                    window.addEventListener('resize', drawChart);
+                });
+            </script>
+        </section>
+
+        <section id="domain-frequency" class="mb-16 ml-8">
+            <h3 class="text-2xl font-bold text-left mb-2 section-title">2.6. Institutional Insights</h3>
+            <!-- Paragraph now left-aligned and without max-width -->
+            <p class="text-left text-gray-600 mb-8">
+                This bar chart displays the top three email domains used by users in each region.
+            </p>
+            <div class="card chart-wrapper mb-8 p-6"> <!-- Added card class and padding -->
+                <h3 class="text-xl font-semibold text-gray-800 mb-4 text-left">Institutional Domains</h3> <!-- Changed to text-left -->
+                <div class="relative" style="height: 400px;">
+                    <canvas id="regionalInstitutionalChart" width="800" height="400"></canvas>
+                </div>
+            </div>
+            
+            <div class="card chart-wrapper p-6"> <!-- Added card class and padding -->
+                <h3 class="text-xl font-semibold text-gray-800 mb-4 text-left">General Email Providers</h3> <!-- Changed to text-left -->
+                <div class="relative" style="height: 200px;">
+                    <canvas id="generalEmailChart" width="800" height="200"></canvas>
+                </div>
+            </div>
+            
+            <script>
+                // Function to wrap labels for better display on the chart
+                function wrapLabel(label) {
+                    const words = label.split('.');
+                    // If the label has more than 2 parts (e.g., 'sydney.edu.au'),
+                    // break it into two lines for readability.
+                    if (words.length > 2) {
+                        return [words[0] + '.', words.slice(1).join('.')];
                     }
-                
-                    // Chart 1: Regional and Institutional Domains
-                    // Get the context of the canvas element for the first chart
-                    const regionalInstitutionalCtx = document.getElementById('regionalInstitutionalChart').getContext('2d');
+                    return label;
+                }
+            
+                // Chart 1: Regional and Institutional Domains
+                window.addEventListener('load', function() {
+                    const regionalInstitutionalCanvas = document.getElementById('regionalInstitutionalChart');
+                    const regionalInstitutionalCtx = regionalInstitutionalCanvas.getContext('2d');
+
+                    if (!regionalInstitutionalCanvas || !regionalInstitutionalCtx) {
+                        console.error("Canvas or context for regionalInstitutionalChart not found!");
+                        return;
+                    }
+                    console.log("Initializing regionalInstitutionalChart");
+
                     new Chart(regionalInstitutionalCtx, {
                         type: 'bar', // Bar chart type
                         data: {
@@ -874,7 +1143,7 @@
                                 },
                                 y: { // Y-axis configuration
                                     grid: {
-                                        display: false // Do not display grid lines on the y-axis
+                                        display: false
                                     },
                                     ticks: {
                                         color: '#333', // Color of the tick labels
@@ -886,12 +1155,12 @@
                             },
                             plugins: {
                                 legend: {
-                                    display: true, // Display the legend
-                                    position: 'right', // Position the legend to the right
+                                    display: true,
+                                    position: 'right',
                                     labels: {
-                                        color: '#333', // Color of legend labels
+                                        color: '#333',
                                         font: {
-                                            size: 12 // Font size of legend labels
+                                            size: 12
                                         },
                                         // Custom function to generate legend labels based on regions
                                         generateLabels: function(chart) {
@@ -915,10 +1184,10 @@
                                     backgroundColor: '#003f5c', // Background color of the tooltip
                                     titleFont: {
                                         size: 16, // Font size for tooltip title
-                                        weight: 'bold' // Font weight for tooltip title
+                                        weight: 'bold'
                                     },
                                     bodyFont: {
-                                        size: 14 // Font size for tooltip body
+                                        size: 14
                                     },
                                     callbacks: {
                                         // Custom callback to format the tooltip title
@@ -926,7 +1195,7 @@
                                             const item = tooltipItems[0];
                                             let label = item.chart.data.labels[item.dataIndex];
                                             if (Array.isArray(label)) {
-                                                return label.join(' '); // Join wrapped labels
+                                                return label.join(' ');
                                             } else {
                                                 return label;
                                             }
@@ -936,10 +1205,15 @@
                             }
                         }
                     });
-                
+            
                     // Chart 2: General Email Providers
-                    // Get the context of the canvas element for the second chart
-                    const generalEmailCtx = document.getElementById('generalEmailChart').getContext('2d');
+                    const generalEmailCanvas = document.getElementById('generalEmailChart');
+                    const generalEmailCtx = generalEmailCanvas.getContext('2d');
+                    if (!generalEmailCanvas || !generalEmailCtx) {
+                        console.error("Canvas or context for generalEmailChart not found!");
+                        return;
+                    }
+                    console.log("Initializing generalEmailChart");
                     new Chart(generalEmailCtx, {
                         type: 'bar', // Bar chart type
                         data: {
@@ -970,60 +1244,69 @@
                             maintainAspectRatio: false, // Do not maintain aspect ratio, allowing custom sizing
                             indexAxis: 'y', // Set the index axis to 'y' for horizontal bars
                             scales: {
-                                x: { // X-axis configuration
-                                    beginAtZero: true, // Start the axis from zero
+                                x: {
+                                    beginAtZero: true,
                                     grid: {
-                                        color: '#e0e0e0' // Color of the grid lines
+                                        color: '#e0e0e0'
                                     },
                                     ticks: {
-                                        color: '#333', // Color of the tick labels
+                                        color: '#333',
                                         font: {
-                                            weight: 'bold' // Font weight for tick labels
+                                            weight: 'bold'
+                                        }
+                                    }
+                                },
+                                y: {
+                                    grid: {
+                                        display: false
+                                    },
+                                    ticks: {
+                                        color: '#333',
+                                        font: {
+                                            size: 14
                                         }
                                     }
                                 }
                             },
                             plugins: {
                                 legend: {
-                                    display: true, // Display the legend
-                                    position: 'right', // Position the legend to the right
+                                    display: true,
+                                    position: 'right',
                                     labels: {
-                                        color: '#333', // Color of legend labels
+                                        color: '#333',
                                         font: {
-                                            size: 12 // Font size of legend labels
+                                            size: 12
                                         },
-                                        // Custom function to generate legend labels (only for "Other")
                                         generateLabels: function(chart) {
                                             const colors = {
                                                 'Other (General)': '#bc5090'
                                             };
                                             return Object.keys(colors).map(region => ({
-                                                text: region, // Text for the legend item
-                                                fillStyle: colors[region], // Fill color of the legend box
-                                                strokeStyle: colors[region], // Stroke color of the legend box
-                                                lineWidth: 1, // Line width of the legend box
-                                                pointStyle: 'rectRounded' // Style of the legend marker
+                                                text: region,
+                                                fillStyle: colors[region],
+                                                strokeStyle: colors[region],
+                                                lineWidth: 1,
+                                                pointStyle: 'rectRounded'
                                             }));
                                         }
                                     }
                                 },
                                 tooltip: {
-                                    enabled: true, // Enable tooltips on hover
-                                    backgroundColor: '#003f5c', // Background color of the tooltip
+                                    enabled: true,
+                                    backgroundColor: '#003f5c',
                                     titleFont: {
-                                        size: 16, // Font size for tooltip title
-                                        weight: 'bold' // Font weight for tooltip title
+                                        size: 16,
+                                        weight: 'bold'
                                     },
                                     bodyFont: {
-                                        size: 14 // Font size for tooltip body
+                                        size: 14
                                     },
                                     callbacks: {
-                                        // Custom callback to format the tooltip title
                                         title: function(tooltipItems) {
                                             const item = tooltipItems[0];
                                             let label = item.chart.data.labels[item.dataIndex];
                                             if (Array.isArray(label)) {
-                                                return label.join(' '); // Join wrapped labels
+                                                return label.join(' ');
                                             } else {
                                                 return label;
                                             }
@@ -1033,302 +1316,80 @@
                             }
                         }
                     });
-                </script>
-
-          <section id="regional-distribution" class="mb-16 py-8 px-4 sm:px-6 lg:px-8">
-            <!-- Ensure Tailwind CSS CDN is loaded in your main HTML <head>:
-            <script src="https://cdn.tailwindcss.com"></script>
-            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-            -->
-            <style>
-                /* Custom styles for this section */
-                #regional-distribution {
-                    background-color: #f7f9fc; /* Light background for the section */
-                    border-radius: 0.75rem;
-                    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-                    margin: 2rem auto; /* Center the section with some margin */
-                    max-width: 900px; /* Max width for content */
-                }
-                .section-title {
-                    color: #2c3e50; /* Darker title color */
-                }
-                canvas {
-                    width: 100%; /* Make canvas responsive to its container width */
-                    max-width: 700px; /* Increased max width for the chart itself */
-                    height: 500px; /* Increased fixed height for consistency */
-                    display: block;
-                    margin: 2rem auto; /* Center the canvas */
-                    /* Removed cursor: pointer as there's no hover interaction now */
-                }
-                .legend-item {
-                    display: flex;
-                    align-items: center;
-                    margin: 0.5rem 1rem;
-                }
-                .legend-color-box {
-                    width: 1rem;
-                    height: 1rem;
-                    border-radius: 0.25rem;
-                    margin-right: 0.5rem;
-                }
-            </style>
-        
-            <h2 class="text-3xl font-bold text-center mb-4 section-title">Distribution of Ticket Senders by Region</h2>
-            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
-                This pie chart illustrates the geographical distribution of our ticket senders, categorized by their email domain.
-                The exact number of ticket senders for each region is indicated with arrows.
-            </p>
-        
-            <div class="flex justify-center items-center">
-                <canvas id="regionalChart"></canvas>
-            </div>
-        
-            <div class="flex flex-wrap justify-center mt-4 text-gray-700">
-                <!-- Legend items based on the chart's data -->
-                <div class="legend-item">
-                    <span class="legend-color-box" style="background-color: #1f77b4;"></span>
-                    NA (34.5%)
-                </div>
-                <div class="legend-item">
-                    <span class="legend-color-box" style="background-color: #ff7f0e;"></span>
-                    EMEA (25.5%)
-                </div>
-                <div class="legend-item">
-                    <span class="legend-color-box" style="background-color: #2ca02c;"></span>
-                    APAC (19.7%)
-                </div>
-                <div class="legend-item">
-                    <span class="legend-color-box" style="background-color: #d62728;"></span>
-                    Unknown<sup>f</sup>&nbsp;(12.1%)
-                </div>
-                <div class="legend-item">
-                    <span class="legend-color-box" style="background-color: #9467bd;"></span>
-                    ROW (8.3%)
-                </div>
-            </div>
-            <p class="text-sm text-gray-500 mt-8 text-center">f - generic email providers such as gmail.com, yahoo.com, hotmail.com, etc.</p>
-        </section>
-        
-            <script>
-                window.addEventListener('load', function() {
-                    const canvas = document.getElementById('regionalChart');
-                    const ctx = canvas.getContext('2d');
-        
-                    // Data including exact user counts and colors
-                    const data = [
-                        { label: 'NA', value: 34.5, users: 6770, color: '#1f77b4' },
-                        { label: 'EMEA', value: 25.5, users: 4997, color: '#ff7f0e' },
-                        { label: 'APAC', value: 19.7, users: 3859, color: '#2ca02c' },
-                        { label: 'Unknown', value: 12.1, users: 2379, color: '#d62728' },
-                        { label: 'ROW', value: 8.3, users: 1622, color: '#9467bd' }
-                    ];
-        
-                    function getCanvasDimensions() {
-                        const displayWidth = canvas.offsetWidth;
-                        const displayHeight = canvas.offsetHeight;
-                        const dpr = window.devicePixelRatio || 1;
-                        return {
-                            displayWidth,
-                            displayHeight,
-                            dpr,
-                            scaledWidth: displayWidth * dpr,
-                            scaledHeight: displayHeight * dpr,
-                            centerX: displayWidth / 2,
-                            centerY: displayHeight / 2,
-                            radius: Math.min(displayWidth / 2, displayHeight / 2) * 0.75 // Adjusted radius to leave more space for labels
-                        };
-                    }
-        
-                    function drawChart() {
-                        const { displayWidth, displayHeight, dpr, scaledWidth, scaledHeight, centerX, centerY, radius } = getCanvasDimensions();
-        
-                        canvas.width = scaledWidth;
-                        canvas.height = scaledHeight;
-                        ctx.scale(dpr, dpr);
-        
-                        ctx.clearRect(0, 0, displayWidth, displayHeight); // Clear using unscaled dimensions
-        
-                        let startAngle = 0;
-                        const total = data.reduce((sum, item) => sum + item.value, 0);
-        
-                        // Draw pie slices and percentages
-                        data.forEach((item, index) => {
-                            const sliceAngle = (item.value / total) * Math.PI * 2;
-                            const endAngle = startAngle + sliceAngle;
-        
-                            ctx.fillStyle = item.color;
-                            ctx.beginPath();
-                            ctx.moveTo(centerX, centerY);
-                            ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-                            ctx.closePath();
-                            ctx.fill();
-        
-                            // Draw percentage text on slices
-                            const midAngle = startAngle + sliceAngle / 2;
-                            const textRadius = radius * 0.7; // Position text slightly inside the slice
-                            const textX = centerX + Math.cos(midAngle) * textRadius;
-                            const textY = centerY + Math.sin(midAngle) * textRadius;
-        
-                            ctx.fillStyle = '#FFFFFF';
-                            ctx.font = 'bold 14px Inter, sans-serif';
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillText(`${item.value}%`, textX, textY);
-        
-                            startAngle = endAngle;
-                        });
-        
-                        // Draw lines and external number labels
-                        startAngle = 0; // Reset start angle for drawing lines
-                        const radialExtension = 20; // How far line extends radially from mainRadius
-                        const elbowOffset = 25; // Short horizontal/vertical offset for the elbow
-                        const horizontalFinalExtension = 20; // Length of the horizontal segment after elbow
-                        const textLineGap = 5; // Gap between line end and text
-        
-                        data.forEach(item => {
-                            const sliceAngle = (item.value / total) * Math.PI * 2;
-                            const midAngle = startAngle + sliceAngle / 2;
-        
-                            // Point 1: On circumference
-                            const p1X = centerX + Math.cos(midAngle) * radius;
-                            const p1Y = centerY + Math.sin(midAngle) * radius;
-        
-                            // Point 2: Radial extension
-                            const p2X = centerX + Math.cos(midAngle) * (radius + radialExtension);
-                            const p2Y = centerY + Math.sin(midAngle) * (radius + radialExtension);
-        
-                            // Point 3: Elbow (horizontal offset from P2)
-                            let p3X, p3Y = p2Y;
-                            let textAlign;
-        
-                            if (midAngle > Math.PI / 2 && midAngle < 3 * Math.PI / 2) { // Left half
-                                p3X = p2X - elbowOffset;
-                                textAlign = 'right';
-                            } else { // Right half
-                                p3X = p2X + elbowOffset;
-                                textAlign = 'left';
-                            }
-        
-                            // Point 4: Final horizontal segment to text anchor
-                            let textAnchorX = p3X;
-                            if (textAlign === 'right') {
-                                 textAnchorX -= horizontalFinalExtension;
-                            } else {
-                                 textAnchorX += horizontalFinalExtension;
-                            }
-        
-                            ctx.strokeStyle = '#333333'; // Darker line color
-                            ctx.lineWidth = 1.5;
-                            ctx.beginPath();
-                            ctx.moveTo(p1X, p1Y);
-                            ctx.lineTo(p2X, p2Y);
-                            ctx.lineTo(p3X, p3Y);
-                            ctx.lineTo(textAnchorX, p3Y); // Final horizontal segment
-                            ctx.stroke();
-        
-                            // Draw the number of users
-                            ctx.fillStyle = '#333333'; // Dark text color
-                            ctx.font = 'bold 14px Inter, sans-serif'; // Font for user count
-                            ctx.textAlign = textAlign;
-                            ctx.textBaseline = 'middle';
-        
-                            const finalX = textAnchorX + (textAlign === 'right' ? -textLineGap : textLineGap);
-                            ctx.fillText(item.users.toString(), finalX, p3Y); // Display the actual 'users' number
-        
-                            startAngle += sliceAngle;
-                        });
-                    }
-        
-                    // Initial draw
-                    drawChart();
-        
-                    // Redraw on window resize for responsiveness
-                    window.addEventListener('resize', drawChart);
                 });
             </script>
         </section>
 
-        <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
+        </section> <!-- Closing groovehq-deep-dive section -->
+
+<hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
 
         <section id="looking-ahead" class="mb-16">
-            <h2 class="text-3xl font-bold text-center mb-2 section-title">Looking Ahead</h2>
-            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
-                What can we do better next quarter? <br>
+            <h2 class="text-3xl font-bold text-left mb-2 section-title">3. Looking Ahead FY26</h2>
+            <p class="text-left text-gray-600 mb-8">
+                What can we do better next quarter?<br>
                 Stakeholders: All
             </p>
-            <div class="card max-w-4xl mx-auto p-8">
+            <div class="card p-8">
+                <p class="text-left text-gray-600 mb-4">
+                    The insights from this report will guide our next steps in FY26. Specifically, we will:
+                </p>
                 <ul class="space-y-4 text-gray-700 leading-relaxed">
                     <li class="flex items-start">
                         <span class="text-2xl mr-4" style="color: #003f5c;">&#128176;</span>
                         <div>
-                            <h4 class="font-bold text-lg">Enhancing Core Functionality Workflows</h4>
-                            <p class="text-gray-600">Streamlining user journeys in Screening, Import, and DE2 to reduce common friction points and improve overall efficiency.</p>
+                            <h4 class="font-bold text-lg">Combine findings from this report with other key feedback sources</h4>
+                            <p class="text-gray-600">Including webinar Q&As, webinar surveys, user conversations during our face-to-face interactions, Sales team and Academic Success team input, and knowledge base traffic analysis to:</p>
                         </div>
                     </li>
-                    <li class="flex items-start">
+                    <li class="flex items-start ml-8">
+                        <span class="text-xl mr-2" style="color: #003f5c;">&ndash;</span>
+                        <p class="text-gray-600">Identify gaps in our self-service resources<sup>g</sup></p>
+                    </li>
+                    <li class="flex items-start ml-8">
+                        <span class="text-xl mr-2" style="color: #003f5c;">&ndash;</span>
+                        <p class="text-gray-600">Prioritise updates and expansion of our knowledge base and webinar content</p>
+                    </li>
+                    <li class="flex items-start ml-8">
+                        <span class="text-xl mr-2" style="color: #003f5c;">&ndash;</span>
+                        <p class="text-gray-600">Share recurring user pain points and wishlist items with the P&E team</p>
+                    </li>
+                    <li class="flex items-start mt-4">
                         <span class="text-2xl mr-4" style="color: #003f5c;">&#128269;</span>
                         <div>
-                            <h4 class="font-bold text-lg">Proactive DE1 Support and Development</h4>
-                            <p class="text-gray-600">Continuing targeted solutions such as DE1 Concierge service and improving documentation for DE1 to manage the emerging trend effectively.</p>
+                            <h4 class="font-bold text-lg">Generate this report quarterly</h4>
+                            <p class="text-gray-600">To monitor emerging trends and track our progress over time.</p>
                         </div>
                     </li>
                     <li class="flex items-start">
                         <span class="text-2xl mr-4" style="color: #003f5c;">&#128273;</span>
                         <div>
-                            <h4 class="font-bold text-lg">Improving Account and Invitation Reliability</h4>
-                            <p class="text-gray-600">Focusing on robust solutions for B2B invitation expiry, and Knowledge Base improvement for optimal user profile management to minimize Community support overhead.</p>
-                        </div>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-2xl mr-4" style="color: #003f5c;">&#127760;</span>
-                        <div>
-                            <h4 class="font-bold text-lg">Tailored Regional B2B Solutions</h4>
-                            <p class="text-gray-600">Developing region-specific features, support protocols, and targeted Sales, Marketing, and Academic Success initiatives to address distinct B2B challenges.</p>
-                        </div>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-2xl mr-4" style="color: #003f5c;">&#127760;</span>
-                        <div>
-                            <h4 class="font-bold text-lg">Analysis of newly created tags for more granular insights</h4>
-                            <p class="text-gray-600">Pain point and Sales tags</p>
-                        </div>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-2xl mr-4" style="color: #003f5c;">&#127760;</span>
-                        <div>
-                            <h4 class="font-bold text-lg">Quarterly Community Pulse Report</h4>
-                            <p class="text-gray-600">Quarterly reporting of GrooveHQ ticket insights with suggestions from all stakeholders as to what to include - refine wording</p>
+                            <h4 class="font-bold text-lg">Feed insights back into our workflows</h4>
+                            <p class="text-gray-600">To ensure we are continuously improving our support offerings and resources.</p>
                         </div>
                     </li>
                 </ul>
+                <p class="text-left text-gray-600 mt-4">
+                    These efforts will support our ongoing priority of maintaining a low median response time by enabling users to find what they need more quickly and reducing the volume of repeat or preventable queries.
+                </p>
             </div>
+            <p class="footnote mt-8 text-left">g - Self-service resources are content, or tools that allow users to find answers or solve problems on their own without needing to contact support.</p>
+        </section>
 
-<hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
-                <!-- Notes Section -->
-        <div class="info-section mx-auto">
-            <h2 class="text-2xl font-bold text-center mb-2 section-title">Notes</h2>
-            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
-                <ul class="list-inside text-gray-700 space-y-2">
-                    <li>Raw data can be accessed <a href="https://drive.google.com/drive/folders/1xXCkuP1W5ORsc97fyOXA7p-KVwlVR-2u?usp=drive_link" target="_blank" class="text-blue-600 hover:underline">here</a> for more information.</li>
-                    <li>Disclaimer: Platform stage-related Ticket Queries, Top 3 queries per category (Percentages), Users' Pain Points, and Monthly Audit of User Wishlist and Feedback were analysed based on the tickets that were tagged by the CM team. Note that some relevant tickets may not have been tagged, while some irrelevant tickets may have been incorrectly tagged.</li>
-                </ul>
-        </div>
-        
-        <style>
-            /* Custom styles for the info section */
-            .info-section {
-                background-color: #ffffff;
-                border-radius: 12px;
-                box-shadow: 0 4px 6px rgba
-                    (0, 0, 0, 0.1);
-                padding: 24px;
-                width: 100%;
-                max-width: 900px; /* Max width for larger screens, adjust as needed */
-                box-sizing: border-box;
-            }
-        </style>
-                
-                </section>
+        <hr class="border-t-2 border-gray-200 my-16"> <!-- Visual separator -->
+
+        <!-- Notes Section -->
+        <section id="notes" class="mb-16">
+            <div class="info-section">
+                <h2 class="text-2xl font-bold text-left mb-2 section-title">Notes</h2>
+                <p class="text-left text-gray-600 mb-8"> <!-- Removed max-w-3xl mx-auto -->
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li>Raw data can be accessed <a href="https://drive.google.com/drive/folders/1xXCkuP1W5ORsc97fyOXA7p-KVwlVR-2u?usp=drive_link" target="_blank" class="text-blue-600 hover:underline">here</a> for more information.</li>
+                        <li>Disclaimer: Platform stage-related Ticket Queries, Top 3 queries per category (Percentages), Users' Pain Points, and Monthly Audit of User Wishlist and Feedback were analysed based on the tickets that were tagged by the CM team. Note that some relevant tickets may not have been tagged, while some irrelevant tickets may have been incorrectly tagged.</li>
+                    </ul>
+                </p>
+            </div>
+        </section>
     </main>
 
     <footer class="bg-gray-800 text-white mt-16">
@@ -1338,288 +1399,5 @@
         </div>
     </footer>
 
-    <script>
-        // Function to wrap long labels for better readability on the chart
-        function wrapLabel(label) {
-            const maxLength = 25; // Adjusted max length for all labels
-            if (typeof label !== 'string' || label.length <= maxLength) {
-                return label;
-            }
-            const words = label.split(' ');
-            const lines = [];
-            let currentLine = '';
-
-            words.forEach(word => {
-                if ((currentLine + ' ' + word).trim().length > maxLength && currentLine !== '') {
-                    lines.push(currentLine.trim());
-                    currentLine = word;
-                } else {
-                    currentLine = (currentLine + ' ' + word).trim();
-                }
-            });
-
-            if (currentLine) {
-                lines.push(currentLine.trim());
-            }
-            return lines;
-        }
-
-        // --- reviewIssuesChart (Top 3 Platform Stage-related Ticket Queries) ---
-        const reviewIssuesCtx = document.getElementById('reviewIssuesChart').getContext('2d');
-        new Chart(reviewIssuesCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Screening', 'Import', 'DE2'],
-                datasets: [{
-                    label: 'Number of Queries',
-                    data: [1425, 1227, 754],
-                    backgroundColor: ['#ff764a', '#ffa600', '#7a5195'], // Consistent colors
-                    borderColor: ['#e05a2e', '#d98b00', '#634279'],
-                    borderWidth: 1,
-                    borderRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: 'y', // Horizontal bars
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        grid: { color: '#e0e0e0' },
-                        ticks: {
-                            color: '#333',
-                            font: { weight: 'bold' },
-                            // Removed percentage formatting as these are raw counts
-                        }
-                    },
-                    y: {
-                        grid: { display: false },
-                        ticks: {
-                            color: '#333',
-                            font: { size: 14 },
-                            callback: function(value) { return wrapLabel(this.getLabelForValue(value)); }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        enabled: true,
-                        backgroundColor: '#003f5c',
-                        titleFont: { size: 16, weight: 'bold' },
-                        bodyFont: { size: 14 },
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                return Array.isArray(label) ? label.join(' ') : label;
-                            },
-                            label: function(context) {
-                                return `${context.dataset.label}: ${context.parsed.x}`; // Display raw count in tooltip
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-
-        // --- Screening Chart (Detailed Breakdown) ---
-        const screeningCtx = document.getElementById('screeningChart').getContext('2d');
-        new Chart(screeningCtx, {
-            type: 'bar',
-            data: {
-                labels: [
-                    'Undo screening vote',
-                    'Reviewer mode',
-                    'More sorting options'
-                ],
-                datasets: [{
-                    label: 'Percentage',
-                    data: [7.3, 5.5, 1.5],
-                    backgroundColor: '#4285F4', // Google Blue - Darker shade for Screening
-                    borderColor: '#1A73E8',      // Slightly darker border
-                    borderWidth: 2,
-                    borderRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        max: 10, // Max for Screening percentages
-                        grid: { color: '#e0e0e0' },
-                        ticks: {
-                            color: '#333',
-                            font: { weight: 'bold' },
-                            callback: function(value) { return value + '%'; } // Added percentage callback
-                        }
-                    },
-                    y: {
-                        grid: { display: false },
-                        ticks: {
-                            color: '#333',
-                            font: { size: 14 },
-                            callback: function(value, index, ticks) { return wrapLabel(this.getLabelForValue(value)); }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        enabled: true,
-                        backgroundColor: '#003f5c',
-                        titleFont: { size: 16, weight: 'bold' },
-                        bodyFont: { size: 14 },
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                return Array.isArray(label) ? label.join(' ') : label;
-                            },
-                            label: function(context) {
-                                return `${context.dataset.label}: ${context.parsed.x}%`; // Added percentage to tooltip
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // --- Import Chart (Detailed Breakdown) ---
-        const importCtx = document.getElementById('importChart').getContext('2d');
-        new Chart(importCtx, {
-            type: 'bar',
-            data: {
-                labels: [
-                    'Incompatible import file',
-                    'External issues',
-                    'Missing info in references'
-                ],
-                datasets: [{
-                    label: 'Percentage',
-                    data: [10, 2.9, 2.8],
-                    backgroundColor: '#000080', // Navy blue for Import
-                    borderColor: '#00005C',      // Darker navy blue border
-                    borderWidth: 2,
-                    borderRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        max: 10, // Max for Import percentages
-                        grid: { color: '#e0e0e0' },
-                        ticks: {
-                            color: '#333',
-                            font: { weight: 'bold' },
-                            callback: function(value) { return value + '%'; } // Added percentage callback
-                        }
-                    },
-                    y: {
-                        grid: { display: false },
-                        ticks: {
-                            color: '#333',
-                            font: { size: 14 },
-                            callback: function(value, index, ticks) { return wrapLabel(this.getLabelForValue(value)); }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        enabled: true,
-                        backgroundColor: '#003f5c',
-                        titleFont: { size: 16, weight: 'bold' },
-                        bodyFont: { size: 14 },
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                return Array.isArray(label) ? label.join(' ') : label;
-                            },
-                            label: function(context) {
-                                return `${context.dataset.label}: ${context.parsed.x}%`; // Added percentage to tooltip
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // --- DE2 Chart (Detailed Breakdown) ---
-        const de2Ctx = document.getElementById('de2Chart').getContext('2d');
-        new Chart(de2Ctx, {
-            type: 'bar',
-            data: {
-                labels: [
-                    'Set up multiple DE/QA templates in one project',
-                    'Improved PDF copy-and-paste functionality',
-                    'Page loading issue / "load more"'
-                ],
-                datasets: [{
-                    label: 'Percentage',
-                    data: [1.6, 0.5, 0.5],
-                    backgroundColor: '#4169E1', // Royal Blue for DE2
-                    borderColor: '#2A4B9F',      // Darker Royal Blue border
-                    borderWidth: 2,
-                    borderRadius: 5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        max: 2, // Max for DE2 percentages (adjusted for smaller values)
-                        grid: { color: '#e0e0e0' },
-                        ticks: {
-                            color: '#333',
-                            font: { weight: 'bold' },
-                            callback: function(value) { return value + '%'; } // Added percentage callback
-                        }
-                    },
-                    y: {
-                        grid: { display: false },
-                        ticks: {
-                            color: '#333',
-                            font: { size: 14 },
-                            callback: function(value, index, ticks) { return wrapLabel(this.getLabelForValue(value)); }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        enabled: true,
-                        backgroundColor: '#003f5c',
-                        titleFont: { size: 16, weight: 'bold' },
-                        bodyFont: { size: 14 },
-                        callbacks: {
-                            title: function(tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                return Array.isArray(label) ? label.join(' ') : label;
-                            },
-                            label: function(context) {
-                                return `${context.dataset.label}: ${context.parsed.x}%`; // Added percentage to tooltip
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    </script>
 </body>
 </html>
-
