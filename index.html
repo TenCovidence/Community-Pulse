@@ -284,7 +284,7 @@
         .header-image {
             display: block; /* Ensures it takes up its own line and allows margin-auto */
             margin: 0 auto; /* Center the image horizontally */
-            max-width: 250px; /* Control the maximum width of the image */
+            max-width: 600px; /* Control the maximum width of the image */
             height: auto; /* Maintain aspect ratio */
             margin-top: 10px; /* Space below the title */
             border-radius: 0.5rem; /* Slightly rounded corners for the image */
@@ -297,7 +297,7 @@
     <header class="bg-[#EEF5FF] shadow-md">
         <div class="container mx-auto px-6 py-8 text-center">
             <!-- Replaced SVG with JPG image -->
-            <img src="https://github.com/TenCovidence/Community-Pulse/blob/main/Community%20Pulse%20Logo%20(1).jpg?raw=true"
+            <img src="https://raw.githubusercontent.com/TenCovidence/Community-Pulse/main/Community%20Pulse%20Logo.jpg"
                  alt="Community Pulse ECG Logo"
                  class="header-image"
                  onerror="this.onerror=null; this.src='https://placehold.co/250x60/cccccc/333333?text=Logo+Error';">
@@ -323,7 +323,7 @@
                 <!-- The unordered list for key insights -->
                 <ul class="list-none space-y-3 text-gray-600 mb-4">
                     <li class="flex items-start">
-                        <span class="text-2xl mr-3" style="color: #003f5c;">&#9201;</span>
+                        <span class="text-2xl mr-3" style="color: #003f5c;">&#x23F3;</span>
                         <div>
                             <strong>Response time performance</strong> remained strong, with a consistently low median response time that meets our service expectations.
                         </div>
@@ -367,7 +367,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 justify-center">
                 <div class="kpi-card text-center">
                     <div class="text-4xl mb-2" style="color: #ff764a;">&#128195;</div>
-                    <p class="text-4xl font-extrabold" style="color: #003f5c;">25,607</p>
+                    <p class="text-4xl font-extrabold" style="color: #003f5c;">25,607<sup>a</sup></p>
                     <p class="text-lg text-gray-600 mt-2">Total Tickets</p>
                 </div>
                 <div class="kpi-card text-center">
@@ -407,7 +407,7 @@
             <h3 class="text-2xl font-bold text-left mb-2 section-title ml-8">2.1. Ticket Queries by Review Stage</h3>
             <!-- New graph and description inserted here -->
             <p class="text-left text-gray-600 mb-8 ml-8">
-                We analyzed our support tickets by platform stage to identify where the highest volumes of queries occur. "Screening" (which includes Title and abstracts screening and Full text review stages) remains the most frequent query, followed closely by "Import" and "DE2", indicating key priority areas for our users. <strong>DE1 tagged tickets are steadily increasing, approaching the top platform stage-related issues in 5th place.</strong>
+                We analysed support ticket volumes by platform stage to identify where users most frequently encounter issues. The <strong>Screening</strong> stage (including Title and Abstract Screening and Full Text Review) continues to generate the highest number of queries, followed closely by <strong>Import</strong> and <strong>DE2</strong>, highlighting these as key priority areas for users. <strong>Notably, tickets tagged DE1 are steadily increasing and are now approaching the top five most common platform stage-related issues.</strong>
             </p>
             <section class="card graph-container ml-8">
                 <div class="bar-wrapper">
@@ -469,7 +469,7 @@
                     </div>
                 </section>
             </div>
-            <p class="footnote mt-8 text-left">c - Query types are queries that require investigation and resolution.<br>d - General queries are tickets that do not require investigation or resolution, including general questions, requests already covered by existing processes or the Knowledge Base (e.g., how-to articles), expected platform behavior, CM requests outside standard services, tickets with no user follow-up, cases without platform functionality issues, external user issues, GrooveHQ autotagging errors, spam emails, and tickets incorrectly tagged by CMs.</p>
+            <p class="footnote mt-8 text-left">c - Query types are queries that require investigation or resolution.<br>d - General queries are tickets that do not require investigation or resolution, including general questions, requests already covered by existing processes or the Knowledge Base (e.g., how-to articles), expected platform behavior, CM requests outside standard services, tickets with no user follow-up, cases without platform functionality issues, external user issues, GrooveHQ autotagging errors, spam emails, and tickets incorrectly tagged by CMs.</p>
 
             <script>
                 window.addEventListener('load', function() {
@@ -695,7 +695,7 @@
                     </div>
                     <div class="legend-item">
                         <span class="legend-color-box" style="background-color: #A7007E;"></span>
-                        Unknown<sup>g</sup>&nbsp;(12.1%)
+                        Free Email Domains<sup>g</sup>&nbsp;(12.1%)
                     </div>
                     <div class="legend-item">
                         <span class="legend-color-box" style="background-color: #51B776;"></span>
@@ -980,19 +980,19 @@
                 A sample<sup>h</sup> of what our users would love to see in the platform.
             </p>
             <div class="card p-6">
-                <ul class="list-none space-y-2 text-gray-700">
-                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Hide journal name/authors during screening</span></li>
-                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Filter studies by notes</span></li>
-                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Export to Excel when using DE1 (Live)</span></li>
-                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Turn off auto-detection of duplicates</span></li>
-                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Single reviewer mode (Live)</span></li>
-                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Ability to change the judgement</span></li>
-                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Start from scratch QA template</span></li>
-                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Restore project to a previous state</span></li>
-                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Filter by studies that are not tagged</span></li>
-                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Queries about merging projects</span></li>
-                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Export of duplicates</span></li>
+                <ul class="list-none text-gray-700 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Filter studies by the presence or absence of notes</span></li>
+                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Filter studies by the presence or absences of tags</span></li>
                     <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Hide/unhide Notes</span></li>
+                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Hide journal name/authors during screening</span></li>
+                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Export to Excel when using DE1 <span class="text-green-600">(Live)</span></span></li>
+                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Export duplicate list</span></li>
+                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Turn off auto-detection of duplicates</span></li>
+                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>DE1 single reviewer mode <span class="text-green-600">(Live)</span></span></li>
+                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Ability to change the QA judgements</span></li>
+                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Start from scratch QA template</span></li>
+                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Revert a review to a previous version</span></li>
+                    <li class="flex items-start"><span class="text-xl mr-3" style="color: #003f5c;">&#9733;</span><span>Merging reviews</span></li>
                 </ul>
             </div>
             <p class="footnote mt-8 text-left">h - The sample was based on monthly audits of tickets (one ticket per month) tagged with Feature request, Feedback and DE1.</p>
@@ -1020,7 +1020,7 @@
         <section id="looking-ahead" class="mb-16">
             <h2 class="text-3xl font-bold text-left mb-2 section-title">3. Looking Ahead FY26</h2>
             <p class="text-left text-gray-600 mb-8">
-                What can we do better next quarter?<br>
+                What can we do better moving forward?<br>
                 Stakeholders: All
             </p>
             <div class="card p-8">
@@ -1078,7 +1078,7 @@
                 <p class="text-left text-gray-600 mb-8"> <!-- Removed max-w-3xl mx-auto -->
                     <ul class="list-disc list-inside text-gray-700 space-y-2">
                         <li>Raw data can be accessed <a href="https://drive.google.com/drive/folders/1xXCkuP1W5ORsc97fyOXA7p-KVwlVR-2u?usp=drive_link" target="_blank" class="text-blue-600 hover:underline">here</a> for more information.</li>
-                        <li>Disclaimer: 123 were analysed based on the tickets that were tagged by the CM team. Note that some relevant tickets may not have been tagged, while some irrelevant tickets may have been incorrectly tagged.</li>
+                        <li>Disclaimer: The data presented in the GrooveHQ Deep Dive section was based on the analysis of tickets that were tagged by the CM team. Note that some relevant tickets may not have been tagged, while some irrelevant tickets may have been incorrectly tagged.</li>
                     </ul>
                 </p>
             </div>
